@@ -35,7 +35,7 @@ namespace ImageService
     };
 
 
-    public partial class ImageService : ServiceBase
+    public partial class ImageService: ServiceBase
     {
         private int eventId = 1;
         [DllImport("advapi32.dll", SetLastError = true)]

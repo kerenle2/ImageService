@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using ImageService;
 
 namespace ImageService
 {
@@ -15,12 +16,12 @@ namespace ImageService
         static void Main(string[] args)
         {            
             ServiceBase[] ServicesToRun;
-            LoggingModal loggingModal;
+            //LoggingModal loggingModal;
             ServicesToRun = new ServiceBase[]
             {
                 new ImageService(args)
             };
-            loggingModal = new LoggingModal();
+            //loggingModal = new LoggingModal();
             ServiceBase.Run(ServicesToRun);
         }
     }
