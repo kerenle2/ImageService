@@ -16,12 +16,20 @@ namespace ImageService.Controller.Handlers
 {
     public class DirectoryHandler : IDirectoryHandler
     {
+        public DirectoryHandler(string path, IImageController controller)
+        {
+            this.path = path;
+            this.controller = controller;
+        }
         #region Members
         private IImageController m_controller;              // The Image Processing Controller
         private ILoggingService m_logging;
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Dir
         private string m_path;                              // The Path of directory
         #endregion
+
+        string path;
+        IImageController controller;
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
