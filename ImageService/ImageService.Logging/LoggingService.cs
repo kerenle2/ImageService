@@ -12,6 +12,7 @@ namespace ImageService.Logging
         public event EventHandler<Modal.MessageRecievedEventArgs> MessageRecieved;
         public void Log(string message, Modal.MessageTypeEnum type)
         {
+            MessageRecieved?.Invoke(this, new MessageRecievedEventArgs(message, type));
 
         }
     }
