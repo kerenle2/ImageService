@@ -10,6 +10,7 @@ using ImageService.Modal.Event;
 using ImageService.Controller.Handlers;
 using ImageService.Commands;
 using System.Configuration;
+using ImageService.Logging.Modal;
 
 namespace ImageService.Server
 {
@@ -18,7 +19,6 @@ namespace ImageService.Server
         #region Members
         private IImageController m_controller;
         private ILoggingService m_logging;
-        private Dictionary<string, ICommand> commands;
         #endregion
 
         #region Properties
@@ -26,9 +26,11 @@ namespace ImageService.Server
         public List<IDirectoryHandler> Handlers;
         #endregion
 
-        public ImageServer()
+        public ImageServer(IImageController controller)
         {
+            this.m_controller = controller;
             this.Handlers = new List<IDirectoryHandler>();
+            
             string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             for (int i = 0; i < directories.Length; i++)
             {
@@ -39,13 +41,25 @@ namespace ImageService.Server
 
         public void CreateHandler(string dir, IImageController controller)
         {
-            IDirectoryHandler handler = new DirectoryHandler(dir, controller);
+            IDirectoryHandler handler = new DirectoryHandler(controller, dir);
             this.Handlers.Add(handler);
             this.CommandRecieved += handler.OnCommandRecieved;
         
 
            // h.onClose += onCloseServer} - from haviva
-            handler.StartHandleDirectory(dir); // now???
+           // handler.StartHandleDirectory(dir); // now???
         }
+
+        //change this - copied:
+        public void createCommand(int CommandID, string[] Args, string RequestDirPath)
+        {
+            m_logging.Log("In create command", MessageTypeEnum.INFO);
+            CommandRecievedEventArgs closeCommandArgs = new CommandRecievedEventArgs(
+                CommandID, Args, RequestDirPath);
+            this.CommandRecieved?.Invoke(this, closeCommandArgs);
+
+        }
+
+
     }
 }

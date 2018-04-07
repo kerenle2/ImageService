@@ -8,6 +8,10 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using ImageService.Server;
+using ImageService.Controller;
+using ImageService.Modal;
+using System.Configuration;
 
 namespace ImageService
 {
@@ -37,12 +41,22 @@ namespace ImageService
 
     public partial class ImageService: ServiceBase
     {
+        
         private int eventId = 1;
+        private ImageServer server;
+        private IImageController controller;
+        private IImageServiceModal modal;
+
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
         public ImageService(string[] args)
         {
             InitializeComponent();
+
+            this.modal = new ImageServiceModal();
+            this.controller = new ImageController(this.modal);
+
+
             string eventSourceName = "MySource";
             string logName = "MyNewLog";
             if (args.Count() > 0)
@@ -71,6 +85,7 @@ namespace ImageService
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("In OnStart");
+
             // Set up a timer to trigger every minute.  
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
@@ -79,7 +94,12 @@ namespace ImageService
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+
+            //start server and logging modal:
+            this.server = new ImageServer(this.controller);
+
         }
+
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  

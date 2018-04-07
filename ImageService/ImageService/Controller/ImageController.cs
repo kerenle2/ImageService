@@ -18,18 +18,30 @@ namespace ImageService.Controller
         public ImageController(IImageServiceModal modal)
         {
             m_modal = modal;                    // Storing the Modal Of The System
-            commands = new Dictionary<int, ICommand>()
-            {
-                // For Now will contain NEW_FILE_COMMAND
-            };
+            commands = new Dictionary<int, ICommand>();
+            commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
+
+            //add close command here
         }
-        //errroooooooooor
+ 
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
-            resultSuccesful = false;
-            string lala = "ernfe";
-            return lala;
-            // Write Code Here
+
+            if (commands.ContainsKey(commandID))
+            {
+                resultSuccesful = true;
+
+                ICommand c = commands[commandID];
+                return c.Execute(args, out resultSuccesful);
+            }
+            else
+            {
+                resultSuccesful = false;
+                string msg = "The Command ID given does not exist";
+                return msg;
+            }
+            
+
         }
     }
 }

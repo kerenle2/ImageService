@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace ImageService.Modal
 {
@@ -19,6 +20,12 @@ namespace ImageService.Modal
         private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
 
+        public ImageServiceModal()
+        {
+            this.m_OutputFolder = ConfigurationManager.AppSettings.Get("OuptputDir");
+            this.m_thumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
+
+        }
         public string AddFile(string path, out bool result)
         {
             DateTime date = GetDateTakenFromImage(path);

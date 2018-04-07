@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
-    public class Command: ICommand
+    public class AddFileCommand: ICommand
     {
         private IImageServiceModal m_modal;
 
-        public Command(IImageServiceModal modal)
+        public AddFileCommand(IImageServiceModal modal)
         {
             m_modal = modal;            // Storing the Modal
         }
 
-        //change
         public string Execute(string[] args, out bool result)
         {
-            //result = false;
-            return "blablabla";
-            // The String Will Return the New Path if result = true, and will return the error message
+            // The String Will Return the New Path if result = true, else will return the error message
+            string path = args[0];
+            return m_modal.AddFile(path, out result);
         }
     }
     }
