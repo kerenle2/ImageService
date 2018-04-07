@@ -41,7 +41,17 @@ namespace ImageService
 
     public partial class ImageService: ServiceBase
     {
+        //DELETE AFTER DEBUGGING
         
+        internal void TestStartupAndStop(string[] args)
+        {
+            this.OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
+        } // UNTIL HERE
+
+
+
         private int eventId = 1;
         private ImageServer server;
         private IImageController controller;
@@ -97,6 +107,8 @@ namespace ImageService
 
             //start server and logging modal:
             this.server = new ImageServer(this.controller);
+           
+
 
         }
 

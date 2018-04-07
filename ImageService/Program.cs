@@ -14,15 +14,26 @@ namespace ImageService
         /// The main entry point for the application.
         /// </summary>
         static void Main(string[] args)
-        {            
-            ServiceBase[] ServicesToRun;
-            //LoggingModal loggingModal;
-            ServicesToRun = new ServiceBase[]
+        {
+
+            if (Environment.UserInteractive)
             {
+                ImageService service1 = new ImageService(args);
+                service1.TestStartupAndStop(args);
+            }
+            else
+            {
+                // Put the body of your old Main method here. 
+                ServiceBase[] ServicesToRun;
+                //LoggingModal loggingModal;
+                ServicesToRun = new ServiceBase[]
+                {
                 new ImageService(args)
-            };
-            //loggingModal = new LoggingModal();
-            ServiceBase.Run(ServicesToRun);
+                };
+                //loggingModal = new LoggingModal();
+                ServiceBase.Run(ServicesToRun);
+            }
+         
         }
     }
 }

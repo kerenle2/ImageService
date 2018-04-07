@@ -41,15 +41,15 @@ namespace ImageService.Controller.Handlers
 
 
 
-        void IDirectoryHandler.OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             if (e.RequestDirPath.Equals(this.m_path))
             {
-                if(e.CommandID.Equals(CommandEnum.CloseCommand))
+                if(e.CommandID.Equals((int)CommandEnum.CloseCommand))
                 {
                     handleCloseCommand();
                 }
-                else if (e.CommandID.Equals(CommandEnum.NewFileCommand))
+                else if (e.CommandID.Equals((int)CommandEnum.NewFileCommand))
                 {
                     handleNewFile(e);
                 }
@@ -77,8 +77,8 @@ namespace ImageService.Controller.Handlers
         // The Function Recieves the directory to Handle
         void IDirectoryHandler.StartHandleDirectory(string dirPath)
         {
-            m_path = dirPath;
-            createWatcher();
+            //m_path = dirPath;
+            //createWatcher();
         }
 
         //checks if the file changed is of types desired, and if so - raise a command.
@@ -94,15 +94,17 @@ namespace ImageService.Controller.Handlers
             {
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(
                    (int)CommandEnum.NewFileCommand, args, m_path);
+                this.OnCommandRecieved(this, c);
+                
             }
 
 
-                if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
-                || f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
-            {
-                CommandRecievedEventArgs c = new CommandRecievedEventArgs(
-                    (int)CommandEnum.NewFileCommand, args, m_path);
-            }
+            //    if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
+            //    || f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
+            //{
+            //    CommandRecievedEventArgs c = new CommandRecievedEventArgs(
+            //        (int)CommandEnum.NewFileCommand, args, m_path);
+            //}
         }
 
         void handleCloseCommand()
