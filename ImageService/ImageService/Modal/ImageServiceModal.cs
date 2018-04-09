@@ -28,56 +28,72 @@ namespace ImageService.Modal
         }
         public string AddFile(string path, out bool result)
         {
-            DateTime date = GetDateTakenFromImage(path);
-           
-            string year = date.Year.ToString();
-            string month = date.Month.ToString();
-            //add the Thumbnaile directory 
-            string thumbnailsPath = Path.Combine(m_OutputFolder, "Thumbnails");
-            AddDirectory(thumbnailsPath);
-
-            //add the year directory to the original and thumbanil dir
-            string yearPath = Path.Combine(m_OutputFolder, year);
-            AddDirectory(yearPath);
-            string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
-            AddDirectory(yearPathThumbnails);
-
-
-            //add the months directory to the original and thumbanil dir
-            string monthPath = Path.Combine(yearPath, month);
-            AddDirectory(monthPath);
-            string monthPathThumbnails = Path.Combine(thumbnailsPath, month);
-            AddDirectory(monthPathThumbnails);
-
-            //copy the image to the new path
             try
             {
-                System.IO.File.Move(m_OutputFolder, monthPath);
-                result = true;
-                
+                DateTime date = GetDateTakenFromImage(path);
+
+
+                string year = date.Year.ToString();
+                string month = date.Month.ToString();
+
+                //add the Thumbnaile directory 
+                string thumbnailsPath = Path.Combine(m_OutputFolder, "Thumbnails");
+                AddDirectory(thumbnailsPath);
+
+                //add the year directory to the original and thumbanil dir
+                string yearPath = Path.Combine(m_OutputFolder, year);
+                AddDirectory(yearPath);
+                string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
+                AddDirectory(yearPathThumbnails);
+
+
+                //add the months directory to the original and thumbanil dir
+                string monthPath = Path.Combine(yearPath, month);
+                AddDirectory(monthPath);
+                string monthPathThumbnails = Path.Combine(thumbnailsPath, month);
+                AddDirectory(monthPathThumbnails);
+
+                //copy the image to the new path
+                try
+                {
+                    //System.IO.File.Move(m_OutputFolder, monthPath); //probably not correct
+                    string absPath = Path.Combine(m_OutputFolder, year.ToString(), month.ToString());
+                    System.IO.File.Move(path, absPath); //PROBLEM HERE: MOVE IS TRYING TO CREATE THE FOLDER - SO NO NEED TO CREATE IT BEFOR.
+                    result = true;
+
+                }
+                catch (Exception e)
+                {
+                    result = false;
+                    return e.ToString();
+                }
+
+                //make a thumbanils 
+                try
+                {
+                    Image image = Image.FromFile(m_OutputFolder);
+                    Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
+                    thumb.Save(monthPathThumbnails);
+
+                }
+                catch (Exception e)
+                {
+                    result = false;
+                    return e.ToString();
+                }
+                //if all success, return the new path of the image
+                return "the transfer was successful, the image is in " + monthPath;
             }
             catch (Exception e)
             {
                 result = false;
                 return e.ToString();
             }
+            }
+            
 
-            //make a thumbanils 
-            try
-            {
-                Image image = Image.FromFile(m_OutputFolder);
-                Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
-                thumb.Save(monthPathThumbnails);
-                
-            }
-            catch (Exception e)
-            {
-                result = false;
-                return e.ToString();
-            }
-            //if all success, return the new path of the image
-            return "the transfer was successful, the image is in " + monthPath;
-        }
+
+
         public void AddDirectory(string path)
         {
             try
@@ -119,6 +135,8 @@ namespace ImageService.Modal
                 return DateTime.Parse(dateTaken);
             }
         }
+
+
 
         #endregion
     }

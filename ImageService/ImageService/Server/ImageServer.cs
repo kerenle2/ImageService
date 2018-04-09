@@ -28,6 +28,8 @@ namespace ImageService.Server
 
         public ImageServer(IImageController controller)
         {
+
+            Console.WriteLine("in server constructor");
             this.m_controller = controller;
             this.Handlers = new List<IDirectoryHandler>();
             
@@ -47,7 +49,7 @@ namespace ImageService.Server
         
 
            // h.onClose += onCloseServer} - from haviva
-           // handler.StartHandleDirectory(dir); // now???
+           handler.StartHandleDirectory(dir); // now???
         }
 
         //change this - copied:
