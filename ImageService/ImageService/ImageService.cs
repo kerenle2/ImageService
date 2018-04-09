@@ -12,7 +12,8 @@ using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
 using System.Configuration;
-
+using ImageService.Logging;
+using ImageService.Logging.Modal;
 namespace ImageService
 {
     public enum ServiceState
@@ -46,6 +47,7 @@ namespace ImageService
         private ImageServer server;
         private IImageController controller;
         private IImageServiceModal modal;
+        private ILoggingService logger;
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -79,6 +81,8 @@ namespace ImageService
         
         protected override void OnStart(string[] args)
         {
+            this.logger = new LoggingService();
+            logger.MessageRecieved += MessageReceivedLogger;
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
@@ -99,7 +103,10 @@ namespace ImageService
             this.server = new ImageServer(this.controller);
 
         }
-
+        public void MessageReceivedLogger (object sender, MessageRecievedEventArgs message)
+        {
+            eventLog1.WriteEntry(message.Message);
+        }
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
