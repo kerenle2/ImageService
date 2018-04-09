@@ -32,33 +32,34 @@ namespace ImageService.Modal
             {
                 DateTime date = GetDateTakenFromImage(path);
 
-
+                //create strings:
                 string year = date.Year.ToString();
                 string month = date.Month.ToString();
+                string thumbnailsPath = Path.Combine(m_OutputFolder, "Thumbnails");
+                string yearPath = Path.Combine(m_OutputFolder, year);
+                string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
+                string yearMonthPath = Path.Combine(yearPath, month);
+                string yearMonthPathThumbnails = Path.Combine(yearPathThumbnails, month);
+                string imageName = path.Substring(path.LastIndexOf("\\"));
 
                 //add the Thumbnaile directory 
-                string thumbnailsPath = Path.Combine(m_OutputFolder, "Thumbnails");
                 AddDirectory(thumbnailsPath);
 
                 //add the year directory to the original and thumbanil dir
-                string yearPath = Path.Combine(m_OutputFolder, year);
                 AddDirectory(yearPath);
-                string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
                 AddDirectory(yearPathThumbnails);
 
-
                 //add the months directory to the original and thumbanil dir
-                string monthPath = Path.Combine(yearPath, month);
-                AddDirectory(monthPath);
-                string monthPathThumbnails = Path.Combine(thumbnailsPath, month);
-                AddDirectory(monthPathThumbnails);
+                AddDirectory(yearMonthPath);
+                AddDirectory(yearMonthPathThumbnails);
+
 
                 //copy the image to the new path
                 try
                 {
                     //System.IO.File.Move(m_OutputFolder, monthPath); //probably not correct
-                    string absPath = Path.Combine(m_OutputFolder, year.ToString(), month.ToString());
-                    System.IO.File.Move(path, absPath); //PROBLEM HERE: MOVE IS TRYING TO CREATE THE FOLDER - SO NO NEED TO CREATE IT BEFOR.
+                    string absPath = yearMonthPath + imageName;
+                    System.IO.File.Move(path, absPath);
                     result = true;
 
                 }
@@ -71,9 +72,11 @@ namespace ImageService.Modal
                 //make a thumbanils 
                 try
                 {
-                    Image image = Image.FromFile(m_OutputFolder);
+                    string absPath = yearMonthPath + imageName;
+                    Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
-                    thumb.Save(monthPathThumbnails);
+                    string thumbAbsPath = yearMonthPathThumbnails + imageName;
+                    thumb.Save(thumbAbsPath);
 
                 }
                 catch (Exception e)
@@ -81,8 +84,9 @@ namespace ImageService.Modal
                     result = false;
                     return e.ToString();
                 }
+      
                 //if all success, return the new path of the image
-                return "the transfer was successful, the image is in " + monthPath;
+                return "the transfer was successful, the image is in " + yearMonthPath;
             }
             catch (Exception e)
             {
