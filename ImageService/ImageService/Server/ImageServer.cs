@@ -26,41 +26,41 @@ namespace ImageService.Server
         public List<IDirectoryHandler> Handlers;
         #endregion
 
-        public ImageServer(IImageController controller)
+        public ImageServer(IImageController controller, ILoggingService logger)
         {
 
             Console.WriteLine("in server constructor");
             this.m_controller = controller;
+            this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
             
             string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             for (int i = 0; i < directories.Length; i++)
             {
-                CreateHandler(directories[i], m_controller);
+                CreateHandler(directories[i], m_controller, m_logging);
             }
         }
 
 
-        public void CreateHandler(string dir, IImageController controller)
+        public void CreateHandler(string dir, IImageController controller, ILoggingService logger)
         {
-            IDirectoryHandler handler = new DirectoryHandler(controller, dir);
+            IDirectoryHandler handler = new DirectoryHandler(controller, dir, logger);
             this.Handlers.Add(handler);
             this.CommandRecieved += handler.OnCommandRecieved;
         
-
            // h.onClose += onCloseServer} - from haviva
            handler.StartHandleDirectory(dir); // now???
         }
 
         //change this - copied:
-        public void createCommand(int CommandID, string[] Args, string RequestDirPath)
-        {
-            m_logging.Log("In create command", MessageTypeEnum.INFO);
-            CommandRecievedEventArgs closeCommandArgs = new CommandRecievedEventArgs(
-                CommandID, Args, RequestDirPath);
-            this.CommandRecieved?.Invoke(this, closeCommandArgs);
+        //public void createCommand(int CommandID, string[] Args, string RequestDirPath)
+        //{
+        //    m_logging.Log("In create command", MessageTypeEnum.INFO);
+        //    CommandRecievedEventArgs closeCommandArgs = new CommandRecievedEventArgs(
+        //        CommandID, Args, RequestDirPath);
+        //    this.CommandRecieved?.Invoke(this, closeCommandArgs);
 
-        }
+        //}
 
 
     }
