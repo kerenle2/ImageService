@@ -12,18 +12,20 @@ using ImageService.Logging.Modal;
 using System.Text.RegularExpressions;
 using ImageService.Modal.Event;
 
+
 namespace ImageService.Controller.Handlers
 {
     public class DirectoryHandler : IDirectoryHandler
     {
 
   
-        public DirectoryHandler(IImageController controller, string path)
+        public DirectoryHandler(IImageController controller, string path, ILoggingService logger)
         {
 
             m_controller = controller;
             m_path = path;
             createWatcher();
+            m_logging = logger;
 
 
         }
@@ -65,7 +67,7 @@ namespace ImageService.Controller.Handlers
             watcher.Filter = "*";
 
             // Add event handlers.
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
+         //   watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
 
             // Begin watching.
@@ -125,7 +127,14 @@ namespace ImageService.Controller.Handlers
             {
                bool result;
                string msg = m_controller.ExecuteCommand(e.CommandID, e.Args/*why args and not only path?*/, out result);
-
+                if (result)
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.INFO);
+                }
+                else
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+                }
                 //add logging msg according to result
 
             });

@@ -12,7 +12,8 @@ using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
 using System.Configuration;
-
+using ImageService.Logging;
+using ImageService.Logging.Modal;
 namespace ImageService
 {
     public enum ServiceState
@@ -56,6 +57,7 @@ namespace ImageService
         private ImageServer server;
         private IImageController controller;
         private IImageServiceModal modal;
+        public ILoggingService logger;
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -66,9 +68,11 @@ namespace ImageService
             this.modal = new ImageServiceModal();
             this.controller = new ImageController(this.modal);
 
+            //string eventSourceName = "MySource";
+            //string logName = "MyNewLog";
 
-            string eventSourceName = "MySource";
-            string logName = "MyNewLog";
+            string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
+            string logName = ConfigurationManager.AppSettings.Get("LogName");
             if (args.Count() > 0)
             {
                 eventSourceName = args[0];
@@ -89,13 +93,14 @@ namespace ImageService
         
         protected override void OnStart(string[] args)
         {
+         
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("In OnStart");
-
+            
             // Set up a timer to trigger every minute.  
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
@@ -106,16 +111,19 @@ namespace ImageService
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
             //start server and logging modal:
-            this.server = new ImageServer(this.controller);
-           
-
+            this.logger = new LoggingService();
+            logger.MessageRecieved += MessageReceivedLogger;
+            this.server = new ImageServer(this.controller, this.logger);
 
         }
-
+        public void MessageReceivedLogger (object sender, MessageRecievedEventArgs message)
+        {
+            eventLog1.WriteEntry(message.Message);
+        }
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
-            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
+           // eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
         protected override void OnStop()
         {

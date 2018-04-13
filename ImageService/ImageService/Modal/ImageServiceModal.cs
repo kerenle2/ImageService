@@ -11,6 +11,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Globalization;
 
 namespace ImageService.Modal
 {
@@ -19,7 +20,7 @@ namespace ImageService.Modal
         #region Members
         private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
-
+        string absPath;
         public ImageServiceModal()
         {
             this.m_OutputFolder = ConfigurationManager.AppSettings.Get("OuptputDir");
@@ -60,24 +61,25 @@ namespace ImageService.Modal
                     string absPath = yearMonthPath + imageName;
                     absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
                     System.IO.File.Move(path, absPath);
-                    result = true;
+                  //  result = true;
 
-                }
-                catch (Exception e)
-                {
-                    result = false;
-                    return e.ToString();
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    result = false;
+                //    return e.ToString();
+                //}
 
                 //make a thumbanils 
-                try
-                {
-                    string absPath = yearMonthPath + imageName;
+                //try
+                //{
+                 //   absPath = yearMonthPath + imageName;
                     Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
                     string thumbAbsPath = yearMonthPathThumbnails + imageName;
                     thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
                     thumb.Save(thumbAbsPath);
+                    result = true;
 
                 }
                 catch (Exception e)
@@ -132,9 +134,21 @@ namespace ImageService.Modal
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (Image myImage = Image.FromStream(fs, false, false))
             {
-                PropertyItem propItem = myImage.GetPropertyItem(36867);
-                string dateTaken = r.Replace(Encoding.UTF8.GetString(propItem.Value), "-", 2);
-                return DateTime.Parse(dateTaken);
+                PropertyItem propertyItem = myImage.PropertyItems.FirstOrDefault(i => i.Id == 306);
+                if (propertyItem == null)
+                {
+                    return DateTime.Now;
+                }
+                else
+                {
+                    // Extract the property value as a String. 
+                    ASCIIEncoding encoding = new ASCIIEncoding();
+                    string text = encoding.GetString(propertyItem.Value, 0, propertyItem.Len - 1);
+
+                    // Parse the date and time. 
+                    CultureInfo provider = CultureInfo.InvariantCulture;
+                    return DateTime.ParseExact(text, "yyyy:MM:d H:m:s", provider);
+                }
             }
         }
 
