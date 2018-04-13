@@ -95,12 +95,12 @@ namespace ImageService.Controller.Handlers
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(
                    (int)CommandEnum.NewFileCommand, args, m_path);
                 this.OnCommandRecieved(this, c);
-                
+
             }
 
 
-            //    if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
-            //    || f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
+            //if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
+            //|| f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
             //{
             //    CommandRecievedEventArgs c = new CommandRecievedEventArgs(
             //        (int)CommandEnum.NewFileCommand, args, m_path);

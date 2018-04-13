@@ -57,8 +57,8 @@ namespace ImageService.Modal
                 //copy the image to the new path
                 try
                 {
-                    //System.IO.File.Move(m_OutputFolder, monthPath); //probably not correct
                     string absPath = yearMonthPath + imageName;
+                    absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
                     System.IO.File.Move(path, absPath);
                     result = true;
 
@@ -76,6 +76,7 @@ namespace ImageService.Modal
                     Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
                     string thumbAbsPath = yearMonthPathThumbnails + imageName;
+                    thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
                     thumb.Save(thumbAbsPath);
 
                 }
@@ -113,9 +114,6 @@ namespace ImageService.Modal
                 DirectoryInfo di = Directory.CreateDirectory(path);
                 Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path)); //delete
 
-                //// Delete the directory.
-                //di.Delete();
-                //Console.WriteLine("The directory was deleted successfully.");
             }
             catch (Exception e)
             {
@@ -140,6 +138,99 @@ namespace ImageService.Modal
             }
         }
 
+        /// <summary>
+/// A function to add an incremented number at the end of a file name if a file already exists. 
+/// </summary>
+/// <param name="file">The file. This should be the complete path.</param>
+/// <param name="ext">This can be empty.</param>
+/// <returns>An incremented file name. </returns>
+private string AppendFileNumberIfExists(string file, string ext)
+{
+
+        // If the file exists, then do stuff. Otherwise, we just return the original file name.
+        if (File.Exists(file)) {
+                string folderPath = Path.GetDirectoryName(file); // The path to the file. No sense in dealing with this unecessarily. 
+                string fileName = Path.GetFileNameWithoutExtension(file); // The file name with no extension. 
+                string extension = string.Empty; // The file extension. 
+                // This lets us pass in an empty string for the file extension if required. i.e. It just makes this function a bit more versatile. 
+                if (ext == string.Empty) { 
+                        extension = Path.GetExtension(file);
+                }
+                else {
+                        extension = ext;
+                }
+ 
+                // at this point, find out if the fileName ends in a number, then get that number.
+                int fileNumber = 0; // This stores the number as a number for us. 
+                // need a regex here - \(([0-9]+)\)$
+                Regex r = new Regex(@"\(([0-9]+)\)$"); // This matches the pattern we are using, i.e. ~(#).ext
+                Match m = r.Match(fileName); // We pass in the file name with no extension.
+                string addSpace = " "; // We'll add a space when we don't have our pattern in order to pad the pattern.
+                if (m.Success) {
+                        addSpace = string.Empty; // We have the pattern, so we don't add a space - it has already been added. 
+                        string s = m.Groups[1].Captures[0].Value; // This is the single capture that we are looking for. Stored as a string.
+                        // set fileNumber to the new number.
+                        fileNumber = int.Parse(s); // Convert the number to an int.
+                        // remove the numbering from the string as we're constructing it again below.
+                        fileName = fileName.Replace("(" + s + ")", "");
+                }                 
+                
+                // Start looping. 
+                do
+                {
+                        fileNumber += 1; // Increment the file number that we have above. 
+                        file = Path.Combine(folderPath, // Combine it all.
+                                                String.Format("{0}{3}({1}){2}", // The pattern to combine.
+                                                                          fileName,         // The file name with no extension. 
+                                                                          fileNumber,       // The file number.
+                                                                          extension,        // The file extension.
+                                                                          addSpace));       // A space if needed to pad the initial ~(#).ext pattern.
+                        }
+                while (File.Exists(file)); // As long as the file name exists, keep looping. 
+        }
+        return file;
+}
+
+
+        //public bool DoesNameExists(string pathAndName, string pathToDir)
+        //{
+        //    string[] files = Directory.GetFiles(pathToDir);
+        //    foreach  (string f in files)
+        //    {
+        //        if (pathAndName.Equals(f))
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+
+        //int howManyWithThisName(string pathAndName, string pathToDir)
+        //{
+        //    string[] files = Directory.GetFiles(pathToDir);
+        //    bool finish = false;
+        //    int i = 1;
+        //    while (!finish)
+        //    {
+        //        if (i == 0)
+        //        {
+        //            string s =
+
+
+        //        }
+        //    }
+        //}
+
+
+        //public string addNumbersToNameIfNeeded(string pathAndName, string pathToDir)
+        //{
+        //    if (DoesNameExists(pathAndName, pathToDir))
+        //    {
+        //        string curnum = pathAndName.substring(pathAndName)
+        //        pathAndName = pathAndName +
+        //    }
+        //}
 
 
         #endregion
