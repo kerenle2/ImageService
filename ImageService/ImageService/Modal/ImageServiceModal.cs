@@ -77,7 +77,7 @@ namespace ImageService.Modal
                     Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
                     string thumbAbsPath = yearMonthPathThumbnails + imageName;
-                   // thumb.Save(thumbAbsPath);
+                    thumb.Save(thumbAbsPath);
                     result = true;
 
                 }
