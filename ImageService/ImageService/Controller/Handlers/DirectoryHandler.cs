@@ -24,8 +24,10 @@ namespace ImageService.Controller.Handlers
 
             m_controller = controller;
             m_path = path;
-            createWatcher();
             m_logging = logger;
+
+            createWatcher();
+            
 
 
         }
@@ -62,6 +64,7 @@ namespace ImageService.Controller.Handlers
         {
            this.watcher = new FileSystemWatcher();
            watcher.Path = this.m_path;
+            m_logging.Log("start watching the directory " + this.m_path, MessageTypeEnum.INFO);
 
             // watch all files in the directory.
             watcher.Filter = "*";
@@ -108,7 +111,7 @@ namespace ImageService.Controller.Handlers
             //        (int)CommandEnum.NewFileCommand, args, m_path);
             //}
         }
-
+        //not entered here!!!!!!!!!!??????
         void handleCloseCommand()
         {         
             string msg = "closing handler to path: " + m_path;
@@ -117,6 +120,10 @@ namespace ImageService.Controller.Handlers
 
             watcher.Changed -= new FileSystemEventHandler(OnChanged);
             watcher.Created -= new FileSystemEventHandler(OnChanged);
+            m_logging.Log(msg, MessageTypeEnum.INFO);
+
+            this.DirectoryClose?.Invoke(this, e); 
+
 
             DirectoryClose?.Invoke(this, e);
 
@@ -140,8 +147,9 @@ namespace ImageService.Controller.Handlers
                 //add logging msg according to result
 
             });
-
             addFileTask.Start();
+            
+
         }
 
 
