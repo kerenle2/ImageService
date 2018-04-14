@@ -41,17 +41,27 @@ namespace ImageService.Server
             }
         }
 
-
+        //public void onClose()
+        //{
+        //    CommandRecieved?.Invoke(this, new CommandRecievedEventArgs(1, null, "*"));
+        //}
         public void CreateHandler(string dir, IImageController controller, ILoggingService logger)
         {
             IDirectoryHandler handler = new DirectoryHandler(controller, dir, logger);
             this.Handlers.Add(handler);
             this.CommandRecieved += handler.OnCommandRecieved;
         
-           // h.onClose += onCloseServer} - from haviva
+            //handler.onClose += onCloseServer // - from haviva
            handler.StartHandleDirectory(dir); // now???
+      //      handler.DirectoryClose += closeServer;
         }
-
+        //public void closeServer(object sender, DirectoryCloseEventArgs args)
+        //{
+        //    m_logging.Log(args.Message, MessageTypeEnum.INFO);
+        //    IDirectoryHandler handler = (IDirectoryHandler)sender;
+        //    CommandRecieved -= handler.OnCommandRecieved;
+        //    handler.DirectoryClose -= closeServer;
+        //}
         //change this - copied:
         //public void createCommand(int CommandID, string[] Args, string RequestDirPath)
         //{

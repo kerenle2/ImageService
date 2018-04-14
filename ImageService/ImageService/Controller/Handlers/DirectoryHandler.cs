@@ -40,10 +40,7 @@ namespace ImageService.Controller.Handlers
         #endregion
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
-
-
-
-
+        
 
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {

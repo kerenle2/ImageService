@@ -40,10 +40,10 @@ namespace ImageService
     };
 
 
-    public partial class ImageService: ServiceBase
+    public partial class ImageService : ServiceBase
     {
         //DELETE AFTER DEBUGGING
-        
+
         internal void TestStartupAndStop(string[] args)
         {
             this.OnStart(args);
@@ -52,7 +52,7 @@ namespace ImageService
         } // UNTIL HERE
 
 
-
+        // members
         private int eventId = 1;
         private ImageServer server;
         private IImageController controller;
@@ -90,17 +90,17 @@ namespace ImageService
             eventLog1.Source = eventSourceName;
             eventLog1.Log = logName;
         }
-        
+
         protected override void OnStart(string[] args)
         {
-         
+
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("In OnStart");
-            
+
             // Set up a timer to trigger every minute.  
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
@@ -116,18 +116,28 @@ namespace ImageService
             this.server = new ImageServer(this.controller, this.logger);
 
         }
-        public void MessageReceivedLogger (object sender, MessageRecievedEventArgs message)
+        public void MessageReceivedLogger(object sender, MessageRecievedEventArgs message)
         {
             eventLog1.WriteEntry(message.Message);
         }
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
-           // eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
+            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
         protected override void OnStop()
         {
+
+            // Update the service state to Start Pending.  
+            //ServiceStatus serviceStatus = new ServiceStatus();
+            //serviceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
+            //serviceStatus.dwWaitHint = 100000;
+            //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+
             eventLog1.WriteEntry("In onStop.");
+            //   SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            //this.server.onClose();//?????not sure
+
 
         }
         protected override void OnContinue()
