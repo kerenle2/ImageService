@@ -44,15 +44,20 @@ namespace ImageService.Modal
                 string imageName = path.Substring(path.LastIndexOf("\\"));
 
                 //add the Thumbnaile directory 
-                AddDirectory(thumbnailsPath);
-
+                if (!Directory.Exists(thumbnailsPath))
+                    AddDirectory(thumbnailsPath);
+                
                 //add the year directory to the original and thumbanil dir
-                AddDirectory(yearPath);
-                AddDirectory(yearPathThumbnails);
+                if (!Directory.Exists(yearPath))
+                     AddDirectory(yearPath);
+                if (!Directory.Exists(yearPathThumbnails))
+                    AddDirectory(yearPathThumbnails);
 
                 //add the months directory to the original and thumbanil dir
-                AddDirectory(yearMonthPath);
-                AddDirectory(yearMonthPathThumbnails);
+                if (!Directory.Exists(yearMonthPath))
+                    AddDirectory(yearMonthPath);
+                if (!Directory.Exists(yearMonthPathThumbnails))
+                    AddDirectory(yearMonthPathThumbnails);
 
 
                 //copy the image to the new path
@@ -131,12 +136,14 @@ namespace ImageService.Modal
         //retrieves the datetime WITHOUT loading the whole image
         public static DateTime GetDateTakenFromImage(string path)
         {
+            System.Threading.Thread.Sleep(1);
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (Image myImage = Image.FromStream(fs, false, false))
             {
                 PropertyItem propertyItem = myImage.PropertyItems.FirstOrDefault(i => i.Id == 306);
                 if (propertyItem == null)
                 {
+                    
                     return DateTime.Now;
                 }
                 else
