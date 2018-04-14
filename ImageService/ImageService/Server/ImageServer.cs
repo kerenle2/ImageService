@@ -41,6 +41,12 @@ namespace ImageService.Server
             }
         }
 
+        public void createCloseCommand(int ID, string[] args, string pathToClose)
+        {
+            CommandRecievedEventArgs e = new CommandRecievedEventArgs(ID, args, pathToClose);
+            this.CommandRecieved?.Invoke(this, e);
+            //add logger msg here
+        }
 
         public void CreateHandler(string dir, IImageController controller, ILoggingService logger)
         {
@@ -48,7 +54,7 @@ namespace ImageService.Server
             this.Handlers.Add(handler);
             this.CommandRecieved += handler.OnCommandRecieved;
         
-           // h.onClose += onCloseServer} - from haviva
+         //  handler.DirectoryClose += onCloseServer;
            handler.StartHandleDirectory(dir); // now???
         }
 

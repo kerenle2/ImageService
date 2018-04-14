@@ -67,7 +67,7 @@ namespace ImageService.Controller.Handlers
             watcher.Filter = "*";
 
             // Add event handlers.
-         //   watcher.Changed += new FileSystemEventHandler(OnChanged);
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
 
             // Begin watching.
@@ -88,11 +88,11 @@ namespace ImageService.Controller.Handlers
         {
             FileInfo f = new FileInfo(e.FullPath);
             string[] args = {e.FullPath}; //or must be e.fullpath?
-            string ending = Path.GetExtension(e.FullPath);
+            string extension = Path.GetExtension(e.FullPath);
 
 
-            string[] endings = { ".bmp", ".gif", ".png", ".jpg" };
-            if (endings.Contains(ending.ToLower()))
+            string[] extensions = { ".bmp", ".gif", ".png", ".jpg" };
+            if (extensions.Contains(extension.ToLower()))
             {
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(
                    (int)CommandEnum.NewFileCommand, args, m_path);
@@ -117,6 +117,8 @@ namespace ImageService.Controller.Handlers
 
             watcher.Changed -= new FileSystemEventHandler(OnChanged);
             watcher.Created -= new FileSystemEventHandler(OnChanged);
+
+            DirectoryClose?.Invoke(this, e);
 
             //add logger msg here...
         }
