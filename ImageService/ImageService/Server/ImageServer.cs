@@ -11,6 +11,7 @@ using ImageService.Controller.Handlers;
 using ImageService.Commands;
 using System.Configuration;
 using ImageService.Logging.Modal;
+using ImageService.Infrastructure.Enums;
 
 namespace ImageService.Server
 {
@@ -41,32 +42,44 @@ namespace ImageService.Server
             }
         }
 
-        public void createCloseCommand(int ID, string[] args, string pathToClose)
+        //what the server needs to do when service is closing:
+        //generates an event to onCommandRecieved says that services is closing
+        public void Close()
         {
-            CommandRecievedEventArgs e = new CommandRecievedEventArgs(ID, args, pathToClose);
-            this.CommandRecieved?.Invoke(this, e);
-            //add logger msg here
+            string[] dirs = ConfigurationManager.AppSettings.Get("Handler").Split(';');
+            foreach (string dir in dirs)
+            {
+                CommandRecievedEventArgs e = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand,
+                    null, dir);
+                this.CommandRecieved?.Invoke(this, e);
+            }
+        }
+
+        public void OnDirectoryClose(object sender, DirectoryCloseEventArgs e)
+        {
+            //send msg to logger:
+            string msg = e.Message;
+            this.m_logging.Log(msg, MessageTypeEnum.INFO);
+
+            //remove sender listening:
+            IDirectoryHandler handler = (IDirectoryHandler)sender;
+            this.CommandRecieved -= handler.OnCommandRecieved;
+            handler.DirectoryClose -= this.OnDirectoryClose;
+
         }
 
         public void CreateHandler(string dir, IImageController controller, ILoggingService logger)
         {
             IDirectoryHandler handler = new DirectoryHandler(controller, dir, logger);
             this.Handlers.Add(handler);
+
+            //start handler listening:
             this.CommandRecieved += handler.OnCommandRecieved;
-        
-         //  handler.DirectoryClose += onCloseServer;
+            handler.DirectoryClose += OnDirectoryClose;
+
            handler.StartHandleDirectory(dir); // now???
         }
 
-        //change this - copied:
-        //public void createCommand(int CommandID, string[] Args, string RequestDirPath)
-        //{
-        //    m_logging.Log("In create command", MessageTypeEnum.INFO);
-        //    CommandRecievedEventArgs closeCommandArgs = new CommandRecievedEventArgs(
-        //        CommandID, Args, RequestDirPath);
-        //    this.CommandRecieved?.Invoke(this, closeCommandArgs);
-
-        //}
 
 
     }

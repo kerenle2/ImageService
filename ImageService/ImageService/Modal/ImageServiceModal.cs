@@ -113,7 +113,6 @@ namespace ImageService.Modal
                 // Determine whether the directory exists.
                 if (Directory.Exists(path))
                 {
-                    Console.WriteLine("That path exists already."); //delete
                     return;
                 }
 
@@ -213,45 +212,6 @@ private string AppendFileNumberIfExists(string file, string ext)
 }
 
 
-        //public bool DoesNameExists(string pathAndName, string pathToDir)
-        //{
-        //    string[] files = Directory.GetFiles(pathToDir);
-        //    foreach  (string f in files)
-        //    {
-        //        if (pathAndName.Equals(f))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-
-
-        //int howManyWithThisName(string pathAndName, string pathToDir)
-        //{
-        //    string[] files = Directory.GetFiles(pathToDir);
-        //    bool finish = false;
-        //    int i = 1;
-        //    while (!finish)
-        //    {
-        //        if (i == 0)
-        //        {
-        //            string s =
-
-
-        //        }
-        //    }
-        //}
-
-
-        //public string addNumbersToNameIfNeeded(string pathAndName, string pathToDir)
-        //{
-        //    if (DoesNameExists(pathAndName, pathToDir))
-        //    {
-        //        string curnum = pathAndName.substring(pathAndName)
-        //        pathAndName = pathAndName +
-        //    }
-        //}
 
 
         #endregion

@@ -73,14 +73,14 @@ namespace ImageService
 
             string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
             string logName = ConfigurationManager.AppSettings.Get("LogName");
-            if (args.Count() > 0)
-            {
-                eventSourceName = args[0];
-            }
-            if (args.Count() > 1)
-            {
-                logName = args[1];
-            }
+           // if (args.Count() > 0)
+           // {
+            //    eventSourceName = args[0];
+           // }
+           // if (args.Count() > 1)
+          //  {
+         //       logName = args[1];
+       //     }
             eventLog1 = new System.Diagnostics.EventLog();
             if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
             {
@@ -102,10 +102,11 @@ namespace ImageService
             eventLog1.WriteEntry("In OnStart");
             
             // Set up a timer to trigger every minute.  
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000; // 60 seconds  
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
-            timer.Start();
+       //    System.Timers.Timer timer = new System.Timers.Timer();
+       //    timer.Interval = 60000; // 60 seconds  
+       //    timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
+       //    timer.Start();
+
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
@@ -128,7 +129,10 @@ namespace ImageService
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
-
+            
+            this.server.Close();
+            logger.MessageRecieved -= MessageReceivedLogger;
+          
         }
         protected override void OnContinue()
         {

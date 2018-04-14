@@ -39,7 +39,7 @@ namespace ImageService.Controller.Handlers
         // The Path of directory
         #endregion
 
-        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
+        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;    // The Event That Notifies that the Directory is being closed
 
 
 
@@ -82,6 +82,7 @@ namespace ImageService.Controller.Handlers
         // The Function Recieves the directory to Handle
         void IDirectoryHandler.StartHandleDirectory(string dirPath)
         {
+   
             //m_path = dirPath;
             //createWatcher();
         }
@@ -111,23 +112,17 @@ namespace ImageService.Controller.Handlers
             //        (int)CommandEnum.NewFileCommand, args, m_path);
             //}
         }
-        //not entered here!!!!!!!!!!??????
+
         void handleCloseCommand()
         {         
             string msg = "closing handler to path: " + m_path;
             DirectoryCloseEventArgs e = new DirectoryCloseEventArgs(this.m_path, msg);
-            watcher.EnableRaisingEvents = false;
 
+            watcher.EnableRaisingEvents = false;
             watcher.Changed -= new FileSystemEventHandler(OnChanged);
             watcher.Created -= new FileSystemEventHandler(OnChanged);
-            m_logging.Log(msg, MessageTypeEnum.INFO);
 
-            this.DirectoryClose?.Invoke(this, e); 
-
-
-            DirectoryClose?.Invoke(this, e);
-
-            //add logger msg here...
+            this.DirectoryClose?.Invoke(this, e); //sened an event back that notify the diretory is close (server will get this msg)
         }
 
         void handleNewFile(CommandRecievedEventArgs e)
@@ -144,7 +139,6 @@ namespace ImageService.Controller.Handlers
                 {
                     this.m_logging.Log(msg, MessageTypeEnum.FAIL);
                 }
-                //add logging msg according to result
 
             });
             addFileTask.Start();
