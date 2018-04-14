@@ -51,10 +51,13 @@ namespace ImageService.Controller.Handlers
             {
                 if(e.CommandID.Equals((int)CommandEnum.CloseCommand))
                 {
+
+                    m_logging.Log("Handler Recieved Close Command.", MessageTypeEnum.INFO);
                     handleCloseCommand();
                 }
                 else if (e.CommandID.Equals((int)CommandEnum.NewFileCommand))
                 {
+                    m_logging.Log("Handler Recieved New File Command.", MessageTypeEnum.INFO);
                     handleNewFile(e);
                 }
             }
@@ -70,7 +73,7 @@ namespace ImageService.Controller.Handlers
             watcher.Filter = "*";
 
             // Add event handlers.
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
+       //     watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
 
             // Begin watching.
@@ -119,7 +122,7 @@ namespace ImageService.Controller.Handlers
             DirectoryCloseEventArgs e = new DirectoryCloseEventArgs(this.m_path, msg);
 
             watcher.EnableRaisingEvents = false;
-            watcher.Changed -= new FileSystemEventHandler(OnChanged);
+      //      watcher.Changed -= new FileSystemEventHandler(OnChanged);
             watcher.Created -= new FileSystemEventHandler(OnChanged);
 
             this.DirectoryClose?.Invoke(this, e); //sened an event back that notify the diretory is close (server will get this msg)
@@ -130,7 +133,7 @@ namespace ImageService.Controller.Handlers
             Task addFileTask = new Task(() =>
             {
                bool result;
-               string msg = m_controller.ExecuteCommand(e.CommandID, e.Args/*why args and not only path?*/, out result);
+               string msg = m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
                 if (result)
                 {
                     this.m_logging.Log(msg, MessageTypeEnum.INFO);

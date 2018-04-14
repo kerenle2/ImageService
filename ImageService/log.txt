@@ -1,0 +1,149 @@
+commit 3bec94ddfa2c58f7e2197c250ab34d38e1efe249
+Merge: 8a7ce0c f24023a
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 19:29:43 2018 +0300
+
+    merged
+
+commit 8a7ce0c8605f2fdd9fcacdab4c745d76a3eeeb3c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 19:22:05 2018 +0300
+
+    Close Command working. Logger writimg msg to the correct place
+
+commit f24023ae8f0ab790336a2507808e412fb2da19a7
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Apr 14 14:26:37 2018 +0300
+
+    fixed bugs
+
+commit 13204f6f498c423420d3074646f396a55c5dfef8
+Merge: ac01e1a 89694ef
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:07:37 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit ac01e1ad29cd21c423d715a5a09d1bec84223d4d
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:07:33 2018 +0300
+
+    commiting in order to pull
+
+commit c7653230fbf581ffc61a01a3e81791529c2568e7
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:06:43 2018 +0300
+
+    commitinig in order to pull
+
+commit 89694efb407cec238dbc059c86a5b32f96e9db5d
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Apr 14 03:39:22 2018 +0300
+
+    fix bugs, add more message to logger
+
+commit 00b4c54fe63ced087a3bc503da110b1b9a3dc987
+Merge: e8b1aa3 ddb8284
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 13 21:40:37 2018 +0300
+
+    merged
+
+commit ddb8284c79208fd6ba0fea7eb94f2b1a0c5df1ce
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Apr 13 21:25:19 2018 +0300
+
+    fix bugs
+
+commit e8b1aa3beae78b70fece08697d0faac667f6c8f8
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 13 21:16:46 2018 +0300
+
+    adding numbers to double named pictures
+
+commit c1ad14f6c1aae633f6e1395a246baa820214685c
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Apr 13 20:46:22 2018 +0300
+
+    add loger, there are bugs - no pic in thumbnail!
+
+commit bb5958e456c0212f0790403f0afcd105bd8725a9
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 15:05:31 2018 +0300
+
+    commit in order to pull
+
+commit 1a2b0540022eca762e139382ac151bba1c2048c8
+Merge: dd0def6 798d991
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 15:03:16 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 798d991987fe57437edc2752e392e3029b62f383
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Mon Apr 9 15:03:01 2018 +0300
+
+    bug fixed - pics & thumbnails are created in the directories
+
+commit dd0def64b454cd843d3c33cec4c357ac8efd0547
+Merge: 3959b3d bc21ff3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 12:45:48 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 3959b3dff256199b91ce3df1d914e846f45474d8
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 12:45:36 2018 +0300
+
+    start the logger
+
+commit bc21ff3cb5ae649e7f6ea7602b95d1bf22ff0fb1
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 7 17:35:32 2018 +0300
+
+    BUG FIXED - all directory opens, exception when trying to move the pic - see comment in ImageServiceModal line 61
+
+commit f6700868d5a51526033cbfd02dc2768ff1b7e430
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 7 03:47:09 2018 +0300
+
+    added: addFileCommand, Handlers. not yet working.
+
+commit 13260c623d0541e91a4b2e01401b768d471711d5
+Merge: cedc1f8 e6f9223
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 6 00:48:14 2018 +0300
+
+    merged
+
+commit cedc1f81b29d1d6c181c4f035126f0b12e1cfa3e
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 6 00:46:25 2018 +0300
+
+    Server - partial, AppConfig added
+
+commit e6f9223b74543c2cb1d74f8a2d78999377fc987e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Apr 5 21:53:09 2018 +0300
+
+    logging model, image model (part 3)
+
+commit 8150a56e36127a5c142d39edeb9339e45f6c2cb3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Mar 31 13:47:33 2018 +0300
+
+    start project
+
+commit ce505b1ad939e35b8a3b7c978c87024d51cdf94e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Mar 29 12:51:37 2018 +0300
+
+    Add project files.
+
+commit d964b5826e64df2c445d64ae108a1a1cc8f143f6
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Mar 29 12:51:26 2018 +0300
+
+    Add .gitignore and .gitattributes.
