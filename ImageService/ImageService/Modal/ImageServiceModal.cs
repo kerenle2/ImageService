@@ -135,7 +135,7 @@ namespace ImageService.Modal
         //retrieves the datetime WITHOUT loading the whole image
         public static DateTime GetDateTakenFromImage(string path)
         {
-            System.Threading.Thread.Sleep(1);
+            System.Threading.Thread.Sleep(30);
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (Image myImage = Image.FromStream(fs, false, false))
             {
