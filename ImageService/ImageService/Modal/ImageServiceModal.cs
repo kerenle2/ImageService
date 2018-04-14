@@ -61,7 +61,7 @@ namespace ImageService.Modal
                     string absPath = yearMonthPath + imageName;
                     absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
                     System.IO.File.Move(path, absPath);
-                  //  result = true;
+                    result = true;
 
                 //}
                 //catch (Exception e)
