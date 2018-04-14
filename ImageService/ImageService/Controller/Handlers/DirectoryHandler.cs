@@ -83,8 +83,7 @@ namespace ImageService.Controller.Handlers
         void IDirectoryHandler.StartHandleDirectory(string dirPath)
         {
    
-            //m_path = dirPath;
-            //createWatcher();
+           
         }
 
         //checks if the file changed is of types desired, and if so - raise a command.
@@ -103,19 +102,14 @@ namespace ImageService.Controller.Handlers
                 this.OnCommandRecieved(this, c);
 
             }
-
-
-            //if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
-            //|| f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
-            //{
-            //    CommandRecievedEventArgs c = new CommandRecievedEventArgs(
-            //        (int)CommandEnum.NewFileCommand, args, m_path);
-            //}
+            
         }
 
         void handleCloseCommand()
         {         
             string msg = "closing handler to path: " + m_path;
+            this.m_logging.Log(msg, MessageTypeEnum.INFO);
+
             DirectoryCloseEventArgs e = new DirectoryCloseEventArgs(this.m_path, msg);
 
             watcher.EnableRaisingEvents = false;
@@ -123,6 +117,7 @@ namespace ImageService.Controller.Handlers
             watcher.Created -= new FileSystemEventHandler(OnChanged);
 
             this.DirectoryClose?.Invoke(this, e); //sened an event back that notify the diretory is close (server will get this msg)
+
         }
 
         void handleNewFile(CommandRecievedEventArgs e)
@@ -139,14 +134,10 @@ namespace ImageService.Controller.Handlers
                 {
                     this.m_logging.Log(msg, MessageTypeEnum.FAIL);
                 }
-
             });
             addFileTask.Start();
-            
 
         }
-
-
     }
 
 
