@@ -33,7 +33,7 @@
             // 
             // eventLog1
             // 
-            this.eventLog1.EntryWritten += new System.Diagnostics.EntryWrittenEventHandler(this.eventLog1_EntryWritten);
+           // this.eventLog1.EntryWritten += new System.Diagnostics.EntryWrittenEventHandler(this.eventLog1.EntryWritten);
             // 
             // ImageService
             // 

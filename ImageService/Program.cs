@@ -15,25 +15,12 @@ namespace ImageService
         /// </summary>
         static void Main(string[] args)
         {
-
-            if (Environment.UserInteractive)
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[]
             {
-                ImageService service1 = new ImageService(args);
-                service1.TestStartupAndStop(args);
-            }
-            else
-            {
-                // Put the body of your old Main method here. 
-                ServiceBase[] ServicesToRun;
-                //LoggingModal loggingModal;
-                ServicesToRun = new ServiceBase[]
-                {
-                new ImageService(args)
-                };
-                //loggingModal = new LoggingModal();
-                ServiceBase.Run(ServicesToRun);
-            }
-         
+            new ImageService(args)
+            };
+            ServiceBase.Run(ServicesToRun);
         }
     }
 }

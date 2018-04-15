@@ -14,7 +14,10 @@ namespace ImageService.Controller
     {
         private IImageServiceModal m_modal;                      // The Modal Object
         private Dictionary<int, ICommand> commands;
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="modal"></param>
         public ImageController(IImageServiceModal modal)
         {
             m_modal = modal;                    // Storing the Modal Of The System
@@ -23,14 +26,18 @@ namespace ImageService.Controller
 
             //add close command here
         }
- 
+        /// <summary>
+        /// execute the current command
+        /// </summary>
+        /// <param name="commandID"></param>
+        /// <param name="args"></param>
+        /// <param name="resultSuccesful"></param>
+        /// <returns></returns>
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
-
             if (commands.ContainsKey(commandID))
             {
                 resultSuccesful = true;
-
                 ICommand c = commands[commandID];
                 return c.Execute(args, out resultSuccesful);
             }

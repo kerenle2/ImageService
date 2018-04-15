@@ -16,7 +16,12 @@ namespace ImageService.Commands
         {
             m_modal = modal;            // Storing the Modal
         }
-
+         /// <summary>
+         /// execute this coomand.
+         /// </summary>
+         /// <param name="args"></param>
+         /// <param name="result"></param>
+         /// <returns></returns>
         public string Execute(string[] args, out bool result)
         {
             // The String Will Return the New Path if result = true, else will return the error message
