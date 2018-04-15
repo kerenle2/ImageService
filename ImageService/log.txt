@@ -1,3 +1,9 @@
+commit 320c0dd805e0802a075aab322aae4621bb2c40fc
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 22:45:59 2018 +0300
+
+    added some logger msg
+
 commit 3bec94ddfa2c58f7e2197c250ab34d38e1efe249
 Merge: 8a7ce0c f24023a
 Author: EfratMeir <efratoosh44@gmail.com>
