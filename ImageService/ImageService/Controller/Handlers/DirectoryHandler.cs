@@ -17,19 +17,19 @@ namespace ImageService.Controller.Handlers
 {
     public class DirectoryHandler : IDirectoryHandler
     {
-
-  
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="path"></param>
+        /// <param name="logger"></param>
         public DirectoryHandler(IImageController controller, string path, ILoggingService logger)
         {
-
             m_controller = controller;
             m_path = path;
             m_logging = logger;
 
             createWatcher();
-            
-
-
         }
         #region Members
         private IImageController m_controller;              // The Image Processing Controller
@@ -40,18 +40,17 @@ namespace ImageService.Controller.Handlers
         #endregion
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;    // The Event That Notifies that the Directory is being closed
-
-
-
-
-
+        /// <summary>
+        /// check what is the current command and run it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             if (e.RequestDirPath.Equals(this.m_path))
             {
                 if(e.CommandID.Equals((int)CommandEnum.CloseCommand))
                 {
-
                     m_logging.Log("Handler Recieved Close Command.", MessageTypeEnum.INFO);
                     handleCloseCommand();
                 }
@@ -62,7 +61,9 @@ namespace ImageService.Controller.Handlers
                 }
             }
         }        
-
+        /// <summary>
+        /// create the watcher for the current dir
+        /// </summary>
         public void createWatcher()
         {
            this.watcher = new FileSystemWatcher();
@@ -73,31 +74,34 @@ namespace ImageService.Controller.Handlers
             watcher.Filter = "*";
 
             // Add event handlers.
-       //     watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnChanged);
 
             // Begin watching.
             watcher.EnableRaisingEvents = true;
-
-
+            
         }
 
-        // The Function Recieves the directory to Handle
+        
+        /// <summary>
+        /// The Function Recieves the directory to Handle
+        /// </summary>
+        /// <param name="dirPath"></param>
         void IDirectoryHandler.StartHandleDirectory(string dirPath)
         {
    
-            //m_path = dirPath;
-            //createWatcher();
+           
         }
 
-        //checks if the file changed is of types desired, and if so - raise a command.
+        /// <summary>
+        /// checks if the file changed is of types desired, and if so - raise a command.
+        /// </summary>
         void OnChanged(object sender, FileSystemEventArgs e)
         {
             FileInfo f = new FileInfo(e.FullPath);
             string[] args = {e.FullPath}; //or must be e.fullpath?
             string extension = Path.GetExtension(e.FullPath);
 
-
+            //the extensions of ehr images that we should listen to.
             string[] extensions = { ".bmp", ".gif", ".png", ".jpg" };
             if (extensions.Contains(extension.ToLower()))
             {
@@ -106,28 +110,28 @@ namespace ImageService.Controller.Handlers
                 this.OnCommandRecieved(this, c);
 
             }
-
-
-            //if (f.Extension.Equals(".jpg") || f.Extension.Equals(".png")
-            //|| f.Extension.Equals(".gif") || f.Extension.Equals(".bmp"))
-            //{
-            //    CommandRecievedEventArgs c = new CommandRecievedEventArgs(
-            //        (int)CommandEnum.NewFileCommand, args, m_path);
-            //}
+            
         }
-
+        /// <summary>
+        /// handled the close command.
+        /// </summary>
         void handleCloseCommand()
         {         
             string msg = "closing handler to path: " + m_path;
+            this.m_logging.Log(msg, MessageTypeEnum.INFO);
+
             DirectoryCloseEventArgs e = new DirectoryCloseEventArgs(this.m_path, msg);
 
             watcher.EnableRaisingEvents = false;
-      //      watcher.Changed -= new FileSystemEventHandler(OnChanged);
             watcher.Created -= new FileSystemEventHandler(OnChanged);
 
             this.DirectoryClose?.Invoke(this, e); //sened an event back that notify the diretory is close (server will get this msg)
-        }
 
+        }
+        /// <summary>
+        /// handle a new file in the dir
+        /// </summary>
+        /// <param name="e"></param>
         void handleNewFile(CommandRecievedEventArgs e)
         {
             Task addFileTask = new Task(() =>
@@ -142,14 +146,10 @@ namespace ImageService.Controller.Handlers
                 {
                     this.m_logging.Log(msg, MessageTypeEnum.FAIL);
                 }
-
             });
             addFileTask.Start();
-            
 
         }
-
-
     }
 
 

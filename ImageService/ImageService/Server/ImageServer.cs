@@ -26,11 +26,13 @@ namespace ImageService.Server
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public List<IDirectoryHandler> Handlers;
         #endregion
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="logger"></param>
         public ImageServer(IImageController controller, ILoggingService logger)
         {
-
-            Console.WriteLine("in server constructor");
             this.m_controller = controller;
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
@@ -41,9 +43,10 @@ namespace ImageService.Server
                 CreateHandler(directories[i], m_controller, m_logging);
             }
         }
-
-        //what the server needs to do when service is closing:
-        //generates an event to onCommandRecieved says that services is closing
+        /// <summary>
+        /// when the service should be closed, generates an event to 
+        /// onCommandRecieved that says that services is closing
+        /// </summary>
         public void Close()
         {
             string[] dirs = ConfigurationManager.AppSettings.Get("Handler").Split(';');
@@ -54,7 +57,11 @@ namespace ImageService.Server
                 this.CommandRecieved?.Invoke(this, e);
             }
         }
-
+        /// <summary>
+        /// when the service stop listen to directory.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnDirectoryClose(object sender, DirectoryCloseEventArgs e)
         {
             //send msg to logger:
@@ -67,7 +74,12 @@ namespace ImageService.Server
             handler.DirectoryClose -= this.OnDirectoryClose;
 
         }
-
+        /// <summary>
+        /// start listen to the directory
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="controller"></param>
+        /// <param name="logger"></param>
         public void CreateHandler(string dir, IImageController controller, ILoggingService logger)
         {
             IDirectoryHandler handler = new DirectoryHandler(controller, dir, logger);
