@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageServiceGUI.View
+namespace ImageGUI
 {
     /// <summary>
-    /// Interaction logic for LogView.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class LogView : UserControl
+    public partial class MainWindow : Window
     {
-        public LogView()
+        public MainWindow()
         {
             InitializeComponent();
         }

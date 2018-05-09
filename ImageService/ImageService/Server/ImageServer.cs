@@ -36,7 +36,7 @@ namespace ImageService.Server
             this.m_controller = controller;
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
-            
+
             string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             for (int i = 0; i < directories.Length; i++)
             {

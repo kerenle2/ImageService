@@ -73,7 +73,10 @@
     <Compile Include="ImageService\Modal\Event\DirectoryCloseEventArg.cs" />
     <Compile Include="ImageService\Modal\IImageServiceModal.cs" />
     <Compile Include="ImageService\Modal\ImageServiceModal.cs" />
+    <Compile Include="ImageService\Connection\ClientHandler.cs" />
+    <Compile Include="ImageService\Connection\IClientHandler.cs" />
     <Compile Include="ImageService\Server\ImageServer.cs" />
+    <Compile Include="ImageService\Connection\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -96,6 +99,11 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WpfApplication1\ImageServiceGUI.csproj">
+      <Project>{d162f117-6ce3-422d-b58a-b9ecadf0496d}</Project>
+      <Name>ImageServiceGUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageServiceGUI
+
+namespace ImageServiceGUI.View
+
 {
     /// <summary>
     /// Interaction logic for Settings.xaml
