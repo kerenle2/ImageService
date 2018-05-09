@@ -1,4 +1,6 @@
-﻿using ImageServiceGUI.ViewModel;
+﻿using ImageService.ViewModel;
+using ImageServiceGUI.Model;
+using ImageServiceGUI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +23,11 @@ namespace ImageServiceGUI
     /// </summary>
     public partial class SettingsView : UserControl
     {
-        private SettingsVM vm;
+        private IViewModel vm;
         public SettingsView()
         {
             InitializeComponent();
-            this.DataContext = new SettingsVM();
+            this.DataContext = new SettingsVM(new SettingsModel());
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
