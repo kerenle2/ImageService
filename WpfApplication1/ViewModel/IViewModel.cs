@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService.ViewModel
+namespace ImageServiceGUI.ViewModel
 {
     abstract class IViewModel : INotifyPropertyChanged
     {
@@ -15,4 +15,4 @@ namespace ImageService.ViewModel
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
-    }
+}

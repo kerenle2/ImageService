@@ -27,10 +27,10 @@ namespace ImageServiceGUI.Model
             m_dirs = new ObservableCollection<string>();
 
             //delete:
-            this.outputDir = "output";
-            this.sourceName = "source";
-            this.logName = "log";
-            this.thumbSize = "size";
+            this.m_outputDir = "output";
+            this.m_sourceName = "source";
+            this.m_logName = "log";
+            this.m_thumbSize = "size";
             //end delete
 
         }
