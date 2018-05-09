@@ -1,4 +1,4 @@
-﻿using ImageService.ViewModel;
+﻿using ImageServiceGUI.ViewModel;
 using ImageServiceGUI.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class SettingsVM : IViewModel
+    class SettingsVM 
     {
         private SettingsModel model = new SettingsModel();
 
