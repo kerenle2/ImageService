@@ -23,7 +23,7 @@ namespace ImageService.Server
         #endregion
 
         #region Properties
-        public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
+      //  public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public List<IDirectoryHandler> Handlers;
         #endregion
         /// <summary>
@@ -37,11 +37,11 @@ namespace ImageService.Server
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
             
-            string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
-            for (int i = 0; i < directories.Length; i++)
-            {
-                CreateHandler(directories[i], m_controller, m_logging);
-            }
+            //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
+            //for (int i = 0; i < directories.Length; i++)
+            //{
+            //    CreateHandler(directories[i], m_controller, m_logging);
+            //}
         }
         /// <summary>
         /// when the service should be closed, generates an event to 
