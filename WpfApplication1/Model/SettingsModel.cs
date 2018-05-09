@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace ImageServiceGUI.Model
 {
@@ -23,17 +25,25 @@ namespace ImageServiceGUI.Model
         public SettingsModel()
         {
             m_dirs = new ObservableCollection<string>();
+
+            //delete:
+            this.outputDir = "output";
+            this.sourceName = "source";
+            this.logName = "log";
+            this.thumbSize = "size";
+            //end delete
+
         }
 
         #region properties
         private string m_outputDir;
-        public string OutputDir
+        public string outputDir
         {
             get { return m_outputDir; }
             set
             {
                 m_outputDir = value;
-                OnPropertyChanged("OutputDir"); //or other name?
+                OnPropertyChanged("outputDir"); //or other name?
             }
         }
 
@@ -80,6 +90,7 @@ namespace ImageServiceGUI.Model
                 OnPropertyChanged("dirs");
             }
         }
+
 
         #endregion
 
