@@ -73,7 +73,10 @@
     <Compile Include="ImageService\Modal\Event\DirectoryCloseEventArg.cs" />
     <Compile Include="ImageService\Modal\IImageServiceModal.cs" />
     <Compile Include="ImageService\Modal\ImageServiceModal.cs" />
+    <Compile Include="ImageService\Connection\ClientHandler.cs" />
+    <Compile Include="ImageService\Connection\IClientHandler.cs" />
     <Compile Include="ImageService\Server\ImageServer.cs" />
+    <Compile Include="ImageService\Connection\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
