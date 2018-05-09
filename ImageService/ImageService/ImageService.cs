@@ -42,6 +42,16 @@ namespace ImageService
 
     public partial class ImageService: ServiceBase
     {
+
+        //DELETE AFTER DEBUGGING
+
+        internal void TestStartupAndStop(string[] args)
+        {
+            this.OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
+        } // UNTIL HERE
+
         #region Members
         private ImageServer server;
         private IImageController controller;
