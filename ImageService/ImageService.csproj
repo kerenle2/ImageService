@@ -99,6 +99,11 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WpfApplication1\ImageServiceGUI.csproj">
+      <Project>{d162f117-6ce3-422d-b58a-b9ecadf0496d}</Project>
+      <Name>ImageServiceGUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

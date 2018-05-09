@@ -10,26 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
-namespace ImageServiceGUI.View
-
+namespace ImageServiceGUI
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class MainWindow : Window
     {
-        public SettingsView()
+        public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
