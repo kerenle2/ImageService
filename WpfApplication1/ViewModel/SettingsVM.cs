@@ -1,4 +1,4 @@
-﻿using ImageService.ViewModel;
+﻿//using ImageService.ViewModel;
 using ImageServiceGUI.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace ImageServiceGUI.ViewModel
 {
     class SettingsVM : IViewModel
     {
-        private SettingsModel model = new SettingsModel();
+        private SettingsModel model;
 
         public SettingsVM()
         {
@@ -21,6 +21,29 @@ namespace ImageServiceGUI.ViewModel
         {
             this.model = model;
         }
-        
+
+        public string outputDir
+        {
+            get { return this.model.outputDir; }
+
+        }
+
+        public string sourceName
+        {
+            get { return this.model.sourceName; }
+        }
+
+        public string thumbSize
+        {
+            get { return this.model.thumbSize; }
+        }
+
+        public string logName
+        {
+            get { return this.model.logName; }
+        }
+
+
+
     }
 }
