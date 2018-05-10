@@ -20,9 +20,14 @@ namespace ImageServiceGUI.View
     /// </summary>
     public partial class LogView : UserControl
     {
+        private LogVM LogVM;
+
         public LogView()
         {
             InitializeComponent();
+            LogVM = new LogVM();
+            this.DataContext = LogVM;
+          //  dataGrid.ItemsSource = LogVM.logMessage;
         }
     }
 }
