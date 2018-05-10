@@ -31,6 +31,8 @@ namespace ImageServiceGUI.Model
             this.m_sourceName = "source";
             this.m_logName = "log";
             this.m_thumbSize = "size";
+            this.dirs.Add("dir1");
+            this.dirs.Add("dir2");
             //end delete
 
         }
@@ -58,6 +60,17 @@ namespace ImageServiceGUI.Model
             }
         }
 
+        private string m_dirToRemove;
+        public string dirToRemove
+        {
+           get { return this.m_dirToRemove; }
+            set
+            {
+                m_dirToRemove = value;
+                OnPropertyChanged("dirToRemove");
+
+            }
+        }
         private string m_logName;
         public string logName
         {

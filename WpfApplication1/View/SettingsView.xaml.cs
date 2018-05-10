@@ -3,6 +3,7 @@ using ImageServiceGUI.Model;
 using ImageServiceGUI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
 namespace ImageServiceGUI.View
 
 {
@@ -28,14 +28,10 @@ namespace ImageServiceGUI.View
         private IViewModel vm;
         public SettingsView()
         {
-            this.DataContext = new SettingsVM(new SettingsModel());
+            vm = new SettingsVM(new SettingsModel());
+            this.DataContext = this.vm;
             InitializeComponent();
-
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            //vm.onClick...
-        }
     }
 }

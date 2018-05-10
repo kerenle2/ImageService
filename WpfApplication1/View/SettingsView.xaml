@@ -7,36 +7,58 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+
+        <Grid.Resources>
+            <!--A Style that affects all labels-->
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="FontFamily" Value="Cooper Black"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+            <!--A Style that affects all TextBlocks-->
+            <Style TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="FontFamily" Value="Cooper Black"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </Grid.Resources>
+
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="Auto" MinWidth="300"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="button" Content="Remove" HorizontalAlignment="Left" Margin="94,152,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Grid.Column="1" Height="20"/>
-        <Label x:Name="label" Content="Settings" FontSize="32" FontFamily="Comic Sans MS" Foreground="DeepSkyBlue" HorizontalAlignment="Center" Margin="70,27,90,0"
+        <Button x:Name="button" Content="Remove" HorizontalAlignment="Left" Margin="170,213,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="20"
+                Command="{Binding RemoveCommand}"/>
+        <Label x:Name="label" Content="Settings" FontSize="32" FontFamily="Comic Sans MS" Foreground="DeepSkyBlue" HorizontalAlignment="Center" Margin="116,25,44,0"
                VerticalAlignment="Top" Width="140" Height="55" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="-0.448"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="-0.434"/>
-                </TransformGroup>
-            </Label.RenderTransform>
         </Label>
-        <Label x:Name="outputDir" Grid.ColumnSpan="2"
-               Content="{Binding outputDir, Mode=OneWay}"
-               HorizontalAlignment="Left" Margin="19,90,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="sourceName" Grid.ColumnSpan="2"
-               Content="{Binding sourceName, Mode=OneWay}"
-               HorizontalAlignment="Left" Margin="19,120,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="logName" Grid.ColumnSpan="2"
-               Content="{Binding logName, Mode=oneWay}"
-               HorizontalAlignment="Left" Margin="19,150,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="thumbSize" Grid.ColumnSpan="2"
-               Content="{Binding thumbSize, Mode=OneWay}"
-               HorizontalAlignment="Left" Margin="19,180,0,0" VerticalAlignment="Top"/>
+     <!--   <Grid.CommandBindings> -->
+         <!--   <CommandBinding Command="{Binding RemoveCommand}" CanExecute="{Binding Remove_canExecute}" Executed="{Binding Remove_executed}" /> -->
+            
 
-
+      <!--  </Grid.CommandBindings> -->
+            
+        <Label x:Name="outputText" Grid.ColumnSpan="2" Content="Output Directory: "
+               HorizontalAlignment="Left" Margin="0,100,0,175" />
+        <Label x:Name="outputDir" Grid.ColumnSpan="2" Content="{Binding outputDir, Mode=OneWay}"
+               Margin="140,100,0,0"/>
+        <Label x:Name="sourceText" Grid.ColumnSpan="2" Content="Source Name: "
+               HorizontalAlignment="Left" Margin="0,120,0,154" />
+        <Label x:Name="sourceName" Grid.ColumnSpan="2" Content="{Binding sourceName, Mode=OneWay}"
+               HorizontalAlignment="Left" Margin="140,120,0,0" />
+        <Label x:Name="logText" Grid.ColumnSpan="2" Content="Log Name: "
+               HorizontalAlignment="Left" Margin="0,140,0,135"/>
+        <Label x:Name="logName" Grid.ColumnSpan="2" Content="{Binding logName, Mode=oneWay}"
+               HorizontalAlignment="Left" Margin="140,140,0,0" />
+        <Label x:Name="thumbText" Grid.ColumnSpan="2" Content="Thumbnail Size: : "
+               HorizontalAlignment="Left" Margin="0,161,0,113" Width="133"/>
+        <Label x:Name="thumbSize" Grid.ColumnSpan="2" Content="{Binding thumbSize, Mode=OneWay}"
+               HorizontalAlignment="Left" Margin="140,160,0,0"/>
+        <ListBox x:Name="directories" ItemsSource="{Binding dirs, Mode=OneWay}" Grid.ColumnSpan="2" Margin="0,235,2,11" SelectionMode="Single" 
+                 SelectedItem="{Binding dirToRemove, Mode=TwoWay}"
+                 ></ListBox>
+      
     </Grid>
 </UserControl>

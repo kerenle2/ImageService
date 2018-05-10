@@ -11,9 +11,9 @@
         <TabControl Margin="5">
             <TabItem Name="SettingsTabItem">
                 <TabItem.Header>
-                    <StackPanel>
+                    <WrapPanel>
                         <TextBlock Margin="3" >Settings</TextBlock>
-                    </StackPanel>
+                    </WrapPanel>
                 </TabItem.Header>
                 <views:SettingsView/>
             </TabItem>
