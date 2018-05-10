@@ -5,10 +5,11 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace ImageService.Connection
+//namespace Communication
 //{
 //    interface IClientHandler
 //    {
 //        void HandleClient(TcpClient client);
+        
 //    }
 //}

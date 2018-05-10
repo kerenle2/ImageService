@@ -10,8 +10,9 @@ using ImageService.Modal.Event;
 using ImageService.Controller.Handlers;
 using ImageService.Commands;
 using System.Configuration;
-using ImageService.Logging.Modal;
+using ImageService.Logging.Model;
 using ImageService.Infrastructure.Enums;
+using ImageService.Communication;
 
 namespace ImageService.Server
 {
@@ -20,6 +21,8 @@ namespace ImageService.Server
         #region Members
         private IImageController m_controller;
         private ILoggingService m_logging;
+        private ServerTCP serverTCP;
+        private IClientHandler client_handler;
         #endregion
 
         #region Properties
@@ -36,8 +39,10 @@ namespace ImageService.Server
             this.m_controller = controller;
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
-
+            this.client_handler = new ClientHandler();
             string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
+            this.serverTCP = new ServerTCP(8000, this.client_handler);
+            serverTCP.Start( );
             for (int i = 0; i < directories.Length; i++)
             {
                 CreateHandler(directories[i], m_controller, m_logging);
