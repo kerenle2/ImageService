@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace ImageServiceGUI.Model
 {
-    interface ILogModel
+    public enum MessageTypeEnum: int
     {
-        ObservableCollection<MessageRecievedEventArgs> logMessage { get; set; }
+        INFO,
+        WARNING,
+        FAIL
     }
 }

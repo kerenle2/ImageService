@@ -60,6 +60,10 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ILogModel.cs" />
+    <Compile Include="Model\MessageRecievedEventArgs.cs" />
+    <Compile Include="Model\MessageTypeEnum.cs" />
+    <Compile Include="Model\StatusToColorConv.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
