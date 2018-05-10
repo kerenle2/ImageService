@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class SettingsVM : IViewModel
+    class SettingsVM 
     {
         private SettingsModel model;
         public System.Windows.Input.ICommand RemoveCommand { get; private set; }
