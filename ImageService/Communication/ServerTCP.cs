@@ -6,18 +6,34 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace ImageService.Connection
+
+//namespace Communication
 //{
-//    class Server
+//    class ServerTCP
 //    {
 //        private int port;
 //        private TcpListener listener;
 //        private IClientHandler ch;
-//        public Server(int port, IClientHandler ch)
+//        private List<TcpClient> clientsList;
+//        //private static ServerTCP instanceServer;
+
+//        //private ServerTCP() { }
+//        public ServerTCP(int port, IClientHandler ch)
 //        {
 //            this.port = port;
 //            this.ch = ch;
 //        }
+//        //public static ServerTCP Instance
+//        //{
+//        //    get
+//        //    {
+//        //        if (instanceServer == null)
+//        //        {
+//        //            instanceServer = new ServerTCP();
+//        //        }
+//        //        return instanceServer;
+//        //    }
+//        //}
 //        public void Start()
 //        {
 //            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -33,6 +49,7 @@
 //                    {
 //                        TcpClient client = listener.AcceptTcpClient();
 //                        Console.WriteLine("Got new connection");
+//                        this.clientsList.Add(client);
 //                        ch.HandleClient(client);
 //                    }
 //                    catch (SocketException)

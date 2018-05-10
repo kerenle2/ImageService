@@ -13,7 +13,7 @@ using ImageService.Controller;
 using ImageService.Modal;
 using System.Configuration;
 using ImageService.Logging;
-using ImageService.Logging.Modal;
+using ImageService.Logging.Model;
 namespace ImageService
 {
     public enum ServiceState
