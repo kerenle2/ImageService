@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,14 +17,18 @@ namespace ImageService.Communication
         private TcpListener listener;
         private IClientHandler ch;
         private List<TcpClient> clientsList;
+
         //private static ServerTCP instanceServer;
 
         //private ServerTCP() { }
         public ServerTCP(int port, IClientHandler ch)
         {
+            this.clientsList = new List<TcpClient>();
             this.port = port;
             this.ch = ch;
+
         }
+
         //public static ServerTCP Instance
         //{
         //    get
@@ -34,12 +40,19 @@ namespace ImageService.Communication
         //        return instanceServer;
         //    }
         //}
+
+        public void sendMsg(TcpClient client, MsgInfo msgI)
+        {
+
+            ch.SendMsg(client, msgI);
+        }
+
         public void Start()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
             listener = new TcpListener(ep);
             listener.Start();
-            Console.WriteLine("Waiting for connections...");
+            Console.WriteLine("server: Waiting for connections...");
 
             Task task = new Task(() =>
             {
@@ -49,6 +62,7 @@ namespace ImageService.Communication
                     {
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
+
                         this.clientsList.Add(client);
                         ch.HandleClient(client);
                     }
@@ -65,6 +79,8 @@ namespace ImageService.Communication
         {
             listener.Stop();
         }
+
+
     }
     
 }

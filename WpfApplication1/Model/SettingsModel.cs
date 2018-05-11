@@ -7,11 +7,15 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-
+using ImageService.Communication;
 namespace ImageServiceGUI.Model
 {
     public class SettingsModel : INotifyPropertyChanged
     {
+        #region members
+       private Client client;
+        #endregion
+
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -25,6 +29,7 @@ namespace ImageServiceGUI.Model
         public SettingsModel()
         {
             m_dirs = new ObservableCollection<string>();
+            this.client = Client.getInstance();
 
             //delete:
             this.m_outputDir = "output";

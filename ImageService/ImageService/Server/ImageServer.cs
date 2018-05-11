@@ -47,6 +47,16 @@ namespace ImageService.Server
             {
                 CreateHandler(directories[i], m_controller, m_logging);
             }
+          //  toDebudDeletaLater();
+        }
+
+        public void toDebudDeletaLater()
+        {
+            Client c = Client.getInstance();
+            
+            MsgInfo msgI = new MsgInfo(MessagesToClientEnum.HandlerRemoved, "Handler");
+            this.serverTCP.sendMsg(c.getMyTcpClient(), msgI);
+
         }
         /// <summary>
         /// when the service should be closed, generates an event to 

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService.Communication
+namespace ImageService.Infrastructure.Enums
 {
-    public class Class1
+    public enum MessagesToClientEnum : int
     {
+      Logs,
+      Settings,
+      HandlerRemoved
     }
 }

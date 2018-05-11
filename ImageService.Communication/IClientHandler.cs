@@ -10,5 +10,6 @@ namespace ImageService.Communication
     public interface IClientHandler
     {
         void HandleClient(TcpClient client);
+        void SendMsg(TcpClient client, MsgInfo msgI);
     }
 }

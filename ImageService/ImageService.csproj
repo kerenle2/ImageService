@@ -131,10 +131,6 @@
       <Project>{5052bebc-6d87-4101-9019-a293e6bf131c}</Project>
       <Name>ImageService.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WpfApplication1\ImageServiceGUI.csproj">
-      <Project>{d162f117-6ce3-422d-b58a-b9ecadf0496d}</Project>
-      <Name>ImageServiceGUI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

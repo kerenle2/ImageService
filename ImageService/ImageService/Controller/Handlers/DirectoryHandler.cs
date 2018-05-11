@@ -112,6 +112,7 @@ namespace ImageService.Controller.Handlers
             }
             
         }
+
         /// <summary>
         /// handled the close command.
         /// </summary>

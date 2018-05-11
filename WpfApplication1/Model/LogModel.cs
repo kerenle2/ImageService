@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
+using ImageService.Communication;
 
 namespace ImageServiceGUI.Model
 {
     class LogModel : ILogModel
     {
         public ObservableCollection<MessageRecievedEventArgs> m_logMessage;
+        private Client client;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LogModel()
         {
+            this.client = Client.getInstance();
             this.m_logMessage = new ObservableCollection<MessageRecievedEventArgs>();
             //test!!!!
             MessageRecievedEventArgs e1 = new MessageRecievedEventArgs("Hey Efrat",MessageTypeEnum.INFO);
