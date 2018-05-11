@@ -22,12 +22,13 @@ namespace ImageService.Controller.Handlers
             
             this.logger = m_logger;
             this.controller = m_controller;
-            this.logList = null;//??????????mybe not necessary
+            this.logList = new List<Log> { };
             this.logger.MessageRecieved += AddToLoggerList;
         }
         public void AddToLoggerList (object sender, MessageRecievedEventArgs message)
         {
-            this.logList.Add(new Log( message.Status, message.Message));
+            Log log = new Log(message.Status, message.Message);
+            this.logList.Add(log);
         }
         void sendMessage(CommandRecievedEventArgs e, List<Log> list)
         {
