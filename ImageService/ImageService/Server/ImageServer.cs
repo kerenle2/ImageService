@@ -23,11 +23,15 @@ namespace ImageService.Server
         private ILoggingService m_logging;
         private ServerTCP serverTCP;
         private IClientHandler client_handler;
+        private ILoggerHandler logger_handler;
+        private ConfigData configData;
+        private string[] directories;
         #endregion
 
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public List<IDirectoryHandler> Handlers;
+
         #endregion
         /// <summary>
         /// constructor
@@ -39,8 +43,12 @@ namespace ImageService.Server
             this.m_controller = controller;
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
+            this.logger_handler = new LoggerHandler(m_logging, m_controller);
+            this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.client_handler = new ClientHandler();
-            string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
+            this.configData = ConfigData.InstanceConfig;
+            this.directories = this.configData.Handlers;
+            //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             this.serverTCP = new ServerTCP(8000, this.client_handler);
             serverTCP.Start( );
             for (int i = 0; i < directories.Length; i++)
@@ -64,8 +72,9 @@ namespace ImageService.Server
         /// </summary>
         public void Close()
         {
-            string[] dirs = ConfigurationManager.AppSettings.Get("Handler").Split(';');
-            foreach (string dir in dirs)
+            //string[] dirs = ConfigurationManager.AppSettings.Get("Handler").Split(';');
+            
+            foreach (string dir in this.directories)
             {
                 CommandRecievedEventArgs e = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand,
                     null, dir);
@@ -103,8 +112,7 @@ namespace ImageService.Server
             //start handler listening:
             this.CommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += OnDirectoryClose;
-
-           handler.StartHandleDirectory(dir); // now???
+            handler.StartHandleDirectory(dir); // now???
         }
 
 

@@ -8,9 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ImageService</RootNamespace>
     <AssemblyName>ImageService</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -73,11 +74,19 @@
     <Compile Include="Communication\ClientHandler.cs" />
     <Compile Include="Communication\IClientHandler.cs" />
     <Compile Include="Communication\ServerTCP.cs" />
+    <Compile Include="ImageService\ConfigData.cs" />
     <Compile Include="ImageService.Infrastructure\Enums\CommandEnum.cs" />
     <Compile Include="ImageService\Commands\AddFileCommand.cs" />
+    <Compile Include="ImageService\Commands\GetConfigCommand.cs" />
     <Compile Include="ImageService\Commands\ICommand.cs" />
+    <Compile Include="ImageService\Commands\LogCommand.cs" />
+    <Compile Include="ImageService\Controller\Handlers\ConfigHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\DirectoryHandler.cs" />
+    <Compile Include="ImageService\Controller\Handlers\IConfigHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\IDirectoryHandler.cs" />
+    <Compile Include="ImageService\Controller\Handlers\ILoggerHandler.cs" />
+    <Compile Include="ImageService\Controller\Handlers\Log.cs" />
+    <Compile Include="ImageService\Controller\Handlers\LoggerHandler.cs" />
     <Compile Include="ImageService\Controller\IImageController.cs" />
     <Compile Include="ImageService\Controller\ImageController.cs" />
     <Compile Include="ImageService\ImageService.cs">

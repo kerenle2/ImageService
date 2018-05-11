@@ -14,6 +14,7 @@ using ImageService.Modal;
 using System.Configuration;
 using ImageService.Logging;
 using ImageService.Logging.Model;
+using ImageService.Controller.Handlers;
 namespace ImageService
 {
     public enum ServiceState
@@ -56,6 +57,7 @@ namespace ImageService
         private ImageServer server;
         private IImageController controller;
         private IImageServiceModal modal;
+        private ConfigData configData;
         public ILoggingService logger;
         #endregion
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -67,13 +69,20 @@ namespace ImageService
         public ImageService(string[] args)
         {
             InitializeComponent();
-            string m_OutputFolder = ConfigurationManager.AppSettings.Get("OuptputDir");
-            int m_thumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
+            this.configData = ConfigData.InstanceConfig;
+
+
+            //string m_OutputFolder = ConfigurationManager.AppSettings.Get("OuptputDir");
+            //int m_thumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
+            string m_OutputFolder = configData.OutputDir;
+            int m_thumbnailSize = configData.ThumbnailSize;
             this.modal = new ImageServiceModal(m_OutputFolder, m_thumbnailSize);
             this.controller = new ImageController(this.modal);
 
-            string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
-            string logName = ConfigurationManager.AppSettings.Get("LogName");
+            string eventSourceName = this.configData.EventSourceName;
+            string logName = this.configData.LogName;
+           // string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
+            //string logName = ConfigurationManager.AppSettings.Get("LogName");
             eventLog1 = new System.Diagnostics.EventLog();
             if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
             {
@@ -114,6 +123,8 @@ namespace ImageService
         public void MessageReceivedLogger (object sender, MessageRecievedEventArgs message)
         {
             eventLog1.WriteEntry(message.Message);
+            //add to loggerList
+
         }
         /// <summary>
         /// on stop of the service
