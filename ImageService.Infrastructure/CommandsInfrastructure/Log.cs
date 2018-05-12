@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ImageService.Logging.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ImageService.Logging.Model;
-namespace ImageService.Controller.Handlers
+
+namespace ImageService.Infrastructure.CommandsInfrastructure
 {
     public class Log
     {

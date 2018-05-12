@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService
+namespace ImageService.Infrastructure.CommandsInfrastructure
 {
     public class ConfigData
     {
         private static ConfigData configData;
-        
-       
-        public string OutputDir { get; }
-        public string EventSourceName { get; }
-        public string LogName { get; }
-        public int ThumbnailSize { get; }
+
+
+        public string OutputDir { get; set; }
+        public string EventSourceName { get; set; }
+        public string LogName { get; set; }
+        public int ThumbnailSize { get; set; }
         public string[] Handlers { get; set; }
         /// <summary>
         /// constructor. take all the data from app config.
@@ -41,7 +42,7 @@ namespace ImageService
             }
         }
         public void RemoveHandler(string path)
-        {   
+        {
             for (int i = 0; i < Handlers.Length; i++)
             {
                 if (Handlers[i].Equals(path))
@@ -51,7 +52,29 @@ namespace ImageService
                     this.Handlers = listHandlers.ToArray();
                 }
             }
-           
+
+        }
+        public string ToJSON()
+        {
+            JObject configJson = new JObject();
+            configJson["Handlers"] = JToken.FromObject(Handlers);
+            configJson["OutputDir"] = OutputDir;
+            configJson["EventSourceName"] = EventSourceName;
+            configJson["LogName"] = LogName;
+            configJson["ThumbnailSize"] = ThumbnailSize;
+            return configJson.ToString();
+
+        }
+
+        public void FromJson(string str)
+        {
+            JObject configJson = JObject.Parse(str);
+            Handlers = (configJson["Handlers"]).ToObject<string[]>();
+            LogName = (string)configJson["LogName"];
+            EventSourceName = (string)configJson["SourceName"];
+            OutputDir = (string)configJson["OutputDir"];
+            ThumbnailSize = (int)configJson["ThumbnailSize"];
+
         }
     }
 }

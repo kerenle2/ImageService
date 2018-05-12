@@ -15,6 +15,8 @@ using System.Configuration;
 using ImageService.Logging;
 using ImageService.Logging.Model;
 using ImageService.Controller.Handlers;
+using ImageService.Infrastructure.CommandsInfrastructure;
+
 namespace ImageService
 {
     public enum ServiceState

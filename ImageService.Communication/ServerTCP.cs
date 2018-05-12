@@ -92,6 +92,7 @@ namespace ImageService.Communication
 
                         this.clientsList.Add(client);
                         client_handler.HandleClient(client);
+
                         //here or inside handle - invoke with the resault
                     }
                     catch (SocketException)

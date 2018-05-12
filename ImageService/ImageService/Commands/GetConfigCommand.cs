@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,13 @@ namespace ImageService.Commands
     {
         public string Execute(string[] args, out bool result)
         {
+            result = true;
             //send app config
             ConfigData configData = ConfigData.InstanceConfig;
+            return configData.ToJSON();
 
-            throw new NotImplementedException();
         }
+
+        
     }
 }
