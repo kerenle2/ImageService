@@ -71,10 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\ClientHandler.cs" />
-    <Compile Include="Communication\IClientHandler.cs" />
-    <Compile Include="ImageService\ConfigData.cs" />
-    <Compile Include="ImageService.Infrastructure\Enums\CommandEnum.cs" />
     <Compile Include="ImageService\Commands\AddFileCommand.cs" />
     <Compile Include="ImageService\Commands\GetConfigCommand.cs" />
     <Compile Include="ImageService\Commands\ICommand.cs" />
@@ -84,7 +80,6 @@
     <Compile Include="ImageService\Controller\Handlers\IConfigHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\IDirectoryHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\ILoggerHandler.cs" />
-    <Compile Include="ImageService\Controller\Handlers\Log.cs" />
     <Compile Include="ImageService\Controller\Handlers\LoggerHandler.cs" />
     <Compile Include="ImageService\Controller\IImageController.cs" />
     <Compile Include="ImageService\Controller\ImageController.cs" />
@@ -94,10 +89,6 @@
     <Compile Include="ImageService\ImageService.Designer.cs">
       <DependentUpon>ImageService.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageService.Logging\ILoggingService.cs" />
-    <Compile Include="ImageService.Logging\LoggingService.cs" />
-    <Compile Include="ImageService.Logging\Modal\MessageRecievedEventArgs.cs" />
-    <Compile Include="ImageService.Logging\Modal\MessageTypeEnum.cs" />
     <Compile Include="ImageService\Modal\Event\CommandRecievedEventArgs.cs" />
     <Compile Include="ImageService\Modal\Event\DirectoryCloseEventArg.cs" />
     <Compile Include="ImageService\Modal\IImageServiceModal.cs" />

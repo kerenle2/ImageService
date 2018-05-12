@@ -13,6 +13,7 @@ using System.Configuration;
 using ImageService.Logging.Model;
 using ImageService.Infrastructure.Enums;
 using ImageService.Communication;
+using ImageService.Infrastructure.CommandsInfrastructure;
 
 namespace ImageService.Server
 {
@@ -23,7 +24,7 @@ namespace ImageService.Server
         private ILoggingService m_logging;
         private ServerTCP serverTCP;
         private IClientHandler ch;
-      
+        private IConfigHandler configHandler;
         private ILoggerHandler logger_handler;
         private ConfigData configData;
         private string[] directories;
@@ -45,18 +46,19 @@ namespace ImageService.Server
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
             this.logger_handler = new LoggerHandler(m_logging, m_controller);
+            this.configHandler = new ConfigHandler(this.m_controller);
             this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.ch = new ClientHandler();
 
          //   this.ch.NotifyAllClients += logger.MessageRecieved;
-
-
-
+         
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             this.serverTCP = ServerTCP.getInstance();
             serverTCP.Start( );
+            this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
+            
             for (int i = 0; i < directories.Length; i++)
             {
                 CreateHandler(directories[i], m_controller, m_logging);
@@ -111,6 +113,7 @@ namespace ImageService.Server
             handler.DirectoryClose += OnDirectoryClose;
             handler.StartHandleDirectory(dir); // now???
         }
+      
 
 
 
