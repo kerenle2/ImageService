@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ImageService.Communication
 {
-    public class MsgInfo
+    public class MsgInfoEventArgs : EventArgs
     {
-        public MsgInfo(MessagesToClientEnum id, string msg)
+        public MsgInfoEventArgs(MessagesToClientEnum id, string msg)
         {
             this.m_id = id;
             this.m_msg = msg;

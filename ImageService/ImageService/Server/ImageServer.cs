@@ -22,7 +22,8 @@ namespace ImageService.Server
         private IImageController m_controller;
         private ILoggingService m_logging;
         private ServerTCP serverTCP;
-        private IClientHandler client_handler;
+        private IClientHandler ch;
+      
         private ILoggerHandler logger_handler;
         private ConfigData configData;
         private string[] directories;
@@ -45,27 +46,23 @@ namespace ImageService.Server
             this.Handlers = new List<IDirectoryHandler>();
             this.logger_handler = new LoggerHandler(m_logging, m_controller);
             this.CommandRecieved += logger_handler.OnCommandRecieved;
-            this.client_handler = new ClientHandler();
+            this.ch = new ClientHandler();
+
+         //   this.ch.NotifyAllClients += logger.MessageRecieved;
+
+
+
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
-            this.serverTCP = new ServerTCP(8000, this.client_handler);
+            this.serverTCP = ServerTCP.getInstance();
             serverTCP.Start( );
             for (int i = 0; i < directories.Length; i++)
             {
                 CreateHandler(directories[i], m_controller, m_logging);
             }
-          //  toDebudDeletaLater();
         }
 
-        public void toDebudDeletaLater()
-        {
-            Client c = Client.getInstance();
-            
-            MsgInfo msgI = new MsgInfo(MessagesToClientEnum.HandlerRemoved, "Handler");
-            this.serverTCP.sendMsg(c.getMyTcpClient(), msgI);
-
-        }
         /// <summary>
         /// when the service should be closed, generates an event to 
         /// onCommandRecieved that says that services is closing

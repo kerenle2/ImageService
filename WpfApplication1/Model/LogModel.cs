@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using ImageService.Communication;
+using ImageService.Infrastructure.Enums;
 
 namespace ImageServiceGUI.Model
 {
@@ -19,7 +20,10 @@ namespace ImageServiceGUI.Model
         public LogModel()
         {
             this.client = Client.getInstance();
+            client.Start();
             this.m_logMessage = new ObservableCollection<MessageRecievedEventArgs>();
+            this.client.DataRecieved += OnDataRecieved;
+
             //test!!!!
             MessageRecievedEventArgs e1 = new MessageRecievedEventArgs("Hey Efrat",MessageTypeEnum.INFO);
             MessageRecievedEventArgs e2 = new MessageRecievedEventArgs("Whats up???", MessageTypeEnum.INFO);
@@ -38,6 +42,16 @@ namespace ImageServiceGUI.Model
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
+        public void OnDataRecieved(object sender, MsgInfoEventArgs e)
+        {
+            if (e.id == MessagesToClientEnum.Logs)
+            {
+                Console.WriteLine("I know i got an Logs msg!");
+                //do stuff here - handle the new logs list
+            }
+        }
+
         public ObservableCollection<MessageRecievedEventArgs> logMessage
         {
             get { return this.m_logMessage; }

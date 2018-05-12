@@ -8,14 +8,17 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ImageService.Communication;
+using ImageService.Infrastructure.Enums;
+
 namespace ImageServiceGUI.Model
 {
     public class SettingsModel : INotifyPropertyChanged
     {
         #region members
-       private Client client;
-        #endregion
+       private ICommunicate client;
 
+        //client.DataRecieved += OnDataRecieved; //why not working???
+            
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -23,6 +26,7 @@ namespace ImageServiceGUI.Model
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
         #endregion
 
         //constructor:
@@ -30,7 +34,7 @@ namespace ImageServiceGUI.Model
         {
             m_dirs = new ObservableCollection<string>();
             this.client = Client.getInstance();
-
+            client.Start();
             //delete:
             this.m_outputDir = "output";
             this.m_sourceName = "source";
@@ -41,6 +45,16 @@ namespace ImageServiceGUI.Model
             //end delete
 
         }
+
+        public void OnDataRecieved(object sender, MsgInfoEventArgs e)
+        {
+            if (e.id == MessagesToClientEnum.Settings)
+            {
+                Console.WriteLine("I know i got an settings msg!");
+                //do stuff here - handle the app config list
+            }
+        }
+
 
         #region properties
         private string m_outputDir;
@@ -113,4 +127,5 @@ namespace ImageServiceGUI.Model
         #endregion
 
     }
+    #endregion
 }

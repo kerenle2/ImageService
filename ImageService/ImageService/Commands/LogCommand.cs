@@ -1,4 +1,5 @@
 ﻿using ImageService.Controller.Handlers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,17 @@ namespace ImageService.Commands
     public class LogCommand: ICommand
     {
         private List<Log> logList;
+
         public LogCommand()
         {
-            this.logList = null;//??????????mybe not necessary
+       //     this.logList = logList;
         }
         public string Execute(string[] args, out bool result)
         {
-            string path = args[0];
-            result = false; //deleteeeeeeee
-            return "bdflb"; //send list to client here!!!!!!!1
+            
+            string JsonConvertedList = args[0];
+            result = true;
+            return JsonConvertedList; //ready to sent to server
 
         }
     }

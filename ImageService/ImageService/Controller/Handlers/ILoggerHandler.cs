@@ -10,6 +10,6 @@ namespace ImageService.Controller.Handlers
     public interface ILoggerHandler
     {
         void OnCommandRecieved(object sender, CommandRecievedEventArgs e);     // The Event that will be activated upon new Command
-
+      //  void HandleLogsSending(string[] args);
     }
 }

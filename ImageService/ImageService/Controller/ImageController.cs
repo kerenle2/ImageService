@@ -1,4 +1,5 @@
 ﻿using ImageService.Commands;
+using ImageService.Communication;
 using ImageService.Infrastructure;
 using ImageService.Infrastructure.Enums;
 using ImageService.Modal;
@@ -24,6 +25,10 @@ namespace ImageService.Controller
             commands = new Dictionary<int, ICommand>();
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
             commands.Add((int)CommandEnum.LogCommand, new LogCommand());
+
+
+            //check:
+            ServerTCP server = ServerTCP.getInstance();
 
             //add close command here
         }

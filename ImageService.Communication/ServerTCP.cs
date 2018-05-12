@@ -11,41 +11,63 @@ using System.Threading.Tasks;
 namespace ImageService.Communication
 {
     
-    public class ServerTCP
+    public class ServerTCP : ICommunicate
     {
         private int port;
         private TcpListener listener;
-        private IClientHandler ch;
+        private IClientHandler client_handler;
         private List<TcpClient> clientsList;
 
-        //private static ServerTCP instanceServer;
+        private static ServerTCP instance = null;
 
-        //private ServerTCP() { }
-        public ServerTCP(int port, IClientHandler ch)
+        public event EventHandler<MsgInfoEventArgs> DataRecieved;
+
+        public static ServerTCP getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new ServerTCP();
+            }
+            return instance;
+        }
+
+        private ServerTCP() //changed to singelton, need to make sure it works.
         {
             this.clientsList = new List<TcpClient>();
-            this.port = port;
-            this.ch = ch;
+            this.port = 8000;
+            this.client_handler = new ClientHandler();
+            client_handler.NotifyAllClients += SendMsgToAll;
 
         }
 
-        //public static ServerTCP Instance
-        //{
-        //    get
-        //    {
-        //        if (instanceServer == null)
-        //        {
-        //            instanceServer = new ServerTCP();
-        //        }
-        //        return instanceServer;
-        //    }
-        //}
 
-        public void sendMsg(TcpClient client, MsgInfo msgI)
+      
+        public void SendMsgToAll(object sender, MsgInfoEventArgs msgI)
         {
+       
+                foreach (TcpClient client in this.clientsList)
+                {
+                new Task(() =>
+                {
+                    using (NetworkStream stream = client.GetStream())
+                    using (StreamReader reader = new StreamReader(stream))
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        string msg = JsonConvert.SerializeObject(msgI);
+                        writer.Write(msg);
+                        //  Console.WriteLine("Got command: {0}", commandLine);
+                        //string result = m_controller.ExecuteCommand(commandLine, client);
+                        //writer.Write(result);
+                    }
 
-            ch.SendMsg(client, msgI);
+                    client.Close();
+                }).Start();
+            }
+  
+           
         }
+
+  
 
         public void Start()
         {
@@ -53,7 +75,12 @@ namespace ImageService.Communication
             listener = new TcpListener(ep);
             listener.Start();
             Console.WriteLine("server: Waiting for connections...");
+            ListenToClients();
 
+        }
+
+        public void ListenToClients()
+        {
             Task task = new Task(() =>
             {
                 while (true)
@@ -64,7 +91,8 @@ namespace ImageService.Communication
                         Console.WriteLine("Got new connection");
 
                         this.clientsList.Add(client);
-                        ch.HandleClient(client);
+                        client_handler.HandleClient(client);
+                        //here or inside handle - invoke with the resault
                     }
                     catch (SocketException)
                     {
@@ -79,7 +107,6 @@ namespace ImageService.Communication
         {
             listener.Stop();
         }
-
 
     }
     
