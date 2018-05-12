@@ -10,7 +10,7 @@ namespace ImageService.Commands
 {
     public class LogCommand: ICommand
     {
-        private List<Log> logList;
+       // private List<Log> logList;
 
         public LogCommand()
         {
@@ -18,11 +18,12 @@ namespace ImageService.Commands
         }
         public string Execute(string[] args, out bool result)
         {
-            
-            string JsonConvertedList = args[0];
-            result = true;
-            return JsonConvertedList; //ready to sent to server
 
+             string list = args[0];
+       
+
+            result = true;
+             return list; 
         }
     }
 }

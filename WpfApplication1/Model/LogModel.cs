@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using ImageService.Communication;
 using ImageService.Infrastructure.Enums;
+using Newtonsoft.Json;
 
 namespace ImageServiceGUI.Model
 {
@@ -48,7 +49,12 @@ namespace ImageServiceGUI.Model
             if (e.id == MessagesToClientEnum.Logs)
             {
                 Console.WriteLine("I know i got an Logs msg!");
+                string msg = e.msg;
                 //do stuff here - handle the new logs list
+
+
+                MessageRecievedEventArgs et = new MessageRecievedEventArgs(e.msg, MessageTypeEnum.INFO); //deleteee
+                logMessage.Add(et);
             }
         }
 

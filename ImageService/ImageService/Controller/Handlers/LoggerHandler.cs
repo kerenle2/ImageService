@@ -43,13 +43,15 @@ namespace ImageService.Controller.Handlers
             Task sendLogsTask = new Task(() =>
             {
                 
-                string listConveredToJson = JsonConvert.SerializeObject(list);
+              //  string listConveredToJson = JsonConvert.SerializeObject(list);
                 string[] args = new string[2];
-                args[0] = listConveredToJson;
+                args[0] = "blabla enter here the real list as string - NOT AS JASON YET";
+              //  args[0] = listConveredToJson;
                 CommandRecievedEventArgs ce = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, args, null);
                 bool result;
                 string msg = controller.ExecuteCommand(ce.CommandID, ce.Args , out result);
-                                                                                         
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, msg);
+                server.SendMsgToAll(this, msgI); //maybe do it not that starit forword but throw notify all of the clientHandler latr.                                                                       
             });
             sendLogsTask.Start();
             //convert to jason and send to server

@@ -12,8 +12,8 @@ namespace ImageService.Communication
     {
 
         private TcpClient client;
-        private BinaryReader reader;
-        private BinaryWriter writer;
+        private StreamReader reader;
+        private StreamWriter writer;
 
        
         private NetworkStream stream = null;
@@ -33,29 +33,29 @@ namespace ImageService.Communication
 
 
 
-        public void OnDataRecieved(object sender, MsgInfoEventArgs e)
-        {
-            Console.WriteLine("client: in onMsgRecieved function");
-            if(e.id == MessagesToClientEnum.HandlerRemoved)
-            {
-                //do whatever
-                Console.WriteLine("I know i got an handlerRemoved msg!");
-            }
+    //    public void OnDataRecieved(object sender, MsgInfoEventArgs e)
+      //  {
+        //    Console.WriteLine("client: in onMsgRecieved function");
+          //  if(e.id == MessagesToClientEnum.HandlerRemoved)
+           // {
+            //    //do whatever
+             //   Console.WriteLine("I know i got an handlerRemoved msg!");
+           // }
 
-            if(e.id == MessagesToClientEnum.Logs)
-            {
+//            if(e.id == MessagesToClientEnum.Logs)
+  //          {
+    //            //do
+      //          Console.WriteLine("I know i got an Logs msg!");
+
+        //    }
+
+          //  if (e.id == MessagesToClientEnum.Settings)
+            //{
                 //do
-                Console.WriteLine("I know i got an Logs msg!");
+              //  Console.WriteLine("I know i got an settings msg!");
 
-            }
-
-            if (e.id == MessagesToClientEnum.Settings)
-            {
-                //do
-                Console.WriteLine("I know i got an settings msg!");
-
-            }
-        }
+        //    }
+       // }
 
 
         private Client()
@@ -84,8 +84,8 @@ namespace ImageService.Communication
             try
             {
                 this.stream = client.GetStream();
-                this.reader = new BinaryReader(stream);
-                this.writer = new BinaryWriter(stream);
+                this.reader = new StreamReader(stream);
+                this.writer = new StreamWriter(stream);
                     WaitForEventArgs();
                 
             }
@@ -123,11 +123,22 @@ namespace ImageService.Communication
             {
                 //loop here or outside task?
                 while (true)
-                { 
-                    string msg = this.reader.ReadString();
-                Console.WriteLine("client: recieved msg from server: " + msg);
-                MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(msg);
-                DataRecieved?.Invoke(this, msgI);
+                {
+                    // MsgInfoEventArgs msgI =
+                    try
+                    {
+                        this.stream = client.GetStream();
+                        string msg = this.reader.ReadLine();
+                        Console.WriteLine("client: recieved msg from server: " + msg);
+                        MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(msg);
+                        DataRecieved?.Invoke(this, msgI);
+                    } catch(Exception e)
+                    {
+                        Console.WriteLine("client: Error reading msg" + e.StackTrace);
+                         
+                    }
+                
+         
             }
 
             });

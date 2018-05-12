@@ -12,10 +12,11 @@ using ImageService.Infrastructure.Enums;
 
 namespace ImageServiceGUI.Model
 {
-    public class SettingsModel : INotifyPropertyChanged
+    public class SettingsModel // : INotifyPropertyChanged  needed?!?
     {
         #region members
        private ICommunicate client;
+      // this.client.DataRecieved += OnDataRecieved;
 
         //client.DataRecieved += OnDataRecieved; //why not working???
             
@@ -45,7 +46,6 @@ namespace ImageServiceGUI.Model
             //end delete
 
         }
-
         public void OnDataRecieved(object sender, MsgInfoEventArgs e)
         {
             if (e.id == MessagesToClientEnum.Settings)

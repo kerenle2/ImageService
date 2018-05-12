@@ -73,7 +73,6 @@
   <ItemGroup>
     <Compile Include="Communication\ClientHandler.cs" />
     <Compile Include="Communication\IClientHandler.cs" />
-    <Compile Include="Communication\ServerTCP.cs" />
     <Compile Include="ImageService\ConfigData.cs" />
     <Compile Include="ImageService.Infrastructure\Enums\CommandEnum.cs" />
     <Compile Include="ImageService\Commands\AddFileCommand.cs" />

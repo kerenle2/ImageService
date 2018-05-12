@@ -41,7 +41,7 @@ namespace ImageService.Communication
         }
 
 
-      
+
         public void SendMsgToAll(object sender, MsgInfoEventArgs msgI)
         {
        
@@ -49,18 +49,23 @@ namespace ImageService.Communication
                 {
                 new Task(() =>
                 {
-                    using (NetworkStream stream = client.GetStream())
-                    using (StreamReader reader = new StreamReader(stream))
-                    using (StreamWriter writer = new StreamWriter(stream))
+                    try
                     {
-                        string msg = JsonConvert.SerializeObject(msgI);
-                        writer.Write(msg);
-                        //  Console.WriteLine("Got command: {0}", commandLine);
-                        //string result = m_controller.ExecuteCommand(commandLine, client);
-                        //writer.Write(result);
-                    }
+                        using (NetworkStream stream = client.GetStream())
+                        using (StreamReader reader = new StreamReader(stream))
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            string msg = JsonConvert.SerializeObject(msgI);
+                            writer.Write(msg);
 
-                    client.Close();
+                        }
+
+                       // client.Close();
+                    } catch(Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+               
                 }).Start();
             }
   

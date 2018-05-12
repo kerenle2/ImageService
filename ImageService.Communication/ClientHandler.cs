@@ -33,17 +33,24 @@ namespace ImageService.Communication
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    string commandLine = reader.ReadLine();
-                    Console.WriteLine("Got command: {0}", commandLine);
-                    // string result = m_controller.ExecuteCommand(commandLine, client);
-                    string result;
+                    try
+                    {
+                        string commandLine = reader.ReadLine();
+                        Console.WriteLine("Got command: {0}", commandLine);
+                        // string result = m_controller.ExecuteCommand(commandLine, client);
+                        string result;
+                    } catch( Exception e)
+                    {
+                        Console.WriteLine("server's clientHandler: Error reading line: " + e.StackTrace);
+                    }
+             
 
                     //handle the command here
                     //with an event invoke, send msg back to all clients
                     
                     //writer.Write(result);
                 }
-                client.Close();
+                //client.Close();
             }).Start();
         }
 
