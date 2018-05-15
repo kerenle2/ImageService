@@ -18,7 +18,6 @@ namespace ImageService.Logging
         public void Log(string message, Model.MessageTypeEnum type)
         {
             MessageRecieved?.Invoke(this, new MessageRecievedEventArgs(message, type));
-            //add here invoke to an event that will invoke notifyAllClients
         }
     }
 }

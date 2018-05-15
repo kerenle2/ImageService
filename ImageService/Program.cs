@@ -26,10 +26,11 @@ namespace ImageService
             }
             else
             {
+                //the regular main
                 ServiceBase[] ServicesToRun;
                 ServicesToRun = new ServiceBase[]
                 {
-            new ImageService(args)
+                new ImageService(args)
                 };
                 ServiceBase.Run(ServicesToRun);
             }

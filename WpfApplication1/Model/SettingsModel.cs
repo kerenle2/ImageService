@@ -16,10 +16,9 @@ namespace ImageServiceGUI.Model
     {
         #region members
        private ICommunicate client;
-      // this.client.DataRecieved += OnDataRecieved;
+       
 
-        //client.DataRecieved += OnDataRecieved; //why not working???
-            
+
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -30,12 +29,14 @@ namespace ImageServiceGUI.Model
 
         #endregion
 
+
         //constructor:
         public SettingsModel()
         {
             m_dirs = new ObservableCollection<string>();
             this.client = Client.getInstance();
-            client.Start();
+            this.client.DataRecieved += OnDataRecieved;
+
             //delete:
             this.m_outputDir = "output";
             this.m_sourceName = "source";

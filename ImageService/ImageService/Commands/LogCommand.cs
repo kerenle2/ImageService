@@ -10,20 +10,22 @@ namespace ImageService.Commands
 {
     public class LogCommand: ICommand
     {
-       // private List<Log> logList;
+        //private ILoggerHandler loggerHandler;
 
         public LogCommand()
         {
-       //     this.logList = logList;
+           // this.loggerHandler = loggerHandler;
         }
         public string Execute(string[] args, out bool result)
         {
 
-             string list = args[0];
-       
+             //string list = args[0];
+             
 
             result = true;
-             return list; 
+          //  loggerHandler.HandleLogsSending();
+            return "wtf is log command?"; 
+            // return list; 
         }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -13,11 +14,11 @@ namespace ImageService.Communication
 {
     public class ClientHandler : IClientHandler
     {
-
+        private Mutex readMutex;
         public ClientHandler()
         {
-
-        }
+            readMutex = new Mutex();
+    }
                 public event EventHandler<MsgInfoEventArgs> NotifyAllClients;
 
     
@@ -27,15 +28,14 @@ namespace ImageService.Communication
         }
         public void HandleClient(TcpClient client)
         {
-            new Task(() =>
-            {
-                using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
                     try
                     {
-                        string commandLine = reader.ReadLine();
+                //readMutex.WaitOne();
+                NetworkStream stream = client.GetStream();
+                StreamReader reader = new StreamReader(stream);
+
+                string commandLine = reader.ReadLine();
+                        //readMutex.ReleaseMutex();
                         Console.WriteLine("Got command: {0}", commandLine);
                         // string result = m_controller.ExecuteCommand(commandLine, client);
                         string result;
@@ -49,9 +49,8 @@ namespace ImageService.Communication
                     //with an event invoke, send msg back to all clients
                     
                     //writer.Write(result);
-                }
+                
                 //client.Close();
-            }).Start();
         }
 
  

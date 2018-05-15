@@ -1,9 +1,11 @@
 ﻿using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImageService.Communication
@@ -11,12 +13,16 @@ namespace ImageService.Communication
     public class Client : ICommunicate
     {
 
-        private TcpClient client;
+        private static TcpClient client;
+
+
+        private Mutex writeMutex;
+        private Mutex readMutex;
+
+        private NetworkStream stream = null;
         private StreamReader reader;
         private StreamWriter writer;
 
-       
-        private NetworkStream stream = null;
         private static Client instance = null;
 
         public event EventHandler<MsgInfoEventArgs> DataRecieved;
@@ -33,47 +39,31 @@ namespace ImageService.Communication
 
 
 
-    //    public void OnDataRecieved(object sender, MsgInfoEventArgs e)
-      //  {
-        //    Console.WriteLine("client: in onMsgRecieved function");
-          //  if(e.id == MessagesToClientEnum.HandlerRemoved)
-           // {
-            //    //do whatever
-             //   Console.WriteLine("I know i got an handlerRemoved msg!");
-           // }
-
-//            if(e.id == MessagesToClientEnum.Logs)
-  //          {
-    //            //do
-      //          Console.WriteLine("I know i got an Logs msg!");
-
-        //    }
-
-          //  if (e.id == MessagesToClientEnum.Settings)
-            //{
-                //do
-              //  Console.WriteLine("I know i got an settings msg!");
-
-        //    }
-       // }
-
 
         private Client()
         {
             Console.WriteLine("client: in constructor");
             client = new TcpClient();
-       
+            writeMutex = new Mutex();
+            readMutex = new Mutex();
+          //  Start();
+
         }
 
         public void Start()
         {
-            Console.WriteLine("client: in start");
 
+            Console.WriteLine("client: in start");
+ 
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000); //8000 = port
             try
             {
                 client.Connect(ep);
                 Console.WriteLine("client: client connected");
+
+                stream = client.GetStream();
+                reader = new StreamReader(stream);
+                writer = new StreamWriter(stream);
 
             }
             catch (Exception e)
@@ -83,11 +73,13 @@ namespace ImageService.Communication
 
             try
             {
-                this.stream = client.GetStream();
-                this.reader = new StreamReader(stream);
-                this.writer = new StreamWriter(stream);
+                Task waitToEvents = new Task(() =>
+
+                {
                     WaitForEventArgs();
-                
+
+                });
+                waitToEvents.Start();
             }
             catch (Exception e)
             {
@@ -103,53 +95,52 @@ namespace ImageService.Communication
             client.Close();
         }
 
-       
+
 
         public void sendCommandRequest(int commandId) //try with this format/ if no then change all the same to msgInfo (add more enums)
         {
             try
             {
+                //writeMutex.WaitOne();
                 this.writer.Write(commandId.ToString());
-            } catch (Exception e)
+                //  writeMutex.ReleaseMutex();
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("client: Error while sending command to server: " + e.StackTrace);
             }
         }
 
+
+
         public void WaitForEventArgs()
         {
-            {
-        Task t = new Task (() =>
-            {
-                //loop here or outside task?
                 while (true)
                 {
-                    // MsgInfoEventArgs msgI =
                     try
                     {
-                        this.stream = client.GetStream();
-                        string msg = this.reader.ReadLine();
-                        Console.WriteLine("client: recieved msg from server: " + msg);
+
+                    //  readMutex.WaitOne();
+                    stream = client.GetStream();
+                    reader = new StreamReader(stream);
+
+                    string msg = this.reader.ReadLine();
+                        //   readMutex.ReleaseMutex();
+                        //Console.WriteLine("client: recieved msg from server: " + msg);
+
                         MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(msg);
                         DataRecieved?.Invoke(this, msgI);
-                    } catch(Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine("client: Error reading msg" + e.StackTrace);
-                         
                     }
-                
-         
-            }
-
-            });
-            t.Start();
-            }
+                }
         
-
         }
-
-
-
-
     }
-}
+    }
+
+
+   
+

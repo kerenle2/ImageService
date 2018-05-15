@@ -18,6 +18,8 @@ namespace ImageServiceGUI.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+
         public LogModel()
         {
             this.client = Client.getInstance();
@@ -40,8 +42,10 @@ namespace ImageServiceGUI.Model
         }
         protected void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+            //   if (PropertyChanged != null)
+            //     PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
         public void OnDataRecieved(object sender, MsgInfoEventArgs e)
@@ -49,11 +53,11 @@ namespace ImageServiceGUI.Model
             if (e.id == MessagesToClientEnum.Logs)
             {
                 Console.WriteLine("I know i got an Logs msg!");
-                string msg = e.msg;
+                string msg = (string) e.msg;   //change the cast!!!
                 //do stuff here - handle the new logs list
 
 
-                MessageRecievedEventArgs et = new MessageRecievedEventArgs(e.msg, MessageTypeEnum.INFO); //deleteee
+                MessageRecievedEventArgs et = new MessageRecievedEventArgs(msg, MessageTypeEnum.INFO); //deleteee
                 logMessage.Add(et);
             }
         }

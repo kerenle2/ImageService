@@ -18,6 +18,7 @@ namespace ImageService.Controller.Handlers
 {
     public class LoggerHandler: ILoggerHandler
     {
+        IClientHandler ch = new ClientHandler();
         public ILoggingService logger;
         public IImageController controller;
         ServerTCP server = ServerTCP.getInstance();
@@ -37,25 +38,20 @@ namespace ImageService.Controller.Handlers
         {
             Log log = new Log(message.Status, message.Message);
             this.m_logList.Add(log);
-            HandleSendMessage(this.m_logList);
+            HandleLogsSending();
         }
 
-    void HandleSendMessage(List<Log> list)
+    public void HandleLogsSending()
         {
-            Task sendLogsTask = new Task(() =>
-            {
-                
-              //  string listConveredToJson = JsonConvert.SerializeObject(list);
-                string[] args = new string[2];
-                args[0] = "blabla enter here the real list as string - NOT AS JASON YET";
-              //  args[0] = listConveredToJson;
-                CommandRecievedEventArgs ce = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, args, null);
-                bool result;
-                string msg = controller.ExecuteCommand(ce.CommandID, ce.Args , out result);
+           // Task sendLogsTask = new Task(() =>
+            //{
+
+               string msg = "blabla enter here the real list as string - NOT AS JASON YET";
                 MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, msg);
-                server.SendMsgToAll(this, msgI); //maybe do it not that starit forword but throw notify all of the clientHandler latr.                                                                       
-            });
-            sendLogsTask.Start();
+                server.SendMsgToAll(this, msgI); //maybe do it not that starit forword but throw notify all of the clientHandler latr. 
+               
+          //  });
+           // sendLogsTask.Start();
             //convert to jason and send to server
         }
 
@@ -63,8 +59,10 @@ namespace ImageService.Controller.Handlers
         {            
             if (e.CommandID.Equals((int)CommandEnum.LogCommand))
             {
-                HandleSendMessage(this.m_logList); //// if its the command, send back to server the list. (but with jason)
+                HandleLogsSending(); //// if its the command, send back to server the list. (but with jason)
             }
         }
+
+  
     }
 }

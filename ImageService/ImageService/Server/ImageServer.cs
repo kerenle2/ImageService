@@ -49,9 +49,6 @@ namespace ImageService.Server
             this.configHandler = new ConfigHandler(this.m_controller);
             this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.ch = new ClientHandler();
-
-         //   this.ch.NotifyAllClients += logger.MessageRecieved;
-         
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
