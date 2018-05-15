@@ -30,4 +30,5 @@ namespace ImageServiceGUI.View
           //  dataGrid.ItemsSource = LogVM.logMessage;
         }
     }
+
 }

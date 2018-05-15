@@ -16,7 +16,7 @@ using ImageService.Logging;
 using ImageService.Logging.Model;
 using ImageService.Controller.Handlers;
 using ImageService.Infrastructure.CommandsInfrastructure;
-
+using ImageService.Communication;
 namespace ImageService
 {
     public enum ServiceState
@@ -61,6 +61,7 @@ namespace ImageService
         private IImageServiceModal modal;
         private ConfigData configData;
         public ILoggingService logger;
+       // private ServerTCP tcpServer; //???????????????
         #endregion
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -115,7 +116,7 @@ namespace ImageService
             this.logger = new LoggingService();
             logger.MessageRecieved += MessageReceivedLogger;
             this.server = new ImageServer(this.controller, this.logger);
-
+            
         }
         /// <summary>
         /// write the message to the logger

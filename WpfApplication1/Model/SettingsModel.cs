@@ -35,7 +35,7 @@ namespace ImageServiceGUI.Model
         {
             m_dirs = new ObservableCollection<string>();
             this.client = Client.getInstance();
-            client.Start();
+            //client.Start();
             //delete:
             this.m_outputDir = "output";
             this.m_sourceName = "source";

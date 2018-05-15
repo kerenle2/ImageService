@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace ImageServiceGUI.Model
-{
-    public enum MessageTypeEnum: int
-    {
-        INFO,
-        WARNING,
-        FAIL
-    }
-}
+//namespace ImageServiceGUI.Model
+//{
+//    public enum MessageTypeEnum: int
+//    {
+//        INFO,
+//        WARNING,
+//        FAIL
+//    }
+//}

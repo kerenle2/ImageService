@@ -18,10 +18,7 @@ namespace ImageService.Commands
         }
         public string Execute(string[] args, out bool result)
         {
-
              string list = args[0];
-       
-
             result = true;
              return list; 
         }

@@ -1,6 +1,9 @@
-﻿using ImageService.Infrastructure.Enums;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -12,8 +15,8 @@ namespace ImageService.Communication
     {
 
         private TcpClient client;
-        private StreamReader reader;
-        private StreamWriter writer;
+        private BinaryReader reader;
+        private BinaryWriter writer;
 
        
         private NetworkStream stream = null;
@@ -62,6 +65,7 @@ namespace ImageService.Communication
         {
             Console.WriteLine("client: in constructor");
             client = new TcpClient();
+            Start();
        
         }
 
@@ -84,8 +88,8 @@ namespace ImageService.Communication
             try
             {
                 this.stream = client.GetStream();
-                this.reader = new StreamReader(stream);
-                this.writer = new StreamWriter(stream);
+               this.reader = new BinaryReader(stream);
+                this.writer = new BinaryWriter(stream);
                     WaitForEventArgs();
                 
             }
@@ -93,9 +97,6 @@ namespace ImageService.Communication
             {
                 Console.WriteLine("Error openning reader\\writer\\streamer :" + e.StackTrace);
             }
-
-
-
         }
 
         public void Stop()
@@ -109,13 +110,13 @@ namespace ImageService.Communication
         {
             try
             {
-                this.writer.Write(commandId.ToString());
+               // this.writer.Write(commandId.ToString());
             } catch (Exception e)
             {
                 Console.WriteLine("client: Error while sending command to server: " + e.StackTrace);
             }
         }
-
+        
         public void WaitForEventArgs()
         {
             {
@@ -127,10 +128,23 @@ namespace ImageService.Communication
                     // MsgInfoEventArgs msgI =
                     try
                     {
+                       //  System.Threading.Thread.Sleep(200);
                         this.stream = client.GetStream();
-                        string msg = this.reader.ReadLine();
-                        Console.WriteLine("client: recieved msg from server: " + msg);
-                        MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(msg);
+                        //BinaryReader reader = new BinaryReader(stream);
+                        //BinaryReader writer = new BinaryReader(stream);
+                    
+
+                        string str = this.reader.ReadString();
+                       // System.Threading.Thread.Sleep(200);
+
+                        Console.WriteLine("client: recieved msg from server: " + str);
+                        //convert fron json 
+                        //JObject messageObj = JObject.Parse(str);
+                        //int id = (int)messageObj["TypeMessage"];
+
+//                        string msg = (string)messageObj["Content"];
+                        MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
+                        //MsgInfoEventArgs msgI = new MsgInfoEventArgs((MessagesToClientEnum)id, msg);
                         DataRecieved?.Invoke(this, msgI);
                     } catch(Exception e)
                     {
@@ -138,7 +152,6 @@ namespace ImageService.Communication
                          
                     }
                 
-         
             }
 
             });

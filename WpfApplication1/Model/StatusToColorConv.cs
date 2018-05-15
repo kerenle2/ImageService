@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Logging.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace ImageServiceGUI.Model
         {
             if (targetType != typeof(Brush))
                 throw new InvalidOperationException("Must convert to a brush!");
-            Model.MessageTypeEnum status = (Model.MessageTypeEnum)value;
+                MessageTypeEnum status = (MessageTypeEnum)value;
             if (status == MessageTypeEnum.INFO)
             {
                 return Brushes.SpringGreen;

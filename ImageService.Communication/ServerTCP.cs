@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ImageService.Infrastructure.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +9,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ImageService.Communication
 {
     
@@ -17,6 +18,7 @@ namespace ImageService.Communication
         private TcpListener listener;
         private IClientHandler client_handler;
         private List<TcpClient> clientsList;
+        private NetworkStream stream;
 
         private static ServerTCP instance = null;
 
@@ -51,11 +53,14 @@ namespace ImageService.Communication
                 {
                     try
                     {
-                        using (NetworkStream stream = client.GetStream())
-                        using (StreamReader reader = new StreamReader(stream))
-                        using (StreamWriter writer = new StreamWriter(stream))
+                        this.stream = client.GetStream();
+
+                       // BinaryReader reader = new BinaryReader(stream);
+                        BinaryWriter writer = new BinaryWriter(stream);
                         {
-                            string msg = JsonConvert.SerializeObject(msgI);
+                             string msg = JsonConvert.SerializeObject(msgI);
+                            //ToJson((int)msgI.id, msgI.msg);
+                            
                             writer.Write(msg);
 
                         }
@@ -68,11 +73,18 @@ namespace ImageService.Communication
                
                 }).Start();
             }
+               
   
            
         }
 
-  
+        public string ToJson(int id, string msg)
+        {
+            JObject messageObj = new JObject();
+            messageObj["TypeMessage"] = id;
+            messageObj["Content"] = msg;
+            return messageObj.ToString();
+        }
 
         public void Start()
         {
@@ -94,6 +106,7 @@ namespace ImageService.Communication
                     {
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
+                    //    System.Threading.Thread.Sleep(200);
 
                         this.clientsList.Add(client);
                         client_handler.HandleClient(client);

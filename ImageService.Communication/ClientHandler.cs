@@ -18,9 +18,9 @@ namespace ImageService.Communication
         {
 
         }
-                public event EventHandler<MsgInfoEventArgs> NotifyAllClients;
+        public event EventHandler<MsgInfoEventArgs> NotifyAllClients;
 
-    
+
         public void HandlerExecute()
         {
 
@@ -30,32 +30,31 @@ namespace ImageService.Communication
             new Task(() =>
             {
                 using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader writer = new BinaryReader(stream))
                 {
                     try
                     {
-                        string commandLine = reader.ReadLine();
+                        string commandLine = reader.ReadString();
                         Console.WriteLine("Got command: {0}", commandLine);
                         // string result = m_controller.ExecuteCommand(commandLine, client);
                         string result;
-                    } catch( Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine("server's clientHandler: Error reading line: " + e.StackTrace);
                     }
-             
-
                     //handle the command here
                     //with an event invoke, send msg back to all clients
-                    
+
                     //writer.Write(result);
                 }
                 //client.Close();
             }).Start();
         }
 
- 
+
     }
 
-   
+
 }

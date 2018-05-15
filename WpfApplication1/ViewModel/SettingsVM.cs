@@ -45,7 +45,7 @@ namespace ImageServiceGUI.ViewModel
             {
                 resault = true; //can remove
             }
-            return resault; 
+            return resault;
         }
 
 

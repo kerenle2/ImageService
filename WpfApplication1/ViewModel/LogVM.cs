@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageService.Logging.Model;
 using ImageServiceGUI.Model;
 
 namespace ImageServiceGUI.ViewModel

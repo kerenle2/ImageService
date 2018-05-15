@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using ImageService.Communication;
 using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json;
+using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Logging.Model;
 
 namespace ImageServiceGUI.Model
 {
@@ -21,10 +23,10 @@ namespace ImageServiceGUI.Model
         public LogModel()
         {
             this.client = Client.getInstance();
-            client.Start();
+            //client.Start();
             this.m_logMessage = new ObservableCollection<MessageRecievedEventArgs>();
             this.client.DataRecieved += OnDataRecieved;
-
+            System.Threading.Thread.Sleep(1000);
             //test!!!!
             MessageRecievedEventArgs e1 = new MessageRecievedEventArgs("Hey Efrat",MessageTypeEnum.INFO);
             MessageRecievedEventArgs e2 = new MessageRecievedEventArgs("Whats up???", MessageTypeEnum.INFO);
@@ -46,15 +48,28 @@ namespace ImageServiceGUI.Model
 
         public void OnDataRecieved(object sender, MsgInfoEventArgs e)
         {
+
             if (e.id == MessagesToClientEnum.Logs)
             {
                 Console.WriteLine("I know i got an Logs msg!");
+                List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
                 string msg = e.msg;
                 //do stuff here - handle the new logs list
+                foreach (Log log in logsList)
+                {
+                    MessageRecievedEventArgs et = new MessageRecievedEventArgs(log.Message, log.Type); //deleteee
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        logMessage.Add(et);
+                    });
+                }
 
-
-                MessageRecievedEventArgs et = new MessageRecievedEventArgs(e.msg, MessageTypeEnum.INFO); //deleteee
-                logMessage.Add(et);
+                //MessageRecievedEventArgs et = new MessageRecievedEventArgs(e.msg, MessageTypeEnum.INFO); //deleteee
+                //App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                //{
+                //    logMessage.Add(et);
+                //});
+                
             }
         }
 
