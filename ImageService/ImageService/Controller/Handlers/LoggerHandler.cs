@@ -22,20 +22,20 @@ namespace ImageService.Controller.Handlers
         public IImageController controller;
         ServerTCP server = ServerTCP.getInstance();
         private List<Log> m_logList;
-
+        LogHistory logHistory = LogHistory.getInstance();
 
         public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
         {
             
             this.logger = m_logger;
             this.controller = m_controller;
-            this.m_logList = new List<Log>();
+            this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
         }
 
         public void AddToLoggerList (object sender, MessageRecievedEventArgs messageReceived)
         {
-            this.m_logList.Add(new Log
+            this.logHistory.AddToLoggerList(new Log
             {
                 Type = messageReceived.Status,
                 Message = messageReceived.Message

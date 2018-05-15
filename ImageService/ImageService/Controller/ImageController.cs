@@ -1,7 +1,9 @@
 ﻿using ImageService.Commands;
 using ImageService.Communication;
 using ImageService.Infrastructure;
+using ImageService.Infrastructure.CommandsInfrastructure;
 using ImageService.Infrastructure.Enums;
+using ImageService.Logging;
 using ImageService.Modal;
 using System;
 using System.Collections.Generic;
@@ -13,15 +15,18 @@ namespace ImageService.Controller
 {
     public class ImageController : IImageController
     {
-        private IImageServiceModal m_modal;                      // The Modal Object
+        private IImageServiceModal m_modal;
+       // private LoggerHandler m_logger;
+            // The Modal Object
         private Dictionary<int, ICommand> commands;
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="modal"></param>
-        public ImageController(IImageServiceModal modal)
+        public ImageController(IImageServiceModal modal, ILoggingService logger)
         {
             m_modal = modal;                    // Storing the Modal Of The System
+           
             commands = new Dictionary<int, ICommand>();
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
             commands.Add((int)CommandEnum.LogCommand, new LogCommand());
@@ -32,6 +37,10 @@ namespace ImageService.Controller
 
             //add close command here
         }
+        //public List<Log> getLogList()
+        //{
+        //    return this.m_logger.
+        //}
         /// <summary>
         /// execute the current command
         /// </summary>

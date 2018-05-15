@@ -128,23 +128,15 @@ namespace ImageService.Communication
                     // MsgInfoEventArgs msgI =
                     try
                     {
-                       //  System.Threading.Thread.Sleep(200);
+                     
                         this.stream = client.GetStream();
-                        //BinaryReader reader = new BinaryReader(stream);
-                        //BinaryReader writer = new BinaryReader(stream);
-                    
-
+                       
                         string str = this.reader.ReadString();
-                       // System.Threading.Thread.Sleep(200);
+                      
 
                         Console.WriteLine("client: recieved msg from server: " + str);
-                        //convert fron json 
-                        //JObject messageObj = JObject.Parse(str);
-                        //int id = (int)messageObj["TypeMessage"];
-
-//                        string msg = (string)messageObj["Content"];
+                        
                         MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
-                        //MsgInfoEventArgs msgI = new MsgInfoEventArgs((MessagesToClientEnum)id, msg);
                         DataRecieved?.Invoke(this, msgI);
                     } catch(Exception e)
                     {
@@ -158,11 +150,7 @@ namespace ImageService.Communication
             t.Start();
             }
         
-
         }
-
-
-
-
+        
     }
 }

@@ -10,6 +10,7 @@ using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json;
 using ImageService.Infrastructure.CommandsInfrastructure;
 using ImageService.Logging.Model;
+using ImageService.Logging;
 
 namespace ImageServiceGUI.Model
 {
