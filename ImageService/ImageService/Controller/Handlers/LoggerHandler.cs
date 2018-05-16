@@ -22,7 +22,6 @@ namespace ImageService.Controller.Handlers
     {
         public ILoggingService logger;
         public IImageController controller;
-        ServerTCP server = ServerTCP.getInstance();
         private List<Log> m_logList;
         Mutex listLock = new Mutex();
         LogHistory logHistory = LogHistory.getInstance();
@@ -34,16 +33,18 @@ namespace ImageService.Controller.Handlers
             this.controller = m_controller;
             this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
+            controller.RequestData += OnRequestData;
         }
 
-        public void HandleSendLogsList(TcpClient client)
+        public void HandleSendLogsList(RequestDataEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
             {
 
                 string JsonList = JsonConvert.SerializeObject(m_logList);
                 MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
-                server.SendMsgToOneClient(this, msgI, client);
+                controller.SendToServer(msgI, e.client);
+    
             });
             sendLogsTask.Start();
         }
@@ -61,22 +62,24 @@ namespace ImageService.Controller.Handlers
                 }
                 string JsonList = JsonConvert.SerializeObject(listToSend);
                 MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
-                server.SendMsgToAll(this, msgI);
+                controller.SendToServer(msgI);
             });
             sendLogsTask.Start();
         }
 
+     
 
-        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
-        {
-            if (e.CommandID.Equals((int)CommandEnum.LogCommand))
-            {
-                listLock.WaitOne();
-                HandleSendLog(this.m_logList);
-                Thread.Sleep(150);
-                listLock.ReleaseMutex();
-            }
-        }
+        //public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        //{
+        //    if (e.CommandID.Equals((int)CommandEnum.LogCommand))
+        //    {
+        //        listLock.WaitOne();
+        //        HandleSendLog(this.m_logList);
+        //        Thread.Sleep(150);
+        //        listLock.ReleaseMutex();
+        //    }
+        //}
+
 
 
         public void AddToLoggerList(object sender, MessageRecievedEventArgs messageReceived)
@@ -89,18 +92,17 @@ namespace ImageService.Controller.Handlers
 
             listLock.WaitOne();
             this.logHistory.AddToLoggerList(l);
-            //this.m_logList.Add(l);
             listLock.ReleaseMutex();
-            //this.m_logList.Add(new Log
-            //{
-            //    Type = messageReceived.Status,
-            //    Message = messageReceived.Message
-            //});
-
-            //send oonly this message to the client:
+             
+            //send only this message to the client:
             List<Log> list = new List<Log>();
             list.Add(l);
             HandleSendLog(list);
+        }
+
+        public void OnRequestData(object sender, RequestDataEventArgs e)
+        {
+            HandleSendLogsList(e);
         }
 
     }

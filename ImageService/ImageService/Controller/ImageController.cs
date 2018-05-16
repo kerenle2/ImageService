@@ -20,8 +20,11 @@ namespace ImageService.Controller
     {
         private ServerTCP server = ServerTCP.getInstance();
         private IImageServiceModal m_modal;                      // The Modal Object
-       // private LoggerHandler m_loggerHandler;
         private Dictionary<int, ICommand> commands;
+
+        public event EventHandler<RequestDataEventArgs> RequestData;
+
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -36,10 +39,8 @@ namespace ImageService.Controller
             commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
             //add close command here
 
-
-           
-            server.DataRecieved += this.OnCommandRecieved;
-            server.newClientConnected += this.OnNewClientConnected;
+         //   server.DataRecieved += this.OnCommandRecieved;
+            server.NewClientConnected += this.OnNewClientConnected;
 
         }
         /// <summary>
@@ -66,23 +67,33 @@ namespace ImageService.Controller
 
         }
 
-        public void OnNewClientConnected(object sender, TcpClient client)
+        public void SendToServer(MsgInfoEventArgs msgI, TcpClient client = null)
         {
-            TcpClient c = new TcpClient();
-          //  this.m_loggerHandler.HandleSendLogsList(client);                //LOGGER HANDLER HERE IS NULL
-            //add here also send appConfig
+            if (client == null)
+            {
+                server.SendMsgToAll(this, msgI);
+            }
+            else
+            {
+                server.SendMsgToOneClient(this, msgI, client);
+            }
         }
 
-        public void OnCommandRecieved(object sender, EventArgs e)
+        public void OnNewClientConnected(object sender,RequestDataEventArgs e)
         {
-            CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
-            int commandId = c.CommandID;
-            string[] args = c.Args;
-
-            //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
-
-            bool resault;
-            ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?
+            RequestData?.Invoke(this, e);
         }
+
+        //public void OnCommandRecieved(object sender, EventArgs e)
+        //{
+        //    CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
+        //    int commandId = c.CommandID;
+        //    string[] args = c.Args;
+
+        //    //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
+
+        //    bool resault;
+        //    ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?
+        //}
     }
 }

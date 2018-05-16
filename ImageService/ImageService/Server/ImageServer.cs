@@ -47,7 +47,7 @@ namespace ImageService.Server
             this.Handlers = new List<IDirectoryHandler>();
             this.logger_handler = new LoggerHandler(m_logging, m_controller);
             this.configHandler = new ConfigHandler(this.m_controller);
-            this.CommandRecieved += logger_handler.OnCommandRecieved;
+        //    this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.ch = new ClientHandler();
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;

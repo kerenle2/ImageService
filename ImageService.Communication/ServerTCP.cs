@@ -19,7 +19,6 @@ namespace ImageService.Communication
     {
         private int port;
         private TcpListener listener;
-       // private IClientHandler client_handler;
         private List<TcpClient> clientsList;
         private NetworkStream stream;
 
@@ -28,7 +27,7 @@ namespace ImageService.Communication
 
         //public event EventHandler<CommandRecievedEventArgs> ServerCommandRecieved;
         public event EventHandler<EventArgs> DataRecieved;
-        public event EventHandler<TcpClient> newClientConnected;
+        public event EventHandler<RequestDataEventArgs> NewClientConnected;
 
         public static ServerTCP getInstance()
         {
@@ -43,7 +42,6 @@ namespace ImageService.Communication
         {
             this.clientsList = new List<TcpClient>();
             this.port = 8000;
-          //  this.client_handler = new ClientHandler();
 
         }
 
@@ -104,7 +102,8 @@ namespace ImageService.Communication
                         TcpClient client = listener.AcceptTcpClient();
                         Thread.Sleep(1000);
                         Console.WriteLine("Got new connection");
-                   //     newClientConnected?.Invoke(this, client);
+                        RequestDataEventArgs e = new RequestDataEventArgs(client);
+                        NewClientConnected?.Invoke(this, e);
                         this.clientsList.Add(client);
                         HandleClient(client);
 
