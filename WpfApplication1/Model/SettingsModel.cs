@@ -37,6 +37,7 @@ namespace ImageServiceGUI.Model
             this.client = Client.getInstance();
             this.client.DataRecieved += OnDataRecieved;
 
+            //client.Start();
             //delete:
             this.m_outputDir = "output";
             this.m_sourceName = "source";

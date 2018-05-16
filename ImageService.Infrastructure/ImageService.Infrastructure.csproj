@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CommandsInfrastructure\ConfigData.cs" />
     <Compile Include="CommandsInfrastructure\Log.cs" />
+    <Compile Include="CommandsInfrastructure\LogsConvertor.cs" />
     <Compile Include="Enums\CommandEnum.cs" />
     <Compile Include="Enums\MessagesToClientEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ImageService.Infrastructure.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +11,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 namespace ImageService.Communication
 {
     
@@ -19,8 +20,7 @@ namespace ImageService.Communication
         private TcpListener listener;
         private IClientHandler client_handler;
         private List<TcpClient> clientsList;
-        private Mutex readMutex;
-        private Mutex writeMutex;
+        private NetworkStream stream;
 
         private static ServerTCP instance = null;
 
@@ -41,9 +41,6 @@ namespace ImageService.Communication
             this.port = 8000;
             this.client_handler = new ClientHandler();
 
-            writeMutex = new Mutex();
-            readMutex = new Mutex();
-            Thread.Sleep(1000);
         }
 
 
@@ -53,29 +50,42 @@ namespace ImageService.Communication
        
                 foreach (TcpClient client in this.clientsList)
                 {
-
-                NetworkStream stream = client.GetStream();
-                        StreamWriter writer = new StreamWriter(stream);
-
-                         writeMutex.WaitOne();
-                         string msg = JsonConvert.SerializeObject(msgI);
-                    //   string msg = "hhh";
-
+                new Task(() =>
+                {
                     try
                     {
-                        writer.Write(msg);
+                        this.stream = client.GetStream();
 
+                       // BinaryReader reader = new BinaryReader(stream);
+                        BinaryWriter writer = new BinaryWriter(stream);
+                        {
+                             string msg = JsonConvert.SerializeObject(msgI);
+                            //ToJson((int)msgI.id, msgI.msg);
+                            
+                            writer.Write(msg);
+
+                        }
+
+                       // client.Close();
                     } catch(Exception e)
                     {
-                        Debug.WriteLine(e.StackTrace);
+                        Console.WriteLine(e.StackTrace);
                     }
-
-                       writeMutex.ReleaseMutex();
+               
+                }).Start();
             }
-             
+               
+  
+           
         }
 
-  
+        public string ToJson(int id, string msg)
+        {
+            JObject messageObj = new JObject();
+            messageObj["TypeMessage"] = id;
+            messageObj["Content"] = msg;
+            return messageObj.ToString();
+        }
 
         public void Start()
         {
@@ -83,31 +93,24 @@ namespace ImageService.Communication
             listener = new TcpListener(ep);
             listener.Start();
             Console.WriteLine("server: Waiting for connections...");
-            Task listen = new Task(() =>
-            {
-                ListenToClients();
-            });
-            listen.Start();
+            ListenToClients();
 
         }
 
         public void ListenToClients()
         {
+            Task task = new Task(() =>
+            {
                 while (true)
                 {
                     try
                     {
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
+                    //    System.Threading.Thread.Sleep(200);
 
                         this.clientsList.Add(client);
-                        Task handleTheClientAccepted = new Task(() =>
-                        {
-                            //add listen to commands
-                            IClientHandler clientHandler = new ClientHandler();
-                            clientHandler.HandleClient(client);
-                        });
-                        handleTheClientAccepted.Start();
+                        client_handler.HandleClient(client);
 
                     }
                     catch (SocketException)
@@ -116,7 +119,8 @@ namespace ImageService.Communication
                     }
                 }
                 Console.WriteLine("Server stopped");
-
+            });
+            task.Start();
         }
         public void Stop()
         {

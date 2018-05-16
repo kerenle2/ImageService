@@ -1,7 +1,9 @@
-﻿using ImageService.Infrastructure.Enums;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -13,15 +15,9 @@ namespace ImageService.Communication
     public class Client : ICommunicate
     {
 
-        private static TcpClient client;
-
-
-        private Mutex writeMutex;
-        private Mutex readMutex;
-
-        private NetworkStream stream = null;
-        private StreamReader reader;
-        private StreamWriter writer;
+        private TcpClient client;
+        private BinaryReader reader;
+        private BinaryWriter writer;
 
         private static Client instance = null;
 
@@ -44,10 +40,8 @@ namespace ImageService.Communication
         {
             Console.WriteLine("client: in constructor");
             client = new TcpClient();
-            writeMutex = new Mutex();
-            readMutex = new Mutex();
-          //  Start();
-
+            Start();
+       
         }
 
         public void Start()
@@ -61,10 +55,6 @@ namespace ImageService.Communication
                 client.Connect(ep);
                 Console.WriteLine("client: client connected");
 
-                stream = client.GetStream();
-                reader = new StreamReader(stream);
-                writer = new StreamWriter(stream);
-
             }
             catch (Exception e)
             {
@@ -73,21 +63,16 @@ namespace ImageService.Communication
 
             try
             {
-                Task waitToEvents = new Task(() =>
-
-                {
+                this.stream = client.GetStream();
+               this.reader = new BinaryReader(stream);
+                this.writer = new BinaryWriter(stream);
                     WaitForEventArgs();
-
-                });
-                waitToEvents.Start();
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error openning reader\\writer\\streamer :" + e.StackTrace);
             }
-
-
-
         }
 
         public void Stop()
@@ -110,37 +95,53 @@ namespace ImageService.Communication
                 Console.WriteLine("client: Error while sending command to server: " + e.StackTrace);
             }
         }
-
-
-
+        
         public void WaitForEventArgs()
         {
+            {
+        Task t = new Task (() =>
+            {
+                //loop here or outside task?
                 while (true)
                 {
                     try
                     {
+                       //  System.Threading.Thread.Sleep(200);
+                        this.stream = client.GetStream();
+                        //BinaryReader reader = new BinaryReader(stream);
+                        //BinaryReader writer = new BinaryReader(stream);
+                    
 
-                    //  readMutex.WaitOne();
-                    stream = client.GetStream();
-                    reader = new StreamReader(stream);
+                        string str = this.reader.ReadString();
+                       // System.Threading.Thread.Sleep(200);
 
-                    string msg = this.reader.ReadLine();
-                        //   readMutex.ReleaseMutex();
-                        //Console.WriteLine("client: recieved msg from server: " + msg);
+                        Console.WriteLine("client: recieved msg from server: " + str);
+                        //convert fron json 
+                        //JObject messageObj = JObject.Parse(str);
+                        //int id = (int)messageObj["TypeMessage"];
 
-                        MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(msg);
+//                        string msg = (string)messageObj["Content"];
+                        MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
+                        //MsgInfoEventArgs msgI = new MsgInfoEventArgs((MessagesToClientEnum)id, msg);
                         DataRecieved?.Invoke(this, msgI);
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("client: Error reading msg" + e.StackTrace);
+                         
                     }
-                }
+                
+            }
+
+            });
+            t.Start();
+            }
         
+
         }
-    }
-    }
 
 
    
 
+    }
+}

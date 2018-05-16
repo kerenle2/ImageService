@@ -14,46 +14,47 @@ namespace ImageService.Communication
 {
     public class ClientHandler : IClientHandler
     {
-        private Mutex readMutex;
+
         public ClientHandler()
         {
-            readMutex = new Mutex();
-    }
-                public event EventHandler<MsgInfoEventArgs> NotifyAllClients;
 
-    
+        }
+        public event EventHandler<MsgInfoEventArgs> NotifyAllClients;
+
+
         public void HandlerExecute()
         {
 
         }
         public void HandleClient(TcpClient client)
         {
+            new Task(() =>
+            {
+                using (NetworkStream stream = client.GetStream())
+                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader writer = new BinaryReader(stream))
+                {
                     try
                     {
-                //readMutex.WaitOne();
-                NetworkStream stream = client.GetStream();
-                StreamReader reader = new StreamReader(stream);
-
-                string commandLine = reader.ReadLine();
-                        //readMutex.ReleaseMutex();
+                        string commandLine = reader.ReadString();
                         Console.WriteLine("Got command: {0}", commandLine);
                         // string result = m_controller.ExecuteCommand(commandLine, client);
                         string result;
-                    } catch( Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine("server's clientHandler: Error reading line: " + e.StackTrace);
                     }
-             
-
                     //handle the command here
                     //with an event invoke, send msg back to all clients
-                    
+
                     //writer.Write(result);
-                
+                }
                 //client.Close();
+            }).Start();
         }
 
- 
+
     }
 
    

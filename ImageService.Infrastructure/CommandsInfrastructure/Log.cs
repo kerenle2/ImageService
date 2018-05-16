@@ -9,12 +9,7 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
 {
     public class Log
     {
-        private MessageTypeEnum type;
-        private string message;
-        public Log(MessageTypeEnum type, string message)
-        {
-            this.type = type;
-            this.message = message;
-        }
+        public MessageTypeEnum Type { get; set; }
+        public string Message { get; set; } 
     }
 }

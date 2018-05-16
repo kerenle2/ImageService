@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ImageServiceGUI.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer>
     <StackPanel>
         <Label x:Name="label" Content="Logs" FontSize="32" FontFamily="Comic Sans MS" Foreground="DeepSkyBlue" HorizontalAlignment="Center" 
                VerticalAlignment="Top" Width="140" Height="55" RenderTransformOrigin="0.5,0.5"></Label>
@@ -32,4 +33,5 @@
             </DataGrid>
         </Grid>
      </StackPanel>
+        </ScrollViewer>
 </UserControl>
