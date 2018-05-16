@@ -22,8 +22,8 @@ namespace ImageService.Controller.Handlers
         {
             Task sendAppConfig = new Task(() =>
             {
-                
-                string msg = controller.ExecuteCommand(e.CommandID, e.Args, out bool result);
+                bool result;
+                string msg = controller.ExecuteCommand(e.CommandID, e.Args, out result);
                 //if (result)
                 //{
                 //    this.m_logging.Log(msg, MessageTypeEnum.INFO);

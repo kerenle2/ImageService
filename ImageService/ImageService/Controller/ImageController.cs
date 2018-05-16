@@ -69,7 +69,7 @@ namespace ImageService.Controller
         public void OnNewClientConnected(object sender, TcpClient client)
         {
             TcpClient c = new TcpClient();
-            this.m_loggerHandler.HandleSendLogsList(client);                //LOGGER HANDLER HERE IS NULL
+          //  this.m_loggerHandler.HandleSendLogsList(client);                //LOGGER HANDLER HERE IS NULL
             //add here also send appConfig
         }
 

@@ -18,7 +18,7 @@ using System.Net.Sockets;
 
 namespace ImageService.Controller.Handlers
 {
-    public class LoggerHandler: ILoggerHandler
+    public class LoggerHandler : ILoggerHandler
     {
         public ILoggingService logger;
         public IImageController controller;
@@ -29,14 +29,57 @@ namespace ImageService.Controller.Handlers
 
         public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
         {
-            
+
             this.logger = m_logger;
             this.controller = m_controller;
             this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
         }
 
-        public void AddToLoggerList (object sender, MessageRecievedEventArgs messageReceived)
+        public void HandleSendLogsList(TcpClient client)
+        {
+            Task sendLogsTask = new Task(() =>
+            {
+
+                string JsonList = JsonConvert.SerializeObject(m_logList);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                server.SendMsgToOneClient(this, msgI, client);
+            });
+            sendLogsTask.Start();
+        }
+
+        public void HandleSendLog(List<Log> listToSend)
+        {
+            Task sendLogsTask = new Task(() =>
+            {
+                if (listToSend == null)
+                {
+                    listToSend = new List<Log>();
+                    listLock.WaitOne();
+                    listToSend = m_logList;
+                    listLock.ReleaseMutex();
+                }
+                string JsonList = JsonConvert.SerializeObject(listToSend);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                server.SendMsgToAll(this, msgI);
+            });
+            sendLogsTask.Start();
+        }
+
+
+        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        {
+            if (e.CommandID.Equals((int)CommandEnum.LogCommand))
+            {
+                listLock.WaitOne();
+                HandleSendLog(this.m_logList);
+                Thread.Sleep(150);
+                listLock.ReleaseMutex();
+            }
+        }
+
+
+        public void AddToLoggerList(object sender, MessageRecievedEventArgs messageReceived)
         {
             Log l = new Log
             {
@@ -60,50 +103,9 @@ namespace ImageService.Controller.Handlers
             HandleSendLog(list);
         }
 
-        }
-
-        public void HandleSendLogsList(TcpClient client)
-        {
-            Task sendLogsTask = new Task(() =>
-            {
-
-                string JsonList = JsonConvert.SerializeObject(m_logList);
-                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
-                server.SendMsgToOneClient(this, msgI, client);
-            });
-            sendLogsTask.Start();
-        }
-
-        public void HandleSendLog(List<Log> listToSend)
-        {
-            Task sendLogsTask = new Task(() =>
-            {
-                if(listToSend == null)
-                {
-                    listToSend = new List<Log>();
-                    listLock.WaitOne();
-                    listToSend = m_logList;
-                    listLock.ReleaseMutex();
-                }
-                string JsonList = JsonConvert.SerializeObject(listToSend);
-                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
-                server.SendMsgToAll(this, msgI);                                                                       
-            });
-            sendLogsTask.Start();
-        }
-
-
-        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
-        {            
-            if (e.CommandID.Equals((int)CommandEnum.LogCommand))
-            {
-                listLock.WaitOne();
-                HandleSendLog(this.m_logList);
-                Thread.Sleep(150);
-                listLock.ReleaseMutex();
-            }
-        }
-
-  
     }
+
+    
+
 }
+

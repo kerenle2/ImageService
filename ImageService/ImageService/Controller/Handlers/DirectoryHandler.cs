@@ -136,8 +136,10 @@ namespace ImageService.Controller.Handlers
         void handleNewFile(CommandRecievedEventArgs e)
         {
             Task addFileTask = new Task(() =>
+
             {
-               string msg = m_controller.ExecuteCommand(e.CommandID, e.Args, out bool result);
+                bool result;
+               string msg = m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
                 if (result)
                 {
                     this.m_logging.Log(msg, MessageTypeEnum.INFO);
