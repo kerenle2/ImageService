@@ -19,9 +19,10 @@ namespace ImageService.Communication
         private BinaryReader reader;
         private BinaryWriter writer;
 
+        private NetworkStream stream = null;
         private static Client instance = null;
 
-        public event EventHandler<MsgInfoEventArgs> DataRecieved;
+        public event EventHandler<EventArgs> DataRecieved;
 
 
         public static Client getInstance()
@@ -82,13 +83,21 @@ namespace ImageService.Communication
 
 
 
-        public void sendCommandRequest(int commandId) //try with this format/ if no then change all the same to msgInfo (add more enums)
+        public void sendCommandRequest(int commandId, string[] args) //try with this format/ if no then change all the same to msgInfo (add more enums)
         {
             try
             {
-                //writeMutex.WaitOne();
-                this.writer.Write(commandId.ToString());
-                //  writeMutex.ReleaseMutex();
+                string path = null;
+                if(commandId == (int)CommandEnum.CloseCommand)
+                {
+                    //this is the handler to remove ----HANDLE THIS, NOT YET HAVE IT...
+                    path = args[0];
+                }
+                
+                CommandRecievedEventArgs c = new CommandRecievedEventArgs(commandId, args, path);
+                string cJson = JsonConvert.SerializeObject(c);
+                writer.Write(cJson);
+             //   Thread.Sleep(300);
             }
             catch (Exception e)
             {
@@ -106,23 +115,13 @@ namespace ImageService.Communication
                 {
                     try
                     {
-                       //  System.Threading.Thread.Sleep(200);
-                        this.stream = client.GetStream();
-                        //BinaryReader reader = new BinaryReader(stream);
-                        //BinaryReader writer = new BinaryReader(stream);
-                    
+                      //  Thread.Sleep(1000);
 
+                        this.stream = client.GetStream();
                         string str = this.reader.ReadString();
-                       // System.Threading.Thread.Sleep(200);
 
                         Console.WriteLine("client: recieved msg from server: " + str);
-                        //convert fron json 
-                        //JObject messageObj = JObject.Parse(str);
-                        //int id = (int)messageObj["TypeMessage"];
-
-//                        string msg = (string)messageObj["Content"];
                         MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
-                        //MsgInfoEventArgs msgI = new MsgInfoEventArgs((MessagesToClientEnum)id, msg);
                         DataRecieved?.Invoke(this, msgI);
                     }
                     catch (Exception e)

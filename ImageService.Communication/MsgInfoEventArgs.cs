@@ -21,8 +21,8 @@ namespace ImageService.Communication
             set { m_id = value; }
         }
 
-        private Object m_msg;
-        public Object msg
+        private string m_msg;
+        public string msg
         {
             get { return m_msg; }
             set { m_msg = value; }

@@ -45,7 +45,7 @@ namespace ImageService.Server
             this.m_controller = controller;
             this.m_logging = logger;
             this.Handlers = new List<IDirectoryHandler>();
-            this.logger_handler = new LoggerHandler(m_logging, m_controller);
+            this.logger_handler = new LoggerHandler(m_logging);
             this.configHandler = new ConfigHandler(this.m_controller);
             this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.ch = new ClientHandler();
@@ -60,6 +60,8 @@ namespace ImageService.Server
             {
                 CreateHandler(directories[i], m_controller, m_logging);
             }
+            this.m_logging.Log("delete me", MessageTypeEnum.FAIL);
+
         }
 
         /// <summary>

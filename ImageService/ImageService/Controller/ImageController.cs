@@ -8,12 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Controller.Handlers;
+using System.Net.Sockets;
 
 namespace ImageService.Controller
 {
     public class ImageController : IImageController
     {
+        private ServerTCP server = ServerTCP.getInstance();
         private IImageServiceModal m_modal;                      // The Modal Object
+        private LoggerHandler m_loggerHandler;
         private Dictionary<int, ICommand> commands;
         /// <summary>
         /// constructor
@@ -25,12 +30,14 @@ namespace ImageService.Controller
             commands = new Dictionary<int, ICommand>();
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
             commands.Add((int)CommandEnum.LogCommand, new LogCommand());
-
-
-            //check:
-            ServerTCP server = ServerTCP.getInstance();
-
+            commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
             //add close command here
+
+
+           
+            server.DataRecieved += this.OnCommandRecieved;
+            server.newClientConnected += this.OnNewClientConnected;
+
         }
         /// <summary>
         /// execute the current command
@@ -53,8 +60,26 @@ namespace ImageService.Controller
                 string msg = "The Command ID given does not exist";
                 return msg;
             }
-            
 
+        }
+
+        public void OnNewClientConnected(object sender, TcpClient client)
+        {
+            TcpClient c = new TcpClient();
+            this.m_loggerHandler.HandleSendLogsList(client);                //LOGGER HANDLER HERE IS NULL
+            //add here also send appConfig
+        }
+
+        public void OnCommandRecieved(object sender, EventArgs e)
+        {
+            CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
+            int commandId = c.CommandID;
+            string[] args = c.Args;
+
+            //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
+
+            bool resault;
+            ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?
         }
     }
 }

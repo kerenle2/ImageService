@@ -12,7 +12,7 @@ namespace ImageServiceGUI.Model
     interface ILogModel
     {
         ObservableCollection<MessageRecievedEventArgs> logMessage { get; set; }
-        void OnDataRecieved(object sender, MsgInfoEventArgs e);
+        void OnDataRecieved(object sender, EventArgs e);
 
     }
 }

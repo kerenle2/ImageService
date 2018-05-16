@@ -61,7 +61,6 @@ namespace ImageService
         private IImageServiceModal modal;
         private ConfigData configData;
         public ILoggingService logger;
-       // private ServerTCP tcpServer; //???????????????
         #endregion
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -80,6 +79,8 @@ namespace ImageService
             string m_OutputFolder = configData.OutputDir;
             int m_thumbnailSize = configData.ThumbnailSize;
             this.modal = new ImageServiceModal(m_OutputFolder, m_thumbnailSize);
+            this.logger = new LoggingService();
+           // LoggerHandler logger_handler = new LoggerHandler(logger);
             this.controller = new ImageController(this.modal);
 
             string eventSourceName = this.configData.EventSourceName;
@@ -139,10 +140,7 @@ namespace ImageService
             logger.MessageRecieved -= MessageReceivedLogger;
           
         }
-        //protected override void OnContinue()
-        //{
-        //    eventLog1.WriteEntry("In OnContinue.");
-        //}
+ 
 
     }
 }

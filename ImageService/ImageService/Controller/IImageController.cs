@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,6 @@ namespace ImageService.Controller
     public interface IImageController
     {
         string ExecuteCommand(int commandID, string[] args, out bool result);          // Executing the Command Requet
+        void OnCommandRecieved(object sender, EventArgs e);
     }
 }

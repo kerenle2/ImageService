@@ -48,8 +48,9 @@ namespace ImageServiceGUI.Model
             //end delete
 
         }
-        public void OnDataRecieved(object sender, MsgInfoEventArgs e)
+        public void OnDataRecieved(object sender, EventArgs ee)
         {
+            MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
             if (e.id == MessagesToClientEnum.Settings)
             {
                 Console.WriteLine("I know i got an settings msg!");

@@ -11,7 +11,7 @@ using ImageService.Logging;
 using ImageService.Logging.Model;
 using System.Text.RegularExpressions;
 using ImageService.Modal.Event;
-
+using ImageService.Infrastructure.CommandsInfrastructure;
 
 namespace ImageService.Controller.Handlers
 {

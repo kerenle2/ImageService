@@ -1,4 +1,5 @@
-﻿using ImageService.Modal.Event;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Modal.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace ImageService.Controller.Handlers
     public interface ILoggerHandler
     {
         void OnCommandRecieved(object sender, CommandRecievedEventArgs e);     // The Event that will be activated upon new Command
-        void HandleLogsSending();
+        void HandleSendLog(List<Log> list);               //sends the list provided. if provided "null" than all the history list sent.
     }
 }

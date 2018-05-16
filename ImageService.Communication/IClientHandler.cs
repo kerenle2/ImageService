@@ -9,8 +9,7 @@ namespace ImageService.Communication
 {
     public interface IClientHandler
     {
-        void HandleClient(TcpClient client);
-        event EventHandler<MsgInfoEventArgs> NotifyAllClients;
+        //void HandleClient(TcpClient client);
 
     }
 }

@@ -13,65 +13,97 @@ using ImageService.Commands;
 using ImageService.Communication;
 using Newtonsoft.Json;
 using ImageService.Infrastructure.CommandsInfrastructure;
+using System.Threading;
+using System.Net.Sockets;
 
 namespace ImageService.Controller.Handlers
 {
     public class LoggerHandler: ILoggerHandler
     {
         public ILoggingService logger;
-        public IImageController controller;
         ServerTCP server = ServerTCP.getInstance();
         private List<Log> m_logList;
+        Mutex listLock = new Mutex();
 
 
-        public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
+        public LoggerHandler(ILoggingService m_logger)
         {
-            
+
             this.logger = m_logger;
-            this.controller = m_controller;
             this.m_logList = new List<Log>();
             this.logger.MessageRecieved += AddToLoggerList;
         }
 
         public void AddToLoggerList (object sender, MessageRecievedEventArgs messageReceived)
         {
-            this.m_logList.Add(new Log
+            Log l = new Log
             {
                 Type = messageReceived.Status,
                 Message = messageReceived.Message
-            });
-      
-            HandleSendMessage(this.m_logList);
+            };
+
+            listLock.WaitOne();
+            this.m_logList.Add(l);
+            listLock.ReleaseMutex();
+            //this.m_logList.Add(new Log
+            //{
+            //    Type = messageReceived.Status,
+            //    Message = messageReceived.Message
+            //});
+
+            //send oonly this message to the client:
+            List<Log> list = new List<Log>();
+            list.Add(l);
+            HandleSendLog(list);
+        }
+        public List<Log> getLogsList()
+        {
+            listLock.WaitOne();
+            List<Log> l = this.m_logList;
+            listLock.ReleaseMutex();
+            return l;
+
         }
 
-    void HandleSendMessage(List<Log> list)
+        public void HandleSendLogsList(TcpClient client)
         {
             Task sendLogsTask = new Task(() =>
             {
 
-                //  string listConveredToJson = JsonConvert.SerializeObject(list);
-                  string[] args = new string[2];
-             
-                args[0] = ToJson();
-                //CommandRecievedEventArgs ce = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, args, null);
-               // bool result;
-               // string msg = controller.ExecuteCommand(ce.CommandID, ce.Args , out result);
-                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, args[0]);
-                
-                server.SendMsgToAll(this, msgI); //maybe do it not that starit forword but throw notify all of the clientHandler latr.                                                                       
+                string JsonList = JsonConvert.SerializeObject(m_logList);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                server.SendMsgToOneClient(this, msgI, client);
             });
             sendLogsTask.Start();
-            //convert to jason and send to server
         }
-        public string ToJson()
+
+        public void HandleSendLog(List<Log> listToSend)
         {
-            return JsonConvert.SerializeObject(m_logList);
+            Task sendLogsTask = new Task(() =>
+            {
+                if(listToSend == null)
+                {
+                    listToSend = new List<Log>();
+                    listLock.WaitOne();
+                    listToSend = m_logList;
+                    listLock.ReleaseMutex();
+                }
+                string JsonList = JsonConvert.SerializeObject(listToSend);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                server.SendMsgToAll(this, msgI);                                                                       
+            });
+            sendLogsTask.Start();
         }
+
+
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {            
             if (e.CommandID.Equals((int)CommandEnum.LogCommand))
             {
-                HandleSendMessage(this.m_logList); //// if its the command, send back to server the list. (but with jason)
+                listLock.WaitOne();
+                HandleSendLog(this.m_logList);
+                Thread.Sleep(150);
+                listLock.ReleaseMutex();
             }
         }
 

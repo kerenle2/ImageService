@@ -9,9 +9,10 @@ namespace ImageService.Communication
 {
     public interface ICommunicate
     {
-        event EventHandler<MsgInfoEventArgs> DataRecieved;
+        event EventHandler<EventArgs> DataRecieved;
         void Start();
         void Stop();
+
 
     }
 }
