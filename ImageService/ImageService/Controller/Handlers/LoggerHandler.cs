@@ -13,66 +13,101 @@ using ImageService.Commands;
 using ImageService.Communication;
 using Newtonsoft.Json;
 using ImageService.Infrastructure.CommandsInfrastructure;
+using System.Threading;
+using System.Net.Sockets;
 
 namespace ImageService.Controller.Handlers
 {
-    public class LoggerHandler: ILoggerHandler
+    public class LoggerHandler : ILoggerHandler
     {
         public ILoggingService logger;
         public IImageController controller;
-        ServerTCP server = ServerTCP.getInstance();
         private List<Log> m_logList;
+        Mutex listLock = new Mutex();
         LogHistory logHistory = LogHistory.getInstance();
 
         public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
         {
-            
+
             this.logger = m_logger;
             this.controller = m_controller;
             this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
+            controller.RequestData += OnRequestData;
         }
 
-        public void AddToLoggerList (object sender, MessageRecievedEventArgs messageReceived)
-        {
-            this.logHistory.AddToLoggerList(new Log
-            {
-                Type = messageReceived.Status,
-                Message = messageReceived.Message
-            });
-      
-            HandleSendMessage(this.m_logList);
-        }
-
-    void HandleSendMessage(List<Log> list)
+        public void HandleSendLogsList(RequestDataEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
             {
 
-                //  string listConveredToJson = JsonConvert.SerializeObject(list);
-                  string[] args = new string[2];
-             
-                args[0] = ToJson();
-                //CommandRecievedEventArgs ce = new CommandRecievedEventArgs((int)CommandEnum.LogCommand, args, null);
-               // bool result;
-               // string msg = controller.ExecuteCommand(ce.CommandID, ce.Args , out result);
-                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, args[0]);
-                
-                server.SendMsgToAll(this, msgI); //maybe do it not that starit forword but throw notify all of the clientHandler latr.                                                                       
+                string JsonList = JsonConvert.SerializeObject(m_logList);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                controller.SendToServer(msgI, e.client);
+    
             });
             sendLogsTask.Start();
-            //convert to jason and send to server
         }
-        public string ToJson()
+
+        public void HandleSendLog(List<Log> listToSend)
         {
-            return JsonConvert.SerializeObject(m_logList);
-        }
-        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
-        {            
-            if (e.CommandID.Equals((int)CommandEnum.LogCommand))
+            Task sendLogsTask = new Task(() =>
             {
-                HandleSendMessage(this.m_logList); //// if its the command, send back to server the list. (but with jason)
-            }
+                if (listToSend == null)
+                {
+                    listToSend = new List<Log>();
+                    listLock.WaitOne();
+                    listToSend = m_logList;
+                    listLock.ReleaseMutex();
+                }
+                string JsonList = JsonConvert.SerializeObject(listToSend);
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+                controller.SendToServer(msgI);
+            });
+            sendLogsTask.Start();
         }
+
+     
+
+        //public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        //{
+        //    if (e.CommandID.Equals((int)CommandEnum.LogCommand))
+        //    {
+        //        listLock.WaitOne();
+        //        HandleSendLog(this.m_logList);
+        //        Thread.Sleep(150);
+        //        listLock.ReleaseMutex();
+        //    }
+        //}
+
+
+
+        public void AddToLoggerList(object sender, MessageRecievedEventArgs messageReceived)
+        {
+            Log l = new Log
+            {
+                Type = messageReceived.Status,
+                Message = messageReceived.Message
+            };
+
+            listLock.WaitOne();
+            this.logHistory.AddToLoggerList(l);
+            listLock.ReleaseMutex();
+             
+            //send only this message to the client:
+            List<Log> list = new List<Log>();
+            list.Add(l);
+            HandleSendLog(list);
+        }
+
+        public void OnRequestData(object sender, RequestDataEventArgs e)
+        {
+            HandleSendLogsList(e);
+        }
+
     }
+
+    
+
 }
+

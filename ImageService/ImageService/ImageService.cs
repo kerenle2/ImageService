@@ -61,7 +61,6 @@ namespace ImageService
         private IImageServiceModal modal;
         private ConfigData configData;
         public ILoggingService logger;
-       // private ServerTCP tcpServer; //???????????????
         #endregion
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -141,10 +140,7 @@ namespace ImageService
             logger.MessageRecieved -= MessageReceivedLogger;
           
         }
-        //protected override void OnContinue()
-        //{
-        //    eventLog1.WriteEntry("In OnContinue.");
-        //}
+ 
 
     }
 }

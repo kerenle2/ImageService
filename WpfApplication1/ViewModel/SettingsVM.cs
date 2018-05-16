@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class SettingsVM 
+    class SettingsVM
     {
         private SettingsModel model;
         public System.Windows.Input.ICommand RemoveCommand { get; private set; }
@@ -56,7 +56,7 @@ namespace ImageServiceGUI.ViewModel
             set
             {
                 m_dirToRemove = value;
-              //  NotifyPropertyChanged("dirToRemove"); // needed here??
+                //  NotifyPropertyChanged("dirToRemove"); // needed here??
             }
         }
 

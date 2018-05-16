@@ -1,4 +1,5 @@
-﻿using ImageService.Infrastructure.Enums;
+﻿using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Infrastructure.Enums;
 using ImageService.Modal.Event;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace ImageService.Controller.Handlers
         {
             Task sendAppConfig = new Task(() =>
             {
-                
-                string msg = controller.ExecuteCommand(e.CommandID, e.Args, out bool result);
+                bool result;
+                string msg = controller.ExecuteCommand(e.CommandID, e.Args, out result);
                 //if (result)
                 //{
                 //    this.m_logging.Log(msg, MessageTypeEnum.INFO);

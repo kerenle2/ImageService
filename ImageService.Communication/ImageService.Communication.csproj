@@ -53,9 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerTCP.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ImageService.Infrastructure\ImageService.Infrastructure.csproj">
       <Project>{e4bf0821-b354-44c3-9bf6-78e0fd3c6c98}</Project>

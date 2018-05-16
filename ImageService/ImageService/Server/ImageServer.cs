@@ -47,11 +47,8 @@ namespace ImageService.Server
             this.Handlers = new List<IDirectoryHandler>();
             this.logger_handler = new LoggerHandler(m_logging, m_controller);
             this.configHandler = new ConfigHandler(this.m_controller);
-            this.CommandRecieved += logger_handler.OnCommandRecieved;
+        //    this.CommandRecieved += logger_handler.OnCommandRecieved;
             this.ch = new ClientHandler();
-
-         //   this.ch.NotifyAllClients += logger.MessageRecieved;
-         
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
@@ -63,6 +60,8 @@ namespace ImageService.Server
             {
                 CreateHandler(directories[i], m_controller, m_logging);
             }
+            this.m_logging.Log("delete me", MessageTypeEnum.FAIL);
+
         }
 
         /// <summary>

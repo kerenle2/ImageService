@@ -10,7 +10,7 @@ using ImageServiceGUI.Model;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class LogVM : INotifyPropertyChanged
+    class LogVM
     {
         private ILogModel logModel;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -23,6 +23,7 @@ namespace ImageServiceGUI.ViewModel
         public LogVM(ILogModel model)
         {
             this.logModel = model;
+
         }
         public ObservableCollection<MessageRecievedEventArgs> LogMessage
         {

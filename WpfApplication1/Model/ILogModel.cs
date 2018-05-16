@@ -14,5 +14,7 @@ namespace ImageServiceGUI.Model
         ObservableCollection<MessageRecievedEventArgs> logMessage { get; set; }
         void OnDataRecieved(object sender, MsgInfoEventArgs e);
         bool Conected { get; set; }
+        void OnDataRecieved(object sender, EventArgs e);
+
     }
 }

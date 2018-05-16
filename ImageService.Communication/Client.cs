@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImageService.Communication
@@ -22,7 +23,7 @@ namespace ImageService.Communication
         private NetworkStream stream = null;
         private static Client instance = null;
 
-        public event EventHandler<MsgInfoEventArgs> DataRecieved;
+        public event EventHandler<EventArgs> DataRecieved;
 
 
         public static Client getInstance()
@@ -36,30 +37,6 @@ namespace ImageService.Communication
 
 
 
-    //    public void OnDataRecieved(object sender, MsgInfoEventArgs e)
-      //  {
-        //    Console.WriteLine("client: in onMsgRecieved function");
-          //  if(e.id == MessagesToClientEnum.HandlerRemoved)
-           // {
-            //    //do whatever
-             //   Console.WriteLine("I know i got an handlerRemoved msg!");
-           // }
-
-//            if(e.id == MessagesToClientEnum.Logs)
-  //          {
-    //            //do
-      //          Console.WriteLine("I know i got an Logs msg!");
-
-        //    }
-
-          //  if (e.id == MessagesToClientEnum.Settings)
-            //{
-                //do
-              //  Console.WriteLine("I know i got an settings msg!");
-
-        //    }
-       // }
-
 
         private Client()
         {
@@ -72,8 +49,9 @@ namespace ImageService.Communication
 
         public void Start()
         {
-            Console.WriteLine("client: in start");
 
+            Console.WriteLine("client: in start");
+ 
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000); //8000 = port
             try
             {
@@ -107,14 +85,25 @@ namespace ImageService.Communication
             client.Close();
         }
 
-       
 
-        public void sendCommandRequest(int commandId) //try with this format/ if no then change all the same to msgInfo (add more enums)
+
+        public void sendCommandRequest(int commandId, string[] args) //try with this format/ if no then change all the same to msgInfo (add more enums)
         {
             try
             {
-               // this.writer.Write(commandId.ToString());
-            } catch (Exception e)
+                string path = null;
+                if(commandId == (int)CommandEnum.CloseCommand)
+                {
+                    //this is the handler to remove ----HANDLE THIS, NOT YET HAVE IT...
+                    path = args[0];
+                }
+                
+                CommandRecievedEventArgs c = new CommandRecievedEventArgs(commandId, args, path);
+                string cJson = JsonConvert.SerializeObject(c);
+                writer.Write(cJson);
+             //   Thread.Sleep(300);
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("client: Error while sending command to server: " + e.StackTrace);
             }
@@ -128,20 +117,18 @@ namespace ImageService.Communication
                 //loop here or outside task?
                 while (true)
                 {
-                    // MsgInfoEventArgs msgI =
                     try
                     {
-                     
+                      //  Thread.Sleep(1000);
+
                         this.stream = client.GetStream();
-                       
                         string str = this.reader.ReadString();
-                      
 
                         Console.WriteLine("client: recieved msg from server: " + str);
-                        
                         MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
                         DataRecieved?.Invoke(this, msgI);
-                    } catch(Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine("client: Error reading msg" + e.StackTrace);
                          
@@ -154,6 +141,9 @@ namespace ImageService.Communication
             }
         
         }
-        
+
+
+   
+
     }
 }
