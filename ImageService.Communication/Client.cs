@@ -136,7 +136,6 @@ namespace ImageService.Communication
             t.Start();
             }
         
-
         }
 
 

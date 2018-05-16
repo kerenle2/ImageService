@@ -21,16 +21,18 @@ namespace ImageService.Controller.Handlers
     public class LoggerHandler: ILoggerHandler
     {
         public ILoggingService logger;
+        public IImageController controller;
         ServerTCP server = ServerTCP.getInstance();
         private List<Log> m_logList;
         Mutex listLock = new Mutex();
+        LogHistory logHistory = LogHistory.getInstance();
 
-
-        public LoggerHandler(ILoggingService m_logger)
+        public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
         {
-
+            
             this.logger = m_logger;
-            this.m_logList = new List<Log>();
+            this.controller = m_controller;
+            this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
         }
 
@@ -43,7 +45,8 @@ namespace ImageService.Controller.Handlers
             };
 
             listLock.WaitOne();
-            this.m_logList.Add(l);
+            this.logHistory.AddToLoggerList(l);
+            //this.m_logList.Add(l);
             listLock.ReleaseMutex();
             //this.m_logList.Add(new Log
             //{
@@ -56,12 +59,6 @@ namespace ImageService.Controller.Handlers
             list.Add(l);
             HandleSendLog(list);
         }
-        public List<Log> getLogsList()
-        {
-            listLock.WaitOne();
-            List<Log> l = this.m_logList;
-            listLock.ReleaseMutex();
-            return l;
 
         }
 

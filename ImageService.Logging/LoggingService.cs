@@ -9,6 +9,7 @@ namespace ImageService.Logging
 {
     public class LoggingService: ILoggingService
     { 
+        
         public event EventHandler<Model.MessageRecievedEventArgs> MessageRecieved;
         /// <summary>
         /// add a message to the logger

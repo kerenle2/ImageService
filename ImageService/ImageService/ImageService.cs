@@ -80,8 +80,8 @@ namespace ImageService
             int m_thumbnailSize = configData.ThumbnailSize;
             this.modal = new ImageServiceModal(m_OutputFolder, m_thumbnailSize);
             this.logger = new LoggingService();
-           // LoggerHandler logger_handler = new LoggerHandler(logger);
-            this.controller = new ImageController(this.modal);
+
+            this.controller = new ImageController(this.modal, this.logger);
 
             string eventSourceName = this.configData.EventSourceName;
             string logName = this.configData.LogName;
@@ -114,7 +114,7 @@ namespace ImageService
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
             //start server and logging modal:
-            this.logger = new LoggingService();
+            //this.logger = new LoggingService(); ///////////////////////changed
             logger.MessageRecieved += MessageReceivedLogger;
             this.server = new ImageServer(this.controller, this.logger);
             
