@@ -24,8 +24,8 @@ namespace ImageService.Server
         private ILoggingService m_logging;
         private ServerTCP serverTCP;
         private IClientHandler ch;
-        private IConfigHandler configHandler;
-        private ILoggerHandler logger_handler;
+        private IHandler configHandler;
+        private IHandler logger_handler;
         private ConfigData configData;
         private string[] directories;
         #endregion
@@ -54,13 +54,12 @@ namespace ImageService.Server
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             this.serverTCP = ServerTCP.getInstance();
             serverTCP.Start( );
-            this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
+          //  this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
             
             for (int i = 0; i < directories.Length; i++)
             {
                 CreateHandler(directories[i], m_controller, m_logging);
             }
-            this.m_logging.Log("delete me", MessageTypeEnum.FAIL);
 
         }
 

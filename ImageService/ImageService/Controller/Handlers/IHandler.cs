@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace ImageService.Controller.Handlers
 {
-    interface IConfigHandler
+    interface IHandler
     {
-        void OnCommandRecieved(object sender, CommandRecievedEventArgs e);     // The Event that will be activated upon new Command
+        void OnRequestData(object sender, RequestDataEventArgs e);      // The Event that will be activated upon new Request
     }
 }

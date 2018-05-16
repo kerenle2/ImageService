@@ -1,4 +1,5 @@
-﻿using ImageService.Infrastructure.CommandsInfrastructure;
+﻿using ImageService.Communication;
+using ImageService.Infrastructure.CommandsInfrastructure;
 using ImageService.Infrastructure.Enums;
 using ImageService.Modal.Event;
 using System;
@@ -9,39 +10,31 @@ using System.Threading.Tasks;
 
 namespace ImageService.Controller.Handlers
 {
-    class ConfigHandler: IConfigHandler
+    class ConfigHandler: IHandler
     {
         public IImageController controller;
+        ConfigData data = ConfigData.InstanceConfig;
+
         public ConfigHandler(IImageController m_controller)
         {
             this.controller = m_controller;
-
+            controller.RequestData += OnRequestData;
         }
 
-        void sendMessage(CommandRecievedEventArgs e)
+        void handleSendConfigRequst(RequestDataEventArgs e)
         {
             Task sendAppConfig = new Task(() =>
             {
-                bool result;
-                string msg = controller.ExecuteCommand(e.CommandID, e.Args, out result);
-                //if (result)
-                //{
-                //    this.m_logging.Log(msg, MessageTypeEnum.INFO);
-                //}
-                //else
-                //{
-                //    this.m_logging.Log(msg, MessageTypeEnum.FAIL);
-                //}
+                string JsonList = data.ToJSON();
+                MsgInfoEventArgs msgI = new MsgInfoEventArgs(MessagesToClientEnum.Settings, JsonList);
+                controller.SendToServer(msgI, e.client);
             });
             sendAppConfig.Start();
-            //convert to jason and send to server
         }
-        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+
+        public void OnRequestData(object sender, RequestDataEventArgs e)
         {
-            if (e.CommandID.Equals((int)CommandEnum.LogCommand))
-            {
-                sendMessage(e); //// if its the command, send back to server the list. (but with jason)
-            }
+            handleSendConfigRequst(e);
         }
     }
 }
