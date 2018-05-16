@@ -18,7 +18,7 @@ using System.Net.Sockets;
 
 namespace ImageService.Controller.Handlers
 {
-    public class LoggerHandler : ILoggerHandler
+    public class LoggerHandler : IHandler
     {
         public ILoggingService logger;
         public IImageController controller;
@@ -33,41 +33,59 @@ namespace ImageService.Controller.Handlers
             this.controller = m_controller;
             this.m_logList = logHistory.LogHistoryList;
             this.logger.MessageRecieved += AddToLoggerList;
+            this.logger.MessageRecieved += SendOneLog;
+
             controller.RequestData += OnRequestData;
         }
 
-        public void HandleSendLogsList(RequestDataEventArgs e)
+        public void HandleSendLogsRequest(RequestDataEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
             {
-
                 string JsonList = JsonConvert.SerializeObject(m_logList);
                 MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
                 controller.SendToServer(msgI, e.client);
-    
             });
             sendLogsTask.Start();
         }
 
-        public void HandleSendLog(List<Log> listToSend)
+        //public void HandleSendLog(List<Log> listToSend)
+        //{
+        //    Task sendLogsTask = new Task(() =>
+        //    {
+        //        if (listToSend == null)
+        //        {
+        //            listToSend = new List<Log>();
+        //            listLock.WaitOne();
+        //            listToSend = m_logList;
+        //            listLock.ReleaseMutex();
+        //        }
+        //        string JsonList = JsonConvert.SerializeObject(listToSend);
+        //        MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
+        //        controller.SendToServer(msgI);
+        //    });
+        //    sendLogsTask.Start();
+        //}
+
+
+        public void SendOneLog(object sender, MessageRecievedEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
             {
-                if (listToSend == null)
+                Log l = new Log
                 {
-                    listToSend = new List<Log>();
-                    listLock.WaitOne();
-                    listToSend = m_logList;
-                    listLock.ReleaseMutex();
-                }
-                string JsonList = JsonConvert.SerializeObject(listToSend);
+                    Type = e.Status,
+                    Message = e.Message
+                };
+                List<Log> list = new List<Log>();
+                list.Add(l);
+
+                string JsonList = JsonConvert.SerializeObject(list);
                 MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
                 controller.SendToServer(msgI);
             });
             sendLogsTask.Start();
         }
-
-     
 
         //public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         //{
@@ -93,16 +111,17 @@ namespace ImageService.Controller.Handlers
             listLock.WaitOne();
             this.logHistory.AddToLoggerList(l);
             listLock.ReleaseMutex();
-             
+
             //send only this message to the client:
-            List<Log> list = new List<Log>();
-            list.Add(l);
-            HandleSendLog(list);
+            //List<Log> list = new List<Log>();
+            //list.Add(l);
+            //HandleSendLog(list);
+            
         }
 
         public void OnRequestData(object sender, RequestDataEventArgs e)
         {
-            HandleSendLogsList(e);
+            HandleSendLogsRequest(e);
         }
 
     }

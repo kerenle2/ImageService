@@ -77,9 +77,8 @@
     <Compile Include="ImageService\Commands\LogCommand.cs" />
     <Compile Include="ImageService\Controller\Handlers\ConfigHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\DirectoryHandler.cs" />
-    <Compile Include="ImageService\Controller\Handlers\IConfigHandler.cs" />
+    <Compile Include="ImageService\Controller\Handlers\IHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\IDirectoryHandler.cs" />
-    <Compile Include="ImageService\Controller\Handlers\ILoggerHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\LoggerHandler.cs" />
     <Compile Include="ImageService\Controller\IImageController.cs" />
     <Compile Include="ImageService\Controller\ImageController.cs" />

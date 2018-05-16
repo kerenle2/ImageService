@@ -9,17 +9,17 @@ using System.Windows;
 using System.Windows.Controls;
 using ImageService.Communication;
 using ImageService.Infrastructure.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace ImageServiceGUI.Model
 {
-    public class SettingsModel // : INotifyPropertyChanged  needed?!?
+    public class SettingsModel  : INotifyPropertyChanged  //needed?!?
     {
         #region members
        private ICommunicate client;
-       
 
 
-        #region Notify Changed
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
@@ -27,7 +27,7 @@ namespace ImageServiceGUI.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        #endregion
+
 
 
         //constructor:
@@ -39,12 +39,12 @@ namespace ImageServiceGUI.Model
 
             //client.Start();
             //delete:
-            this.m_outputDir = "output";
-            this.m_sourceName = "source";
-            this.m_logName = "log";
-            this.m_thumbSize = "size";
-            this.dirs.Add("dir1");
-            this.dirs.Add("dir2");
+            //this.m_outputDir = "output";
+            //this.m_sourceName = "source";
+            //this.m_logName = "log";
+            //this.m_thumbSize = "size";
+            //this.dirs.Add("dir1");
+            //this.dirs.Add("dir2");
             //end delete
 
         }
@@ -54,10 +54,23 @@ namespace ImageServiceGUI.Model
             if (e.id == MessagesToClientEnum.Settings)
             {
                 Console.WriteLine("I know i got an settings msg!");
-                //do stuff here - handle the app config list
+                FromJson(e.msg);
+
             }
         }
 
+        public void FromJson(string str)
+        {
+
+            JObject configJson = JObject.Parse(str);
+       //     this.m_dirs = (configJson["Handlers"]).ToObject<ObservableCollection<string>>(); //this way not removing from view
+            string LogName = configJson["LogName"].ToObject<string>();
+            logName = LogName;
+            this.sourceName = (string)configJson["EventSourceName"];
+            this.outputDir = (string)configJson["OutputDir"];
+            this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string..
+    
+        }
 
         #region properties
         private string m_outputDir;

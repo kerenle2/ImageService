@@ -66,15 +66,15 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
 
         }
 
-        public void FromJson(string str)
-        {
-            JObject configJson = JObject.Parse(str);
-            Handlers = (configJson["Handlers"]).ToObject<string[]>();
-            LogName = (string)configJson["LogName"];
-            EventSourceName = (string)configJson["SourceName"];
-            OutputDir = (string)configJson["OutputDir"];
-            ThumbnailSize = (int)configJson["ThumbnailSize"];
+        //public void FromJson(string str)
+        //{
+        //    JObject configJson = JObject.Parse(str);
+        //    Handlers = (configJson["Handlers"]).ToObject<string[]>();
+        //    LogName = (string)configJson["LogName"];
+        //    EventSourceName = (string)configJson["SourceName"];
+        //    OutputDir = (string)configJson["OutputDir"];
+        //    ThumbnailSize = (int)configJson["ThumbnailSize"];
 
-        }
+        //}
     }
 }
