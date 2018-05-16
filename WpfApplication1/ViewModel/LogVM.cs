@@ -24,9 +24,12 @@ namespace ImageServiceGUI.ViewModel
         {
             this.logModel = model;
         }
-        public ObservableCollection<MessageRecievedEventArgs> logMessage
+        public ObservableCollection<MessageRecievedEventArgs> LogMessage
         {
             get { return this.logModel.logMessage; }
         }
+        public bool ClientConnected { get { return logModel.Conected; } }
+           
+        
     }
 }

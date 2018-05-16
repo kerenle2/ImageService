@@ -3,16 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageServiceGUI.Model"
         xmlns:views="clr-namespace:ImageServiceGUI.View"
         mc:Ignorable="d"
+        
         Title="MainWindow" Height="450" Width="800">
-
+    
+    <Window.Resources>
+        <local:ConnectionFailedConv x:Key="convertor"/>
+    </Window.Resources>
+    
+    <Window.Style >
+        <Style TargetType="{x:Type Window}" >
+            <Setter Property="Background" Value="{Binding ClientConnected , Converter={StaticResource convertor}}"/>
+        </Style>
+    </Window.Style>
     <Grid>
+       
         <TabControl Margin="5">
             <TabItem Name="SettingsTabItem">
                 <TabItem.Header>
                     <WrapPanel>
-                        <TextBlock Margin="3" >Settings</TextBlock>
+                        <TextBlock Margin="3">Settings</TextBlock>
                     </WrapPanel>
                 </TabItem.Header>
                 <views:SettingsView/>

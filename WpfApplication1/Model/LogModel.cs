@@ -18,13 +18,13 @@ namespace ImageServiceGUI.Model
     {
         public ObservableCollection<MessageRecievedEventArgs> m_logMessage;
         private Client client;
-
+        public bool Conected { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LogModel()
         {
             this.client = Client.getInstance();
-            //client.Start();
+            this.Conected = this.client.Conected;
             this.m_logMessage = new ObservableCollection<MessageRecievedEventArgs>();
             this.client.DataRecieved += OnDataRecieved;
             System.Threading.Thread.Sleep(1000);
