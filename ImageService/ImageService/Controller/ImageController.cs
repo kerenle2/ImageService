@@ -31,7 +31,7 @@ namespace ImageService.Controller
         public ImageController(IImageServiceModal modal, ILoggingService logger)
         {
             m_modal = modal;                    // Storing the Modal Of The System
-            m_logger = logger;
+            //m_logger = logger;
             commands = new Dictionary<int, ICommand>();
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
             commands.Add((int)CommandEnum.LogCommand, new LogCommand());

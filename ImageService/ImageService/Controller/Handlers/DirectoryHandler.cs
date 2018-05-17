@@ -71,7 +71,7 @@ namespace ImageService.Controller.Handlers
             m_logging.Log("start watching the directory " + this.m_path, MessageTypeEnum.INFO);
 
             // watch all files in the directory.
-            watcher.Filter = "*";
+            //watcher.Filter = "*";
 
             // Add event handlers.
             watcher.Created += new FileSystemEventHandler(OnChanged);

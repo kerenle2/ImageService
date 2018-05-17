@@ -21,12 +21,12 @@ namespace ImageServiceGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LogVM LogVM;
+        private MainWindowVM MainWindowVM;
         public MainWindow()
         {
             InitializeComponent();
-            LogVM = new LogVM();
-            this.DataContext = LogVM;
+            MainWindowVM = new MainWindowVM();
+            this.DataContext = MainWindowVM;
         }
     }
 }

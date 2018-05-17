@@ -19,14 +19,14 @@ namespace ImageServiceGUI.Model
     {
         public ObservableCollection<MessageRecievedEventArgs> m_logMessage;
         private Client client;
-        public bool Conected { get; set; }
+
         private Mutex listLock = new Mutex();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LogModel()
         {
             this.client = Client.getInstance();
-            this.Conected = this.client.Conected;
+            
             this.m_logMessage = new ObservableCollection<MessageRecievedEventArgs>();
             this.client.DataRecieved += OnDataRecieved;
 

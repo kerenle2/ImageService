@@ -25,12 +25,14 @@ namespace ImageServiceGUI.View
     /// </summary>
     public partial class SettingsView : UserControl
     {
-        private IViewModel vm;
+        private SettingsVM SettingsVM;
         public SettingsView()
         {
           //  vm = new SettingsVM(new SettingsModel());
-            this.DataContext = new SettingsVM(new SettingsModel());
+           // this.DataContext = new SettingsVM(new SettingsModel());
             InitializeComponent();
+            SettingsVM = new SettingsVM();
+            this.DataContext = SettingsVM;
         }
 
     }

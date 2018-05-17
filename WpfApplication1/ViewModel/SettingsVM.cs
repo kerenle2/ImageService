@@ -20,6 +20,7 @@ namespace ImageServiceGUI.ViewModel
 
         public SettingsVM()
         {
+            this.model = new SettingsModel();
         }
 
         public SettingsVM(SettingsModel model)

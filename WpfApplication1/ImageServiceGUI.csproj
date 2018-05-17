@@ -117,6 +117,8 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ConnectionFailedConv.cs" />
+    <Compile Include="Model\IMainWindowModel.cs" />
+    <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\Windows\Input\DelegateCommand.cs" />
     <Compile Include="Model\ILogModel.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Model\StatusToColorConv.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\LogVM.cs" />
+    <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
     <Compile Include="View\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
