@@ -59,8 +59,6 @@ namespace ImageServiceGUI.Model
                     });
                 }
                 listLock.ReleaseMutex();
-
-
             }
         }
 

@@ -69,7 +69,8 @@ namespace ImageServiceGUI.Model
             this.sourceName = (string)configJson["EventSourceName"];
             this.outputDir = (string)configJson["OutputDir"];
             this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string..
-    
+
+
         }
 
         #region properties
