@@ -13,11 +13,11 @@ using Newtonsoft.Json.Linq;
 
 namespace ImageServiceGUI.Model
 {
-    public class SettingsModel  : INotifyPropertyChanged  //needed?!?
+    public class SettingsModel // : INotifyPropertyChanged  //needed?!?
     {
         #region members
-       private Client client;
-        //private ICommunicate client;
+      // private Client client;
+        private ICommunicate client;
 
         private ObservableCollection<string> m_dirs;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -38,15 +38,7 @@ namespace ImageServiceGUI.Model
             this.client.DataRecieved += OnDataRecieved;
 
             System.Threading.Thread.Sleep(1000);
-            //client.Start();
-            //delete:
-            //this.m_outputDir = "output";
-            //this.m_sourceName = "source";
-            //this.m_logName = "log";
-            //this.m_thumbSize = "size";
-            //this.dirs.Add("dir1");
-            //this.dirs.Add("dir2");
-            //end delete
+       
 
         }
         public void OnDataRecieved(object sender, EventArgs ee)
@@ -55,41 +47,32 @@ namespace ImageServiceGUI.Model
             if (e.id == MessagesToClientEnum.Settings)
             {
                 Console.WriteLine("I know i got an settings msg!");
-                JObject configJson = JObject.Parse(e.msg);
-                List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
-                foreach (string handler in handlers)
-                {
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-                    {
-
-                        this.dirs.Add(handler);
-                    });
-                }
-                string LogName = configJson["LogName"].ToObject<string>();
-                logName = LogName;
-                this.sourceName = (string)configJson["EventSourceName"];
-                this.outputDir = (string)configJson["OutputDir"];
-                this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string.
-                                                                                //FromJson(e.msg);
+                FromJson(e.msg);
 
             }
         }
 
         public void FromJson(string str)
         {
-
             JObject configJson = JObject.Parse(str);
-            //     this.m_dirs = (configJson["Handlers"]).ToObject<ObservableCollection<string>>(); //this way not removing from view
+            List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
+            foreach (string handler in handlers)
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                {
 
+                    this.dirs.Add(handler);
+                });
+            }
             string LogName = configJson["LogName"].ToObject<string>();
             logName = LogName;
             this.sourceName = (string)configJson["EventSourceName"];
             this.outputDir = (string)configJson["OutputDir"];
-            this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string..
+            this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string.
 
 
         }
-        
+
         #region properties
         public string m_outputDir;
         public string outputDir
@@ -98,7 +81,7 @@ namespace ImageServiceGUI.Model
             set
             {
                 m_outputDir = value;
-                OnPropertyChanged("outputDir"); //or other name?
+                OnPropertyChanged("outputDir");
             }
         }
 

@@ -62,7 +62,7 @@ namespace ImageService.Controller.Handlers
             }
         }        
         /// <summary>
-        /// create the watcher for the current dir
+        /// create the watcher for the current dirC:\Users\efrat\Documents\Visual Studio 2015\Projects\imageService\ImageService\WpfApplication1\netfx\
         /// </summary>
         public void createWatcher()
         {

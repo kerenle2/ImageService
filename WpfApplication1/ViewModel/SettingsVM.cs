@@ -6,12 +6,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class SettingsVM
+    class SettingsVM : IViewModel
     {
         private SettingsModel model;
         public System.Windows.Input.ICommand RemoveCommand { get; private set; }
@@ -27,10 +28,17 @@ namespace ImageServiceGUI.ViewModel
         {
             this.model = model;
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemoveClicked, this.CanRemove);
+            model.PropertyChanged += this.OnPropertyChanged;
 
         }
-
-        private void OnRemoveClicked(object obj)
+        public void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(e.PropertyName);
+         
+        }
+    
+      
+        public void OnRemoveClicked(object obj)
         {
             //(can remove is called  here automatically)
             this.model.dirs.Remove(m_dirToRemove);
@@ -57,7 +65,7 @@ namespace ImageServiceGUI.ViewModel
             set
             {
                 m_dirToRemove = value;
-                //  NotifyPropertyChanged("dirToRemove"); // needed here??
+                model.dirToRemove = value;
             }
         }
 
@@ -67,8 +75,8 @@ namespace ImageServiceGUI.ViewModel
         public string outputDir
         {
             get { return this.model.outputDir; }
-
         }
+
         public string sourceName
         {
             get { return this.model.sourceName; }
