@@ -16,10 +16,10 @@ namespace ImageServiceGUI.Model
     public class SettingsModel  : INotifyPropertyChanged  //needed?!?
     {
         #region members
-       private ICommunicate client;
+       private Client client;
+        //private ICommunicate client;
 
-
-
+        private ObservableCollection<string> m_dirs;
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
@@ -37,6 +37,7 @@ namespace ImageServiceGUI.Model
             this.client = Client.getInstance();
             this.client.DataRecieved += OnDataRecieved;
 
+            System.Threading.Thread.Sleep(1000);
             //client.Start();
             //delete:
             //this.m_outputDir = "output";
@@ -54,7 +55,22 @@ namespace ImageServiceGUI.Model
             if (e.id == MessagesToClientEnum.Settings)
             {
                 Console.WriteLine("I know i got an settings msg!");
-                FromJson(e.msg);
+                JObject configJson = JObject.Parse(e.msg);
+                List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
+                foreach (string handler in handlers)
+                {
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+
+                        this.dirs.Add(handler);
+                    });
+                }
+                string LogName = configJson["LogName"].ToObject<string>();
+                logName = LogName;
+                this.sourceName = (string)configJson["EventSourceName"];
+                this.outputDir = (string)configJson["OutputDir"];
+                this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string.
+                                                                                //FromJson(e.msg);
 
             }
         }
@@ -63,7 +79,8 @@ namespace ImageServiceGUI.Model
         {
 
             JObject configJson = JObject.Parse(str);
-       //     this.m_dirs = (configJson["Handlers"]).ToObject<ObservableCollection<string>>(); //this way not removing from view
+            //     this.m_dirs = (configJson["Handlers"]).ToObject<ObservableCollection<string>>(); //this way not removing from view
+
             string LogName = configJson["LogName"].ToObject<string>();
             logName = LogName;
             this.sourceName = (string)configJson["EventSourceName"];
@@ -72,9 +89,9 @@ namespace ImageServiceGUI.Model
 
 
         }
-
+        
         #region properties
-        private string m_outputDir;
+        public string m_outputDir;
         public string outputDir
         {
             get { return m_outputDir; }
@@ -85,7 +102,7 @@ namespace ImageServiceGUI.Model
             }
         }
 
-        private string m_sourceName;
+        public string m_sourceName;
         public string sourceName
         {
             get { return m_sourceName; }
@@ -96,7 +113,7 @@ namespace ImageServiceGUI.Model
             }
         }
 
-        private string m_dirToRemove;
+        public string m_dirToRemove;
         public string dirToRemove
         {
            get { return this.m_dirToRemove; }
@@ -129,7 +146,7 @@ namespace ImageServiceGUI.Model
             }
         }
 
-        private ObservableCollection<string> m_dirs;
+       
         public ObservableCollection<string> dirs
         {
             get { return m_dirs; }

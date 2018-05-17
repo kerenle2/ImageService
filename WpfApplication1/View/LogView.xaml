@@ -14,7 +14,7 @@
             <Grid.Resources>
                 <local:StatusToColorConv x:Key="convertor"/>
             </Grid.Resources>
-                <DataGrid Name = "dataGrid" AutoGenerateColumns = "False" ItemsSource = "{Binding logMessage}" >
+                <DataGrid Name = "dataGrid" AutoGenerateColumns = "False" ItemsSource = "{Binding LogMessage}" >
 
                 <DataGrid.Columns>
 

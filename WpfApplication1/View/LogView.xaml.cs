@@ -27,7 +27,6 @@ namespace ImageServiceGUI.View
             InitializeComponent();
             LogVM = new LogVM();
             this.DataContext = LogVM;
-          //  dataGrid.ItemsSource = LogVM.logMessage;
         }
     }
 

@@ -18,6 +18,7 @@ namespace ImageService.Communication
         private TcpClient client;
         private BinaryReader reader;
         private BinaryWriter writer;
+        public bool Conected { get; set; }
 
         private NetworkStream stream = null;
         private static Client instance = null;
@@ -39,6 +40,7 @@ namespace ImageService.Communication
 
         private Client()
         {
+            
             Console.WriteLine("client: in constructor");
             client = new TcpClient();
             Start();
@@ -55,10 +57,12 @@ namespace ImageService.Communication
             {
                 client.Connect(ep);
                 Console.WriteLine("client: client connected");
+                this.Conected = true;
 
             }
             catch (Exception e)
             {
+                this.Conected = false;
                 Console.WriteLine("Error connecting to server:" + e.StackTrace);
             }
 
