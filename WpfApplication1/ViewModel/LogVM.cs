@@ -14,7 +14,7 @@ namespace ImageServiceGUI.ViewModel
     class LogVM
     {
         private ILogModel logModel;
-        private ICommand guiDisconnected;
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LogVM()

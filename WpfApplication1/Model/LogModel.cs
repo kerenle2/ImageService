@@ -50,17 +50,20 @@ namespace ImageServiceGUI.Model
                 List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
                 // string msg = e.msg;
                 //do stuff here - handle the new logs list
-                listLock.WaitOne();
+               // listLock.WaitOne();
                 foreach (Log log in logsList)
                 {
                     MessageRecievedEventArgs et = new MessageRecievedEventArgs(log.Message, log.Type);
+                    listLock.WaitOne();
                     App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
                     {
                         
                         logMessage.Add(et);
+                        
                     });
+                    listLock.ReleaseMutex();
                 }
-                listLock.ReleaseMutex();
+               // listLock.ReleaseMutex();
 
 
             }

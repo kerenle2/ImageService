@@ -21,7 +21,8 @@ namespace ImageService.Communication
         private TcpListener listener;
         private List<TcpClient> clientsList;
         private NetworkStream stream;
-
+        Mutex readLock = new Mutex();
+        Mutex writeLock = new Mutex();
 
         private static ServerTCP instance = null;
 
@@ -55,10 +56,10 @@ namespace ImageService.Communication
                     this.stream = client.GetStream();
 
                     BinaryWriter writer = new BinaryWriter(stream);
-                    {
+                    this.writeLock.WaitOne();
                         string msg = JsonConvert.SerializeObject(msgI);
                         writer.Write(msg);
-                    }
+                    this.writeLock.ReleaseMutex();
                 }
                 catch (Exception e)
                 {
@@ -130,9 +131,10 @@ namespace ImageService.Communication
                     try
                     {
                         //send logs history list:
-                        
-                  
+
+                        this.readLock.WaitOne();
                         string commandLine = reader.ReadString();
+                        this.readLock.ReleaseMutex();
                         Console.WriteLine("Got command: {0}", commandLine);
                         //    string result = m_controller.ExecuteCommand(commandLine, client);
                         //string result;

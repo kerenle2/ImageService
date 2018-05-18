@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ImageServiceGUI.Model"
+             xmlns:local="clr-namespace:ImageServiceGUI.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -29,36 +29,37 @@
             <ColumnDefinition Width="Auto" MinWidth="300"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="button" Content="Remove" HorizontalAlignment="Left" Margin="170,213,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="20"
-                Command="{Binding RemoveCommand}"/>
+       
         <Label x:Name="label" Content="Settings" FontSize="32" FontFamily="Comic Sans MS" Foreground="DeepSkyBlue" HorizontalAlignment="Center" Margin="116,25,44,0"
                VerticalAlignment="Top" Width="140" Height="55" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
         </Label>
-     <!--   <Grid.CommandBindings> -->
-         <!--   <CommandBinding Command="{Binding RemoveCommand}" CanExecute="{Binding Remove_canExecute}" Executed="{Binding Remove_executed}" /> -->
-            
+        <!--   <Grid.CommandBindings> -->
+        <!--   <CommandBinding Command="{Binding RemoveCommand}" CanExecute="{Binding Remove_canExecute}" Executed="{Binding Remove_executed}" /> -->
 
-      <!--  </Grid.CommandBindings> -->
-            
+
+        <!--  </Grid.CommandBindings> -->
+
         <Label x:Name="outputText" Grid.ColumnSpan="2" Content="Output Directory: "
                HorizontalAlignment="Left" Margin="0,100,0,175" />
-        <Label x:Name="outputDir" Grid.ColumnSpan="2" Content="{Binding outputDir, Mode=OneWay}"
+        <Label x:Name="outputDir" Grid.ColumnSpan="2" Content="{Binding SettingsModel.outputDir, Mode=OneWay}"
                Margin="140,100,0,0"/>
         <Label x:Name="sourceText" Grid.ColumnSpan="2" Content="Source Name: "
                HorizontalAlignment="Left" Margin="0,120,0,154" />
-        <Label x:Name="sourceName" Grid.ColumnSpan="2" Content="{Binding sourceName, Mode=OneWay}"
+        <Label x:Name="sourceName" Grid.ColumnSpan="2" Content="{Binding SettingsModel.sourceName, Mode=OneWay}"
                HorizontalAlignment="Left" Margin="140,120,0,0" />
         <Label x:Name="logText" Grid.ColumnSpan="2" Content="Log Name: "
                HorizontalAlignment="Left" Margin="0,140,0,135"/>
-        <Label x:Name="logName" Grid.ColumnSpan="2" Content="{Binding logName, Mode=oneWay}"
+        <Label x:Name="logName" Grid.ColumnSpan="2" Content="{Binding SettingsModel.logName, Mode=oneWay}"
                HorizontalAlignment="Left" Margin="140,140,0,0" />
         <Label x:Name="thumbText" Grid.ColumnSpan="2" Content="Thumbnail Size: : "
                HorizontalAlignment="Left" Margin="0,161,0,113" Width="133"/>
-        <Label x:Name="thumbSize" Grid.ColumnSpan="2" Content="{Binding thumbSize, Mode=OneWay}"
+        <Label x:Name="thumbSize" Grid.ColumnSpan="2" Content="{Binding SettingsModel.thumbSize, Mode=OneWay}"
                HorizontalAlignment="Left" Margin="140,160,0,0"/>
         <ListBox x:Name="directories" ItemsSource="{Binding dirs, Mode=OneWay}" Grid.ColumnSpan="2" Margin="0,235,2,11" SelectionMode="Single" 
-                 SelectedItem="{Binding dirToRemove, Mode=TwoWay}"
+                 SelectedItem="{Binding SettingsModel.dirToRemove, Mode=TwoWay}"
                  ></ListBox>
-      
+        <Button x:Name="button" Content="Remove" HorizontalAlignment="Left" Margin="198,167,-273,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Height="20"
+                Command="{Binding RemoveCommand}"/>
+
     </Grid>
 </UserControl>

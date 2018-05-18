@@ -18,6 +18,8 @@ namespace ImageService.Communication
         private TcpClient client;
         private BinaryReader reader;
         private BinaryWriter writer;
+        Mutex readLock = new Mutex();
+        Mutex writeLock = new Mutex();
         public bool Conected { get; set; }
 
         private NetworkStream stream = null;
@@ -97,11 +99,11 @@ namespace ImageService.Communication
                     //this is the handler to remove ----HANDLE THIS, NOT YET HAVE IT...
                     path = args[0];
                 }
-                
+                this.writeLock.WaitOne();
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(commandId, args, path);
                 string cJson = JsonConvert.SerializeObject(c);
                 writer.Write(cJson);
-             //   Thread.Sleep(300);
+                this.writeLock.ReleaseMutex();
             }
             catch (Exception e)
             {
@@ -119,11 +121,11 @@ namespace ImageService.Communication
                 {
                     try
                     {
-                      //  Thread.Sleep(1000);
-
+                     
                         this.stream = client.GetStream();
+                        this.readLock.WaitOne();
                         string str = this.reader.ReadString();
-
+                        this.readLock.ReleaseMutex();
                         Console.WriteLine("client: recieved msg from server: " + str);
                         MsgInfoEventArgs msgI = JsonConvert.DeserializeObject<MsgInfoEventArgs>(str);
                         DataRecieved?.Invoke(this, msgI);

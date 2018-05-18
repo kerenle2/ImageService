@@ -21,12 +21,16 @@ namespace ImageServiceGUI.Model
 
         private ObservableCollection<string> m_dirs;
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
-
+        public void NotifyPropertyChanged(string propName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
 
 
 
@@ -38,6 +42,7 @@ namespace ImageServiceGUI.Model
             this.client.DataRecieved += OnDataRecieved;
 
             System.Threading.Thread.Sleep(1000);
+
             //client.Start();
             //delete:
             //this.m_outputDir = "output";
@@ -59,11 +64,7 @@ namespace ImageServiceGUI.Model
                 List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
                 foreach (string handler in handlers)
                 {
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-                    {
-
-                        this.dirs.Add(handler);
-                    });
+                    this.dirs.Add(handler);
                 }
                 string LogName = configJson["LogName"].ToObject<string>();
                 logName = LogName;
@@ -88,9 +89,9 @@ namespace ImageServiceGUI.Model
             this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string..
             
         }
-        
+
         #region properties
-        public string m_outputDir;
+        private string m_outputDir;
         public string outputDir
         {
             get { return m_outputDir; }
@@ -101,7 +102,7 @@ namespace ImageServiceGUI.Model
             }
         }
 
-        public string m_sourceName;
+        private string m_sourceName;
         public string sourceName
         {
             get { return m_sourceName; }
@@ -112,7 +113,7 @@ namespace ImageServiceGUI.Model
             }
         }
 
-        public string m_dirToRemove;
+        private string m_dirToRemove;
         public string dirToRemove
         {
            get { return this.m_dirToRemove; }
@@ -160,5 +161,4 @@ namespace ImageServiceGUI.Model
         #endregion
 
     }
-    #endregion
 }

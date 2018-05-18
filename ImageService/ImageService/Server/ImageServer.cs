@@ -53,6 +53,8 @@ namespace ImageService.Server
             this.directories = this.configData.Handlers;
             //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             this.serverTCP = ServerTCP.getInstance();
+            //Task t = new Task(serverTCP.Start);
+            //t.Start();
             serverTCP.Start( );
           //  this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
             
