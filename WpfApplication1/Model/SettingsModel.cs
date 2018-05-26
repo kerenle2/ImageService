@@ -10,15 +10,17 @@ using System.Windows.Controls;
 using ImageService.Communication;
 using ImageService.Infrastructure.Enums;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace ImageServiceGUI.Model
 {
     public class SettingsModel // : INotifyPropertyChanged  //needed?!?
     {
         #region members
-      // private Client client;
-        private ICommunicate client;
-
+       private Client client;
+        //  private ICommunicate client;
+        private Mutex removeHandlerLock = new Mutex();
+        private Mutex configLock = new Mutex();
         private ObservableCollection<string> m_dirs;
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
@@ -37,12 +39,13 @@ namespace ImageServiceGUI.Model
         //constructor:
         public SettingsModel()
         {
+           // System.Threading.Thread.Sleep(1000);
+
+            //
             m_dirs = new ObservableCollection<string>();
             this.client = Client.getInstance();
             this.client.DataRecieved += OnDataRecieved;
 
-            System.Threading.Thread.Sleep(1000);
-       
 
         }
         public void OnDataRecieved(object sender, EventArgs ee)
@@ -50,9 +53,20 @@ namespace ImageServiceGUI.Model
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
             if (e.id == MessagesToClientEnum.Settings)
             {
+               // this.configLock.WaitOne();
                 Console.WriteLine("I know i got an settings msg!");
                 FromJson(e.msg);
+             //  this.configLock.ReleaseMutex();
 
+            }
+            if(e.id == MessagesToClientEnum.HandlerRemoved)
+            {
+                //removeHandlerLock.WaitOne();
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
+                {
+                    this.dirs.Remove(e.msg);
+                });
+               // removeHandlerLock.ReleaseMutex();
             }
         }
 
@@ -62,11 +76,14 @@ namespace ImageServiceGUI.Model
             List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
             foreach (string handler in handlers)
             {
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+               // this.configLock.WaitOne();
+
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
                 {
 
                     this.dirs.Add(handler);
                 });
+                //this.configLock.ReleaseMutex();
             }
             string LogName = configJson["LogName"].ToObject<string>();
             logName = LogName;
@@ -77,15 +94,16 @@ namespace ImageServiceGUI.Model
 
         }
 
-        #region properties
         private string m_outputDir;
         public string outputDir
         {
             get { return m_outputDir; }
             set
             {
-                m_outputDir = value;
-                OnPropertyChanged("outputDir");
+                
+                    m_outputDir = value;
+                    OnPropertyChanged("outputDir");
+                
             }
         }
 
@@ -143,9 +161,11 @@ namespace ImageServiceGUI.Model
                 OnPropertyChanged("dirs");
             }
         }
+        public void RemoveHandler(String dir)
+        {
+            string[] args = { dir } ;
+            client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
 
-
-        #endregion
-
+        }
     }
 }

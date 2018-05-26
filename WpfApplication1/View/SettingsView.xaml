@@ -46,11 +46,11 @@
                Margin="140,100,-805,181" Width="965"/>
         <Label x:Name="sourceText" Grid.ColumnSpan="2" Content="Source Name: "
                HorizontalAlignment="Left" Margin="0,120,0,154" />
-        <Label x:Name="sourceName" Grid.ColumnSpan="2" Content="{Binding SettingsModel.sourceName, Mode=OneWay}"
+        <Label x:Name="sourceName" Grid.ColumnSpan="2" Content="{Binding sourceName, Mode=OneWay}"
                HorizontalAlignment="Left" Margin="140,120,0,0" />
         <Label x:Name="logText" Grid.ColumnSpan="2" Content="Log Name: "
                HorizontalAlignment="Left" Margin="0,140,0,135"/>
-        <Label x:Name="logName" Grid.ColumnSpan="2" Content="{Binding SettingsModel.logName, Mode=oneWay}"
+        <Label x:Name="logName" Grid.ColumnSpan="2" Content="{Binding logName, Mode=oneWay}"
                HorizontalAlignment="Left" Margin="140,140,0,0" />
         <Label x:Name="thumbText" Grid.ColumnSpan="2" Content="Thumbnail Size: : "
                HorizontalAlignment="Left" Margin="0,161,0,113" Width="133"/>

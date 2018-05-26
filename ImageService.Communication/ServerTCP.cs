@@ -20,13 +20,15 @@ namespace ImageService.Communication
         private int port;
         private TcpListener listener;
         private List<TcpClient> clientsList;
-        private NetworkStream stream;
+        //private NetworkStream stream;
+        //private BinaryWriter writer;                                    // The writer
+        //private BinaryReader reader;
         Mutex readLock = new Mutex();
         Mutex writeLock = new Mutex();
 
         private static ServerTCP instance = null;
 
-        //public event EventHandler<CommandRecievedEventArgs> ServerCommandRecieved;
+        public event EventHandler<CommandRecievedEventArgs> ServerCommandRecieved;
         public event EventHandler<EventArgs> DataRecieved;
         public event EventHandler<RequestDataEventArgs> NewClientConnected;
 
@@ -53,12 +55,11 @@ namespace ImageService.Communication
             {
                 try
                 {
-                    this.stream = client.GetStream();
-
-                    BinaryWriter writer = new BinaryWriter(stream);
                     this.writeLock.WaitOne();
-                        string msg = JsonConvert.SerializeObject(msgI);
-                        writer.Write(msg);
+                    NetworkStream stream = client.GetStream();
+                    BinaryWriter writer = new BinaryWriter(stream);
+                    string msg = JsonConvert.SerializeObject(msgI);
+                    writer.Write(msg);
                     this.writeLock.ReleaseMutex();
                 }
                 catch (Exception e)
@@ -88,6 +89,8 @@ namespace ImageService.Communication
             listener = new TcpListener(ep);
             listener.Start();
             Console.WriteLine("server: Waiting for connections...");
+            //Thread.Sleep(1000);
+
             ListenToClients();
 
         }
@@ -100,8 +103,8 @@ namespace ImageService.Communication
                 {
                     try
                     {
+
                         TcpClient client = listener.AcceptTcpClient();
-                        Thread.Sleep(1000);
                         Console.WriteLine("Got new connection");
                         RequestDataEventArgs e = new RequestDataEventArgs(client);
                         NewClientConnected?.Invoke(this, e);
@@ -111,6 +114,9 @@ namespace ImageService.Communication
                     }
                     catch (SocketException)
                     {
+                       
+                        //Console.WriteLine("Error");
+
                         break;
                     }
                 }
@@ -124,30 +130,39 @@ namespace ImageService.Communication
         {
             Task handleClientRequest = new Task(() =>
             {
-                using (NetworkStream stream = client.GetStream())
-                using (BinaryReader reader = new BinaryReader(stream))
-                using (BinaryReader writer = new BinaryReader(stream))
+                NetworkStream stream = client.GetStream();
+                BinaryReader reader = new BinaryReader(stream);
+                while(true)
                 {
-                    try
-                    {
-                        //send logs history list:
+                    //try
+                    //{
+                    //send logs history list:
 
-                        this.readLock.WaitOne();
-                        string commandLine = reader.ReadString();
-                        this.readLock.ReleaseMutex();
+                    //    this.readLock.WaitOne();
+                    //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    string commandLine = reader.ReadString();
+                     //   this.readLock.ReleaseMutex();
                         Console.WriteLine("Got command: {0}", commandLine);
                         //    string result = m_controller.ExecuteCommand(commandLine, client);
                         //string result;
 
                         //handle the command:
                         CommandRecievedEventArgs command = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
-                        DataRecieved?.Invoke(this, command);
+                        if(command.CommandID == ((int)CommandEnum.CloseCommand))
+                        {
+                            ServerCommandRecieved?.Invoke(this, command);
+                        }
+                        else
+                        {
+                            DataRecieved?.Invoke(this, command);
+                        }
+
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Server Error: " + e.StackTrace);
-                    }
-                }
+                    //catch (Exception e)
+                    //{
+                    //    Console.WriteLine("Server Error: " + e.StackTrace);
+                    //}
+               // }
             }); handleClientRequest.Start();
         }
 

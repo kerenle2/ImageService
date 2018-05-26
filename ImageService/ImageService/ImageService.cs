@@ -108,7 +108,7 @@ namespace ImageService
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             eventLog1.WriteEntry("In OnStart");
-
+            this.logger.Log("In On Start", MessageTypeEnum.INFO);
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);

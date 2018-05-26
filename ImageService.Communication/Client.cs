@@ -14,17 +14,14 @@ namespace ImageService.Communication
 {
     public class Client : ICommunicate
     {
-
         private TcpClient client;
         private BinaryReader reader;
         private BinaryWriter writer;
         Mutex readLock = new Mutex();
         Mutex writeLock = new Mutex();
         public bool Conected { get; set; }
-
         private NetworkStream stream = null;
         private static Client instance = null;
-
         public event EventHandler<EventArgs> DataRecieved;
 
 
@@ -71,9 +68,9 @@ namespace ImageService.Communication
             try
             {
                 this.stream = client.GetStream();
-               this.reader = new BinaryReader(stream);
+                this.reader = new BinaryReader(stream);
                 this.writer = new BinaryWriter(stream);
-                    WaitForEventArgs();
+                WaitForEventArgs();
                 
             }
             catch (Exception e)
@@ -99,11 +96,11 @@ namespace ImageService.Communication
                     //this is the handler to remove ----HANDLE THIS, NOT YET HAVE IT...
                     path = args[0];
                 }
-                this.writeLock.WaitOne();
+               // this.writeLock.WaitOne();
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(commandId, args, path);
                 string cJson = JsonConvert.SerializeObject(c);
                 writer.Write(cJson);
-                this.writeLock.ReleaseMutex();
+              //  this.writeLock.ReleaseMutex();
             }
             catch (Exception e)
             {
@@ -135,17 +132,10 @@ namespace ImageService.Communication
                         Console.WriteLine("client: Error reading msg" + e.StackTrace);
                          
                     }
-                
             }
-
             });
             t.Start();
             }
-        
         }
-
-
-   
-
     }
 }

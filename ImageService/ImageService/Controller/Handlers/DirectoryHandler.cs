@@ -12,11 +12,13 @@ using ImageService.Logging.Model;
 using System.Text.RegularExpressions;
 using ImageService.Modal.Event;
 using ImageService.Infrastructure.CommandsInfrastructure;
+using ImageService.Commands;
 
 namespace ImageService.Controller.Handlers
 {
     public class DirectoryHandler : IDirectoryHandler
     {
+      
         /// <summary>
         /// constructor
         /// </summary>
@@ -28,7 +30,8 @@ namespace ImageService.Controller.Handlers
             m_controller = controller;
             m_path = path;
             m_logging = logger;
-
+            
+           
             createWatcher();
         }
         #region Members
@@ -36,8 +39,9 @@ namespace ImageService.Controller.Handlers
         private ILoggingService m_logging;
         private string m_path;
         private FileSystemWatcher watcher;                  // The Watcher of the Dir
-        // The Path of directory
+                                                            // The Path of directory
         #endregion
+       
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;    // The Event That Notifies that the Directory is being closed
         /// <summary>

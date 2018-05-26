@@ -36,9 +36,10 @@ namespace ImageService.Controller
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
             commands.Add((int)CommandEnum.LogCommand, new LogCommand());
             commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
+          
             //add close command here
 
-         //   server.DataRecieved += this.OnCommandRecieved;
+            server.DataRecieved += this.OnCommandRecieved;
             server.NewClientConnected += this.OnNewClientConnected;
 
         }
@@ -53,9 +54,11 @@ namespace ImageService.Controller
         {
             if (commands.ContainsKey(commandID))
             {
+                
                 resultSuccesful = true;
                 ICommand c = commands[commandID];
                 return c.Execute(args, out resultSuccesful);
+                
             }
             else
             {
@@ -83,16 +86,18 @@ namespace ImageService.Controller
             RequestData?.Invoke(this, e);
         }
 
-        //public void OnCommandRecieved(object sender, EventArgs e)
-        //{
-        //    CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
-        //    int commandId = c.CommandID;
-        //    string[] args = c.Args;
+        public void OnCommandRecieved(object sender, EventArgs e)
+        {
 
-        //    //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
+            CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
+            int commandId = c.CommandID;
+            string[] args = c.Args;
 
-        //    bool resault;
-        //    ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?
-        //}
+          
+            //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
+
+            bool resault;
+            ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?
+        }
     }
 }

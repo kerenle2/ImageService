@@ -33,7 +33,8 @@ namespace ImageService.Server
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         public List<IDirectoryHandler> Handlers;
-
+        public event EventHandler<EventArgs> DataRecieved;
+        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;
         #endregion
         /// <summary>
         /// constructor
@@ -55,6 +56,7 @@ namespace ImageService.Server
             this.serverTCP = ServerTCP.getInstance();
             //Task t = new Task(serverTCP.Start);
             //t.Start();
+            //serverTCP.ServerCommandRecieved += OnDirectoryClose;
             serverTCP.Start( );
           //  this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
             
@@ -88,13 +90,21 @@ namespace ImageService.Server
         public void OnDirectoryClose(object sender, DirectoryCloseEventArgs e)
         {
             //send msg to logger:
-            string msg = e.Message;
-            this.m_logging.Log(msg, MessageTypeEnum.INFO);
+            //  string msg = e.Message;
+            //  this.m_logging.Log(msg, MessageTypeEnum.INFO);
+
+
+            //this.CommandRecieved?.Invoke(this, e);
+
 
             //remove sender listening:
+            
             IDirectoryHandler handler = (IDirectoryHandler)sender;
             this.CommandRecieved -= handler.OnCommandRecieved;
             handler.DirectoryClose -= this.OnDirectoryClose;
+            this.configData.RemoveHandler(e.DirectoryPath);
+            MsgInfoEventArgs msgI = new MsgInfoEventArgs(MessagesToClientEnum.HandlerRemoved, e.DirectoryPath);
+            this.serverTCP.SendMsgToAll(this, msgI);
 
         }
         /// <summary>
@@ -109,7 +119,7 @@ namespace ImageService.Server
             this.Handlers.Add(handler);
 
             //start handler listening:
-            this.CommandRecieved += handler.OnCommandRecieved;
+            this.serverTCP.ServerCommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += OnDirectoryClose;
             handler.StartHandleDirectory(dir); // now???
         }

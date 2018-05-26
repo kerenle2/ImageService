@@ -28,11 +28,11 @@ namespace ImageServiceGUI.View
         private SettingsVM vm;
         public SettingsView()
         {
-          //  vm = new SettingsVM(new SettingsModel());
-           // this.DataContext = new SettingsVM(new SettingsModel());
+            vm = new SettingsVM(new SettingsModel());
+            this.DataContext = new SettingsVM(new SettingsModel());
             InitializeComponent();
-            SettingsVM = new SettingsVM();
-            this.DataContext = SettingsVM;
+           // SettingsVM = new SettingsVM();
+            //this.DataContext = SettingsVM;
         }
 
        

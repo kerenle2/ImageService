@@ -41,7 +41,13 @@ namespace ImageServiceGUI.ViewModel
         public void OnRemoveClicked(object obj)
         {
             //(can remove is called  here automatically)
-            this.model.dirs.Remove(m_dirToRemove);
+            string dirToRemove = m_dirToRemove;
+            App.Current.Dispatcher.Invoke((Action)delegate // <--- here
+            {
+
+                this.model.dirs.Remove(dirToRemove);
+            });
+            this.model.RemoveHandler(dirToRemove);
             //add here more needed instructions when removing
         }
 
