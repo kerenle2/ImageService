@@ -56,7 +56,7 @@
                HorizontalAlignment="Left" Margin="0,161,0,113" Width="133"/>
         <Label x:Name="thumbSize" Grid.ColumnSpan="2" Content="{Binding thumbSize, Mode=OneWay}"
                HorizontalAlignment="Left" Margin="140,160,0,0"/>
-        <ListBox x:Name="directories" ItemsSource="{Binding dirs, Mode=OneWay}" Grid.ColumnSpan="3" Margin="0,235,-213,11" SelectionMode="Single" 
+        <ListBox x:Name="directories" Width="Auto" ItemsSource="{Binding dirs, Mode=OneWay}" Grid.ColumnSpan="3" Margin="0,235,-213,11" SelectionMode="Single" 
                  SelectedItem="{Binding dirToRemove, Mode=TwoWay}"
                  ></ListBox>
 
