@@ -46,8 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="ClientHandler.cs" />
-    <Compile Include="IClientHandler.cs" />
     <Compile Include="ICommunicate.cs" />
     <Compile Include="MsgInfoEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

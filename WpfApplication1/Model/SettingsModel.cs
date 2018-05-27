@@ -14,84 +14,23 @@ using System.Threading;
 
 namespace ImageServiceGUI.Model
 {
-    public class SettingsModel // : INotifyPropertyChanged  //needed?!?
+    public class SettingsModel
     {
         #region members
-       private Client client;
-        //  private ICommunicate client;
+        private Client client;
         private Mutex removeHandlerLock = new Mutex();
         private Mutex configLock = new Mutex();
         private ObservableCollection<string> m_dirs;
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-        public void NotifyPropertyChanged(string propName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
 
 
         //constructor:
         public SettingsModel()
         {
-           // System.Threading.Thread.Sleep(1000);
-
-            //
             m_dirs = new ObservableCollection<string>();
             this.client = Client.getInstance();
             this.client.DataRecieved += OnDataRecieved;
-
-
-        }
-        public void OnDataRecieved(object sender, EventArgs ee)
-        {
-            MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
-            if (e.id == MessagesToClientEnum.Settings)
-            {
-               // this.configLock.WaitOne();
-                Console.WriteLine("I know i got an settings msg!");
-                FromJson(e.msg);
-             //  this.configLock.ReleaseMutex();
-
-            }
-            if(e.id == MessagesToClientEnum.HandlerRemoved)
-            {
-                //removeHandlerLock.WaitOne();
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
-                {
-                    this.dirs.Remove(e.msg);
-                });
-               // removeHandlerLock.ReleaseMutex();
-            }
-        }
-
-        public void FromJson(string str)
-        {
-            JObject configJson = JObject.Parse(str);
-            List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
-            foreach (string handler in handlers)
-            {
-               // this.configLock.WaitOne();
-
-                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
-                {
-
-                    this.dirs.Add(handler);
-                });
-                //this.configLock.ReleaseMutex();
-            }
-            string LogName = configJson["LogName"].ToObject<string>();
-            logName = LogName;
-            this.sourceName = (string)configJson["EventSourceName"];
-            this.outputDir = (string)configJson["OutputDir"];
-            this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString(); //check here to string.
-
-
         }
 
         private string m_outputDir;
@@ -100,10 +39,10 @@ namespace ImageServiceGUI.Model
             get { return m_outputDir; }
             set
             {
-                
-                    m_outputDir = value;
-                    OnPropertyChanged("outputDir");
-                
+
+                m_outputDir = value;
+                OnPropertyChanged("outputDir");
+
             }
         }
 
@@ -121,7 +60,7 @@ namespace ImageServiceGUI.Model
         private string m_dirToRemove;
         public string dirToRemove
         {
-           get { return this.m_dirToRemove; }
+            get { return this.m_dirToRemove; }
             set
             {
                 m_dirToRemove = value;
@@ -146,12 +85,12 @@ namespace ImageServiceGUI.Model
             get { return m_thumbSize; }
             set
             {
-                m_thumbSize =  value;
+                m_thumbSize = value;
                 OnPropertyChanged("thumbSize");
             }
         }
 
-       
+
         public ObservableCollection<string> dirs
         {
             get { return m_dirs; }
@@ -161,11 +100,76 @@ namespace ImageServiceGUI.Model
                 OnPropertyChanged("dirs");
             }
         }
+
+
         public void RemoveHandler(String dir)
         {
-            string[] args = { dir } ;
+            string[] args = { dir };
             client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
 
         }
+        /// <summary>
+        /// invoke property changed event when needed
+        /// </summary>
+        /// <param name="name"></param>
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        /// <summary>
+        /// handle the data recieved acoording to its type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ee"></param>
+        public void OnDataRecieved(object sender, EventArgs ee)
+        {
+            MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
+            if (e.id == MessagesToClientEnum.Settings)
+            {
+                Console.WriteLine("I know i got an settings msg!");
+                AddSettingsFromJson(e.msg);
+            }
+
+            if(e.id == MessagesToClientEnum.HandlerRemoved)
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
+                {
+                    this.dirs.Remove(e.msg);
+                });
+            }
+        }
+
+        /// <summary>
+        /// convert back the json string and update the data.
+        /// </summary>
+        /// <param name="str"></param>
+        public void AddSettingsFromJson(string str)
+        {
+            JObject configJson = JObject.Parse(str);
+            List<string> handlers = (configJson["Handlers"]).ToObject<List<string>>();
+            foreach (string handler in handlers)
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate // <--- here
+                {
+
+                    this.dirs.Add(handler);
+                });
+            }
+            string LogName = configJson["LogName"].ToObject<string>();
+            logName = LogName;
+            this.sourceName = (string)configJson["EventSourceName"];
+            this.outputDir = (string)configJson["OutputDir"];
+            this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString();
+        }
+
+
     }
 }

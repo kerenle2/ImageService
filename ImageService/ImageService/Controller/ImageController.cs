@@ -31,13 +31,8 @@ namespace ImageService.Controller
         public ImageController(IImageServiceModal modal, ILoggingService logger)
         {
             m_modal = modal;                    // Storing the Modal Of The System
-            //m_logger = logger;
             commands = new Dictionary<int, ICommand>();
             commands.Add((int)CommandEnum.NewFileCommand, new AddFileCommand(m_modal));
-            commands.Add((int)CommandEnum.LogCommand, new LogCommand());
-            commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
-          
-            //add close command here
 
             server.DataRecieved += this.OnCommandRecieved;
             server.NewClientConnected += this.OnNewClientConnected;
@@ -68,7 +63,11 @@ namespace ImageService.Controller
             }
 
         }
-
+        /// <summary>
+        /// asks the server to send this msg info to all clients, or to a specific client if specified
+        /// </summary>
+        /// <param name="msgI"></param> the msg info to send
+        /// <param name="client"></param> if not specified, the server will send this msg to All his clients
         public void SendToServer(MsgInfoEventArgs msgI, TcpClient client = null)
         {
             if (client == null)
@@ -81,10 +80,16 @@ namespace ImageService.Controller
             }
         }
 
+        /// <summary>
+        /// the event that will be activated upon new client connected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnNewClientConnected(object sender,RequestDataEventArgs e)
         {
             RequestData?.Invoke(this, e);
         }
+
 
         public void OnCommandRecieved(object sender, EventArgs e)
         {
@@ -92,9 +97,6 @@ namespace ImageService.Controller
             CommandRecievedEventArgs c = (CommandRecievedEventArgs)e;
             int commandId = c.CommandID;
             string[] args = c.Args;
-
-          
-            //add here handling remove handler!!!!! not the same as close command... use c.RequestDirPath
 
             bool resault;
             ExecuteCommand(commandId, args, out resault); //resault will cmoe back here and were not using it... what to do?

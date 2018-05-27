@@ -45,19 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandsInfrastructure\CommandRecievedEventArgs.cs" />
-    <Compile Include="CommandsInfrastructure\ConfigData.cs" />
-    <Compile Include="CommandsInfrastructure\Log.cs" />
-    <Compile Include="CommandsInfrastructure\RequestDataEventArgs.cs" />
+    <Compile Include="Infrastructure\CommandRecievedEventArgs.cs" />
+    <Compile Include="Infrastructure\ConfigData.cs" />
+    <Compile Include="Infrastructure\RequestDataEventArgs.cs" />
     <Compile Include="Enums\CommandEnum.cs" />
     <Compile Include="Enums\MessagesToClientEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

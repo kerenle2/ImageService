@@ -9,6 +9,9 @@ using System.Windows.Media;
 
 namespace ImageServiceGUI.Model
 {
+    /// <summary>
+    /// convertr class
+    /// </summary>
     public class StatusToColorConv : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

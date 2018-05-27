@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace ImageServiceGUI.Model
 {
+    /// <summary>
+    /// convertor class to control GUI background color.
+    /// </summary>
     public class ConnectionFailedConv: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

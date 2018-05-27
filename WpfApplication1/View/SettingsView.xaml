@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ImageServiceGUI.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer >
     <Grid>
 
         <Grid.Resources>
@@ -34,11 +35,6 @@
         <Label x:Name="label" Content="Settings" FontSize="32" FontFamily="Comic Sans MS" Foreground="DeepSkyBlue" HorizontalAlignment="Center" Margin="116,25,44,0"
                VerticalAlignment="Top" Width="140" Height="55" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
         </Label>
-        <!--   <Grid.CommandBindings> -->
-        <!--   <CommandBinding Command="{Binding RemoveCommand}" CanExecute="{Binding Remove_canExecute}" Executed="{Binding Remove_executed}" /> -->
-
-
-        <!--  </Grid.CommandBindings> -->
 
         <Label x:Name="outputText" Grid.ColumnSpan="2" Content="Output Directory: "
                HorizontalAlignment="Left" Margin="0,100,0,175" />
@@ -61,4 +57,6 @@
                  ></ListBox>
 
     </Grid>
+    </ScrollViewer>
+
 </UserControl>

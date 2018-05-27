@@ -30,6 +30,10 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
             this.Handlers = ConfigurationManager.AppSettings.Get("Handler").Split(';');
 
         }
+
+        /// <summary>
+        /// returns an instance of the ConfigData - Singelton Pattern
+        /// </summary>
         public static ConfigData InstanceConfig
         {
             get
@@ -41,6 +45,11 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
                 return configData;
             }
         }
+
+        /// <summary>
+        /// removes a specific path from handlers list
+        /// </summary>
+        /// <param name="path"></param>
         public void RemoveHandler(string path)
         {
             for (int i = 0; i < Handlers.Length; i++)
@@ -54,6 +63,11 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
             }
 
         }
+
+        /// <summary>
+        /// converts the data to a json string
+        /// </summary>
+        /// <returns></returns>
         public string ToJSON()
         {
             JObject configJson = new JObject();
@@ -66,15 +80,5 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
 
         }
 
-        //public void FromJson(string str)
-        //{
-        //    JObject configJson = JObject.Parse(str);
-        //    Handlers = (configJson["Handlers"]).ToObject<string[]>();
-        //    LogName = (string)configJson["LogName"];
-        //    EventSourceName = (string)configJson["SourceName"];
-        //    OutputDir = (string)configJson["OutputDir"];
-        //    ThumbnailSize = (int)configJson["ThumbnailSize"];
-
-        //}
     }
 }

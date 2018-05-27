@@ -23,7 +23,6 @@ namespace ImageService.Server
         private IImageController m_controller;
         private ILoggingService m_logging;
         private ServerTCP serverTCP;
-        private IClientHandler ch;
         private IHandler configHandler;
         private IHandler logger_handler;
         private ConfigData configData;
@@ -48,17 +47,11 @@ namespace ImageService.Server
             this.Handlers = new List<IDirectoryHandler>();
             this.logger_handler = new LoggerHandler(m_logging, m_controller);
             this.configHandler = new ConfigHandler(this.m_controller);
-        //    this.CommandRecieved += logger_handler.OnCommandRecieved;
-            this.ch = new ClientHandler();
             this.configData = ConfigData.InstanceConfig;
             this.directories = this.configData.Handlers;
-            //string[] directories = ConfigurationManager.AppSettings.Get("Handler").Split(';');
             this.serverTCP = ServerTCP.getInstance();
-            //Task t = new Task(serverTCP.Start);
-            //t.Start();
-            //serverTCP.ServerCommandRecieved += OnDirectoryClose;
+
             serverTCP.Start( );
-          //  this.CommandRecieved += configHandler.OnCommandRecieved; ///here??????????? not sure
             
             for (int i = 0; i < directories.Length; i++)
             {
@@ -72,9 +65,7 @@ namespace ImageService.Server
         /// onCommandRecieved that says that services is closing
         /// </summary>
         public void Close()
-        {
-            //string[] dirs = ConfigurationManager.AppSettings.Get("Handler").Split(';');
-            
+        {            
             foreach (string dir in this.directories)
             {
                 CommandRecievedEventArgs e = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand,
@@ -88,25 +79,16 @@ namespace ImageService.Server
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public void OnDirectoryClose(object sender, DirectoryCloseEventArgs e)
-        {
-            //send msg to logger:
-            //  string msg = e.Message;
-            //  this.m_logging.Log(msg, MessageTypeEnum.INFO);
-
-
-            //this.CommandRecieved?.Invoke(this, e);
-
-
-            //remove sender listening:
-            
+        {            
             IDirectoryHandler handler = (IDirectoryHandler)sender;
             this.CommandRecieved -= handler.OnCommandRecieved;
             handler.DirectoryClose -= this.OnDirectoryClose;
             this.configData.RemoveHandler(e.DirectoryPath);
             MsgInfoEventArgs msgI = new MsgInfoEventArgs(MessagesToClientEnum.HandlerRemoved, e.DirectoryPath);
             this.serverTCP.SendMsgToAll(this, msgI);
-
         }
+
+
         /// <summary>
         /// start listen to the directory
         /// </summary>
@@ -121,7 +103,7 @@ namespace ImageService.Server
             //start handler listening:
             this.serverTCP.ServerCommandRecieved += handler.OnCommandRecieved;
             handler.DirectoryClose += OnDirectoryClose;
-            handler.StartHandleDirectory(dir); // now???
+            handler.StartHandleDirectory(dir);
         }
       
 

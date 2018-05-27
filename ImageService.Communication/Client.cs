@@ -14,6 +14,7 @@ namespace ImageService.Communication
 {
     public class Client : ICommunicate
     {
+        //members
         private TcpClient client;
         private BinaryReader reader;
         private BinaryWriter writer;
@@ -24,7 +25,10 @@ namespace ImageService.Communication
         private static Client instance = null;
         public event EventHandler<EventArgs> DataRecieved;
 
-
+        /// <summary>
+        /// returns the instance of client (singelton)
+        /// </summary>
+        /// <returns></returns>
         public static Client getInstance()
         {
             if (instance == null)
@@ -36,7 +40,9 @@ namespace ImageService.Communication
 
 
 
-
+        /// <summary>
+        /// private constructor - singelton Pattern
+        /// </summary>
         private Client()
         {
             
@@ -46,6 +52,10 @@ namespace ImageService.Communication
        
         }
 
+        /// <summary>
+        /// starts the client activity - trying to connect to server, initialilzing componnents
+        /// and waiting for events args
+        /// </summary>
         public void Start()
         {
 
@@ -79,41 +89,48 @@ namespace ImageService.Communication
             }
         }
 
+        /// <summary>
+        /// stops the client
+        /// </summary>
         public void Stop()
         {
             client.Close();
         }
 
 
-
-        public void sendCommandRequest(int commandId, string[] args) //try with this format/ if no then change all the same to msgInfo (add more enums)
+        /// <summary>
+        /// sends a command to the server
+        /// </summary>
+        /// <param name="commandId"></param>
+        /// <param name="args"></param>
+        public void sendCommandRequest(int commandId, string[] args)
         {
             try
             {
                 string path = null;
-                if(commandId == (int)CommandEnum.CloseCommand)
+                if (commandId == (int)CommandEnum.CloseCommand)
                 {
-                    //this is the handler to remove ----HANDLE THIS, NOT YET HAVE IT...
+                    //this is the handler to remove 
                     path = args[0];
                 }
-               // this.writeLock.WaitOne();
                 CommandRecievedEventArgs c = new CommandRecievedEventArgs(commandId, args, path);
                 string cJson = JsonConvert.SerializeObject(c);
                 writer.Write(cJson);
-              //  this.writeLock.ReleaseMutex();
             }
             catch (Exception e)
             {
                 Console.WriteLine("client: Error while sending command to server: " + e.StackTrace);
             }
         }
-        
+
+        /// <summary>
+        /// wait for msgs from server in  new thread
+        /// </summary>
         public void WaitForEventArgs()
         {
             {
-        Task t = new Task (() =>
+        Task waitForEventsArgsFromServer = new Task (() =>
             {
-                //loop here or outside task?
                 while (true)
                 {
                     try
@@ -134,7 +151,7 @@ namespace ImageService.Communication
                     }
             }
             });
-            t.Start();
+            waitForEventsArgsFromServer.Start();
             }
         }
     }

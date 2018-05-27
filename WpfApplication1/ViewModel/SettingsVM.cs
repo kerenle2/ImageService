@@ -17,38 +17,36 @@ namespace ImageServiceGUI.ViewModel
         private SettingsModel model;
         public System.Windows.Input.ICommand RemoveCommand { get; private set; }
 
-        // public ICommand RemoveCommand;
-
-        public SettingsVM()
-        {
-            this.model = new SettingsModel();
-        }
-
+        //constructor
         public SettingsVM(SettingsModel model)
         {
             this.model = model;
             this.RemoveCommand = new DelegateCommand<object>(this.OnRemoveClicked, this.CanRemove);
             model.PropertyChanged += this.OnPropertyChanged;
-
         }
+
+
         public void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             NotifyPropertyChanged(e.PropertyName);
          
         }
     
-      
+        /// <summary>
+        /// called when the button "Remove" is clicked.
+        /// updates the directory to remove, removes it from the model.
+        /// </summary>
+        /// <param name="obj"></param>
         public void OnRemoveClicked(object obj)
         {
             //(can remove is called  here automatically)
             string dirToRemove = m_dirToRemove;
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- here
-            {
 
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
                 this.model.dirs.Remove(dirToRemove);
             });
             this.model.RemoveHandler(dirToRemove);
-            //add here more needed instructions when removing
         }
 
         //this function called automatically when remove button is clicked

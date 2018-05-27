@@ -12,8 +12,8 @@ namespace ImageService.Controller
     public interface IImageController
     {
         string ExecuteCommand(int commandID, string[] args, out bool result);          // Executing the Command Requet
-   //     void OnCommandRecieved(object sender, EventArgs e);
-        void SendToServer(MsgInfoEventArgs msgI, TcpClient client = null);
-        event EventHandler<RequestDataEventArgs> RequestData;
+        void SendToServer(MsgInfoEventArgs msgI, TcpClient client = null);             // ask server to forword this msgI to specific client if specified, 
+                                                                                       //or to all clients if not specified. 
+        event EventHandler<RequestDataEventArgs> RequestData;                          //the event that will be activated when server needs data To send
     }
 }

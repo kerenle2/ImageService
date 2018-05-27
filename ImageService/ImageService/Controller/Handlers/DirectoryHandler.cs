@@ -37,9 +37,8 @@ namespace ImageService.Controller.Handlers
         #region Members
         private IImageController m_controller;              // The Image Processing Controller
         private ILoggingService m_logging;
-        private string m_path;
+        private string m_path;                              // The Path of directory
         private FileSystemWatcher watcher;                  // The Watcher of the Dir
-                                                            // The Path of directory
         #endregion
        
 
@@ -73,9 +72,6 @@ namespace ImageService.Controller.Handlers
            this.watcher = new FileSystemWatcher();
            watcher.Path = this.m_path;
             m_logging.Log("start watching the directory " + this.m_path, MessageTypeEnum.INFO);
-
-            // watch all files in the directory.
-            //watcher.Filter = "*";
 
             // Add event handlers.
             watcher.Created += new FileSystemEventHandler(OnChanged);
