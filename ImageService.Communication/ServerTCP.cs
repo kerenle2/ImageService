@@ -17,21 +17,23 @@ namespace ImageService.Communication
     
     public class ServerTCP : ICommunicate
     {
+        //members
         private int port;
         private TcpListener listener;
         private List<TcpClient> clientsList;
-        //private NetworkStream stream;
-        //private BinaryWriter writer;                                    // The writer
-        //private BinaryReader reader;
-        Mutex readLock = new Mutex();
-        Mutex writeLock = new Mutex();
-
         private static ServerTCP instance = null;
 
         public event EventHandler<CommandRecievedEventArgs> ServerCommandRecieved;
         public event EventHandler<EventArgs> DataRecieved;
         public event EventHandler<RequestDataEventArgs> NewClientConnected;
 
+        Mutex readLock = new Mutex();
+        Mutex writeLock = new Mutex();
+
+        /// <summary>
+        /// returns instance of the server - Singelton Pattern
+        /// </summary>
+        /// <returns></returns>
         public static ServerTCP getInstance()
         {
             if (instance == null)
@@ -41,14 +43,22 @@ namespace ImageService.Communication
             return instance;
         }
 
-        private ServerTCP() //changed to singelton, need to make sure it works.
+        /// <summary>
+        /// private constructor - Singelton Pattern
+        /// </summary>
+        private ServerTCP()
         {
             this.clientsList = new List<TcpClient>();
             this.port = 8000;
 
         }
 
-
+        /// <summary>
+        /// sends a msg to the specfied client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="msgI"></param>
+        /// <param name="client"></param>
         public void SendMsgToOneClient(object sender, MsgInfoEventArgs msgI, TcpClient client)
         {
             new Task(() =>
@@ -70,6 +80,12 @@ namespace ImageService.Communication
             }).Start();
         }
 
+
+        /// <summary>
+        /// sends msg to all the clients connected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="msgI"></param>
         public void SendMsgToAll(object sender, MsgInfoEventArgs msgI)
         {
        
@@ -83,6 +99,10 @@ namespace ImageService.Communication
         }
 
         
+        /// <summary>
+        /// starts the server activity - initialize components and
+        /// wait for clients connection request in a new thread
+        /// </summary>
         public void Start()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -95,6 +115,10 @@ namespace ImageService.Communication
 
         }
 
+        /// <summary>
+        /// listen to clients connection reuests in a new thread.
+        /// when client connected - handle his requests.
+        /// </summary>
         public void ListenToClients()
         {
             Task waitForClientsConnections = new Task(() =>
@@ -114,9 +138,6 @@ namespace ImageService.Communication
                     }
                     catch (SocketException)
                     {
-                       
-                        //Console.WriteLine("Error");
-
                         break;
                     }
                 }
@@ -126,25 +147,22 @@ namespace ImageService.Communication
         }
 
 
+        /// <summary>
+        /// gets the clients request and invokes the apropriate event.
+        /// </summary>
+        /// <param name="client"></param>
         public void HandleClient(TcpClient client)
         {
             Task handleClientRequest = new Task(() =>
             {
                 NetworkStream stream = client.GetStream();
                 BinaryReader reader = new BinaryReader(stream);
-                while(true)
+                while(client.Connected)
                 {
-                    //try
-                    //{
-                    //send logs history list:
-
-                    //    this.readLock.WaitOne();
-                    //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    try
+                    {
                     string commandLine = reader.ReadString();
-                     //   this.readLock.ReleaseMutex();
                         Console.WriteLine("Got command: {0}", commandLine);
-                        //    string result = m_controller.ExecuteCommand(commandLine, client);
-                        //string result;
 
                         //handle the command:
                         CommandRecievedEventArgs command = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
@@ -158,11 +176,11 @@ namespace ImageService.Communication
                         }
 
                     }
-                    //catch (Exception e)
-                    //{
-                    //    Console.WriteLine("Server Error: " + e.StackTrace);
-                    //}
-               // }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Server Error: " + e.StackTrace);
+                }
+                 }
             }); handleClientRequest.Start();
         }
 

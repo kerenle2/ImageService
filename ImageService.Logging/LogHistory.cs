@@ -9,11 +9,21 @@ namespace ImageService.Logging
     public class LogHistory
     {
         private static LogHistory instance = null;
+
         public List<Log> LogHistoryList { get; set; }
+
+        /// <summary>
+        /// private constructor - Singelton pattern
+        /// </summary>
         private LogHistory()
         {
             LogHistoryList = new List<Log>();
         }
+
+        /// <summary>
+        /// returns instance - Singelton pattern
+        /// </summary>
+        /// <returns></returns>
         public static LogHistory getInstance()
         {
             if (instance == null)
@@ -22,6 +32,12 @@ namespace ImageService.Logging
             }
             return instance;
         }
+
+
+        /// <summary>
+        /// adds a log to the logs history list
+        /// </summary>
+        /// <param name="log"></param>
         public void AddToLoggerList(Log log)
         {
             this.LogHistoryList.Add(log);   

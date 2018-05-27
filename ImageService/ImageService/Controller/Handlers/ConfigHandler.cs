@@ -12,15 +12,21 @@ namespace ImageService.Controller.Handlers
 {
     class ConfigHandler: IHandler
     {
+        //members
         public IImageController controller;
         ConfigData data = ConfigData.InstanceConfig;
 
+        //constructor
         public ConfigHandler(IImageController m_controller)
         {
             this.controller = m_controller;
             controller.RequestData += OnRequestData;
         }
 
+        /// <summary>
+        /// sends the app config in a new thread.
+        /// </summary>
+        /// <param name="e"></param>
         void handleSendConfigRequst(RequestDataEventArgs e)
         {
             Task sendAppConfig = new Task(() =>
@@ -32,6 +38,11 @@ namespace ImageService.Controller.Handlers
             sendAppConfig.Start();
         }
 
+        /// <summary>
+        /// activated when controller asks for data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnRequestData(object sender, RequestDataEventArgs e)
         {
             handleSendConfigRequst(e);

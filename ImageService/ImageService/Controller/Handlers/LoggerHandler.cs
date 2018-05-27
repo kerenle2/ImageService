@@ -20,12 +20,14 @@ namespace ImageService.Controller.Handlers
 {
     public class LoggerHandler : IHandler
     {
+        //members
         public ILoggingService logger;
         public IImageController controller;
         private List<Log> m_logList;
         Mutex listLock = new Mutex();
         LogHistory logHistory = LogHistory.getInstance();
 
+        //constructor
         public LoggerHandler(ILoggingService m_logger, IImageController m_controller)
         {
 
@@ -38,6 +40,10 @@ namespace ImageService.Controller.Handlers
             controller.RequestData += OnRequestData;
         }
 
+        /// <summary>
+        /// sends controller the logs list in a new thread
+        /// </summary>
+        /// <param name="e"></param>
         public void HandleSendLogsRequest(RequestDataEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
@@ -49,25 +55,11 @@ namespace ImageService.Controller.Handlers
             sendLogsTask.Start();
         }
 
-        //public void HandleSendLog(List<Log> listToSend)
-        //{
-        //    Task sendLogsTask = new Task(() =>
-        //    {
-        //        if (listToSend == null)
-        //        {
-        //            listToSend = new List<Log>();
-        //            listLock.WaitOne();
-        //            listToSend = m_logList;
-        //            listLock.ReleaseMutex();
-        //        }
-        //        string JsonList = JsonConvert.SerializeObject(listToSend);
-        //        MsgInfoEventArgs msgI = new MsgInfoEventArgs((int)MessagesToClientEnum.Logs, JsonList);
-        //        controller.SendToServer(msgI);
-        //    });
-        //    sendLogsTask.Start();
-        //}
-
-
+        /// <summary>
+        /// sends one log msg in a new thread.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void SendOneLog(object sender, MessageRecievedEventArgs e)
         {
             Task sendLogsTask = new Task(() =>
@@ -87,19 +79,11 @@ namespace ImageService.Controller.Handlers
             sendLogsTask.Start();
         }
 
-        //public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
-        //{
-        //    if (e.CommandID.Equals((int)CommandEnum.LogCommand))
-        //    {
-        //        listLock.WaitOne();
-        //        HandleSendLog(this.m_logList);
-        //        Thread.Sleep(150);
-        //        listLock.ReleaseMutex();
-        //    }
-        //}
-
-
-
+        /// <summary>
+        /// when msg recived, add it to the loggerList.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="messageReceived"></param>
         public void AddToLoggerList(object sender, MessageRecievedEventArgs messageReceived)
         {
             Log l = new Log
@@ -110,15 +94,14 @@ namespace ImageService.Controller.Handlers
 
             listLock.WaitOne();
             this.logHistory.AddToLoggerList(l);
-            listLock.ReleaseMutex();
-
-            //send only this message to the client:
-            //List<Log> list = new List<Log>();
-            //list.Add(l);
-            //HandleSendLog(list);
-            
+            listLock.ReleaseMutex();            
         }
 
+        /// <summary>
+        /// activated when controller asks for data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnRequestData(object sender, RequestDataEventArgs e)
         {
             HandleSendLogsRequest(e);

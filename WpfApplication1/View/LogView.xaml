@@ -26,7 +26,7 @@
                            </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Message" FontSize="14" Width="*" IsReadOnly="True" Binding="{Binding Path=Message}" />
+                    <DataGridTextColumn Header="Message" FontSize="14" IsReadOnly="True" Binding="{Binding Path=Message}" />
                 </DataGrid.Columns>
             
             

@@ -72,9 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageService\Commands\AddFileCommand.cs" />
-    <Compile Include="ImageService\Commands\GetConfigCommand.cs" />
     <Compile Include="ImageService\Commands\ICommand.cs" />
-    <Compile Include="ImageService\Commands\LogCommand.cs" />
     <Compile Include="ImageService\Controller\Handlers\ConfigHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\DirectoryHandler.cs" />
     <Compile Include="ImageService\Controller\Handlers\IHandler.cs" />

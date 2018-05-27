@@ -14,6 +14,8 @@ namespace ImageService.Infrastructure.CommandsInfrastructure
         {
             get { return m_client; }
         }
+
+        //constructor
         public RequestDataEventArgs(TcpClient client)
         {
             this.m_client = client;

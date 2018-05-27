@@ -23,6 +23,7 @@ namespace ImageServiceGUI.Model
         private Mutex listLock = new Mutex();
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //constructor
         public LogModel()
         {
             this.client = Client.getInstance();
@@ -31,16 +32,24 @@ namespace ImageServiceGUI.Model
             this.client.DataRecieved += OnDataRecieved;
 
             System.Threading.Thread.Sleep(1000);
-    //           client.sendCommandRequest((int)CommandEnum.LogCommand, null);       //check that here is the spot.  MORE / LESS SLEEP?? 
-
 
         }
+
+        /// <summary>
+        /// invoke property change event when needed
+        /// </summary>
+        /// <param name="name"></param>
         protected void OnPropertyChanged(string name)
         {
                if (PropertyChanged != null)
                  PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
+        /// <summary>
+        /// when recieved data, handle it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ee"></param>
         public void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
@@ -48,24 +57,18 @@ namespace ImageServiceGUI.Model
             {
                 Console.WriteLine("I know i got an Logs msg!");
                 List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
-                // string msg = e.msg;
-                //do stuff here - handle the new logs list
-               // listLock.WaitOne();
+
+                //handle the new logs list
                 foreach (Log log in logsList)
                 {
                     MessageRecievedEventArgs et = new MessageRecievedEventArgs(log.Message, log.Type);
                     listLock.WaitOne();
-                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    App.Current.Dispatcher.Invoke((Action)delegate
                     {
-                        
-                        logMessage.Add(et);
-                        
+                        logMessage.Add(et);       
                     });
                     listLock.ReleaseMutex();
                 }
-               // listLock.ReleaseMutex();
-
-
             }
         }
 

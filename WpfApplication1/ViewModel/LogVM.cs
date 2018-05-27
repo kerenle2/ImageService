@@ -11,40 +11,24 @@ using ImageServiceGUI.Model;
 
 namespace ImageServiceGUI.ViewModel
 {
-    class LogVM
+    class LogVM : IViewModel
     {
         private ILogModel logModel;
-       
-        public event PropertyChangedEventHandler PropertyChanged;
 
+
+        //constructor
         public LogVM()
         {
             this.logModel = new LogModel();
-           // this.guiDisconnected = new DelegateCommand<object>(this.OnDisconnectCommand, this.CanDisconnect);
-
         }
-        public LogVM(ILogModel model)
-        {
-            this.logModel = model;
-           // this.guiDisconnected = new DelegateCommand<object>(this.OnDisconnectCommand, this.CanDisconnect);
 
-        }
+
         public ObservableCollection<MessageRecievedEventArgs> LogMessage
         {
             get { return this.logModel.logMessage; }
         }
-       // public bool ClientConnected { get { return logModel.Conected; } }
+
         public ICommand CloseCommand { get; set; }
-        //private void OnDisconnectCommand(object obj)
-        //{
-        //    Console.Write("lsldfkdsjldsfj");
-        //}
-        //private bool CanDisconnect(object obj)
-        //{
-        //    return true;
-        //}
-
-
 
     }
 }
