@@ -10,6 +10,7 @@ namespace WebApplication2.Controllers
 {
     public class FirstController : Controller
     {
+        //LogModel logModel = new LogModel();
         static List<Employee> employees = new List<Employee>()
         {
           new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
@@ -17,6 +18,11 @@ namespace WebApplication2.Controllers
           new Employee   { FirstName = "Mor", LastName = "Sinai", Email = "Stam@stam", Salary = 500, Phone = "08-8888888" },
           new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 20, Phone = "08-8888888" },
           new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
+        };
+        static List<LogModel> logs = new List<LogModel>()
+        {
+            new LogModel { Type = "Info" , Message = "testtttt"},
+            new LogModel { Type = "Info" , Message = "hey hey"}
         };
         // GET: First
         public ActionResult Index()
@@ -67,7 +73,18 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
-
+        //get logs!!!!!
+        [HttpGet]
+        public ActionResult Logs()
+        {
+            return View(logs);
+        }
+        //post logs!!
+        [HttpPost]
+        public ActionResult Logs(LogModel log_m)
+        {
+            return View(logs);
+        }
         // POST: First/Create
         [HttpPost]
         public ActionResult Create(Employee emp)
