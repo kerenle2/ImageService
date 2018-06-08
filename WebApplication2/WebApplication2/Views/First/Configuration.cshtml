@@ -1,0 +1,54 @@
+﻿
+
+@model IEnumerable<WebApplication2.Models.ConfigModel>
+@{
+    ViewBag.Title = "Configuration";
+}
+
+@{
+    var outputDir = ViewBag.outputDir;
+    var sourceName = ViewBag.sourceName;
+    var logName = ViewBag.logName;
+    var thumbSize = ViewBag.thumbSize;
+    var dirs = ViewBag.dirs;
+}
+
+<div class="container body-content">
+    <h2>Configuration</h2><hr />
+
+        <div>
+            <label class="row-sm-8">Output Directory: @outputDir</label>
+        </div>
+        <div>
+            <label class="row-sm-4">Source Name: @sourceName</label>
+        </div>
+        <div>
+        <label class="row-sm-4">Log Name: @logName</label>
+        </div>
+         <div>
+        <label class="row-sm-4">Thumbnail Size: @thumbSize</label>
+         </div>
+
+</div>
+
+
+
+
+<div class="list-group"> 
+
+    @{
+        foreach (var dir in dirs)
+        {
+            @*<button type="button" a href="#" class="btn btn-primary btn-lg btn-block" aria-disabled="true">@dir</button>*@
+            // aria-disabled="true" attr to disable' add later with condition
+
+            <a href="http://localhost:33438/First/RemoveHandler" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">@dir</a>
+
+
+
+        }
+    }
+ 
+</div>
+
+

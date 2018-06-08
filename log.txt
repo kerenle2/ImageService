@@ -1,0 +1,497 @@
+commit bb59f8e51ba579875e1d74bdf1567a7fbf636e81
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun May 27 14:27:55 2018 +0300
+
+    added comments, orginized code
+
+commit a3bb2da7a897d33473c203e0eb913301e6d34a50
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun May 27 01:04:38 2018 +0300
+
+    Its all work!!!! tfutfutfu
+
+commit 31731305dce288393e563ac4aec7d615c78f5007
+Merge: f481e8d cf62440
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat May 19 17:08:27 2018 +0300
+
+    remove handler almost work
+
+commit f481e8d231ea98e6e8f2f8b42b933f854ac8adf8
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri May 18 12:18:14 2018 +0300
+
+    nothing
+
+commit cf62440898c131fd4acba2977b9cb1b455cb3d0d
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri May 18 02:06:00 2018 +0300
+
+    working!!! settings view + button
+
+commit 02c3875764858309387b9193aacd42a5aff160b1
+Merge: 5d618ad 147b2d3
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 17 13:26:14 2018 +0300
+
+    merged
+
+commit 5d618ad3ced16ba1e8883d89c22592fab4252dd0
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 17 13:08:21 2018 +0300
+
+    commit to pull
+
+commit 147b2d35f96a03bc76eb3e706ef5a7a6db009ef8
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 17 03:15:19 2018 +0300
+
+    fix settings view
+
+commit cac672d7bad593d566600f9eab772668f8bb8a4d
+Merge: 8903944 77decf3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 17 00:55:31 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 890394498520c478a715f78488a6b6aea792b963
+Merge: 875005d 6405d9c
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 17 00:54:38 2018 +0300
+
+    !
+
+commit 77decf3084696519183ada57ed523ce5eba5ca5c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 17 00:24:48 2018 +0300
+
+    Config Sent to client when connecting. settings GUI not changes yet (why?)
+
+commit 875005d0fc1299da562fba9128b61c6f4afea83e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 16 21:12:24 2018 +0300
+
+    add connectionFailedConvertor
+
+commit 6405d9c886f87ecb019e518b223edfe6c03b7e5e
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 16 20:33:39 2018 +0300
+
+    GUi gets Logger list when connected
+
+commit b758c08ed8ce5b5ca2043e84a2862a2a3e56e259
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 16 15:51:56 2018 +0300
+
+    merged
+
+commit 9ed30ba329d2ac947e33c7985dbdc7f287344ee0
+Merge: d881539 1e8a7b9
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 16 15:51:45 2018 +0300
+
+    merged
+
+commit d881539d512300f07c6ecf028cd728442ec6e34f
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 16 14:45:22 2018 +0300
+
+    sending logs list when connection established - not working yet - commit to pull
+
+commit e28bf2c2137bc3c789bd55c3a8c5c38f0539fa95
+Merge: 9eb75df 06e71a0
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 16 14:44:19 2018 +0300
+
+    sendnig log list to client when connection estabished - not working yet - commit to pull
+
+commit 1e8a7b93c2bb5e2e6994c94d6f65a8215ee64257
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 16 02:03:20 2018 +0300
+
+    add log history
+
+commit 9eb75df925b9410ae476a66470d7971d39327d95
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue May 15 12:10:36 2018 +0300
+
+    commit to pull
+
+commit 06e71a00f1d363e75ccf57b71769fdf301d09547
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Tue May 15 03:40:05 2018 +0300
+
+    logger is gooood
+
+commit 8177c661f61d41261e578edf204dd166c2384c30
+Merge: a9ce99c 722a769
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat May 12 18:03:05 2018 +0300
+
+    merged
+
+commit a9ce99ca4ec40e17a7f82f7ba9f5b35668874a1e
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat May 12 17:56:06 2018 +0300
+
+    LogModel is getting msg - Only Sometimes.  a loooot of problems and things to do
+
+commit 722a7695bf90d5377258dbc26c750a54c5d027a1
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat May 12 16:31:59 2018 +0300
+
+    update
+
+commit ba19353fae2535902b3e50d4eb4632213681a17b
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat May 12 04:32:19 2018 +0300
+
+    working on msg commands and events between client and server. NOT WORKING + NOT YET ALL IMPLEMENTED!
+
+commit 3743ca44d4370dc9de0611f934b8c6ab1da5bb3f
+Merge: 5c0fe38 6d22c8f
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri May 11 19:48:12 2018 +0300
+
+    merged
+
+commit 5c0fe3876e784b09d39bd824f51e0aedd104f492
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri May 11 19:46:35 2018 +0300
+
+    client and server are connecting. (not yet msging)
+
+commit 6d22c8f6ed34bbaeb5b5b0c62b478156006d76ac
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri May 11 16:19:34 2018 +0300
+
+    add commands
+
+commit 591b06eb10fa42e4a98b9d1818fdedda2c1d8083
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri May 11 15:10:53 2018 +0300
+
+    NOT WORKING
+
+commit 514c41bdc901cd90c87878516785c508cfb16beb
+Merge: 952cf6c 452dedc
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 21:52:56 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 952cf6ce040bbfc80afe1aa41c5ed8841286c3c4
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 21:52:48 2018 +0300
+
+    added tcpClient
+
+commit 452dedcb527af9358f7deacdb8fd762af4c466df
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 10 21:31:11 2018 +0300
+
+    added projects, server
+
+commit efe09c634611a9edaa0a4e55697d496539d125ad
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 13:02:31 2018 +0300
+
+    merged
+
+commit 9d2c974c06487c1c4d83f5bb8172e32ffe8c0257
+Merge: 70bb449 8006bc4
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 13:01:59 2018 +0300
+
+    settings and logs, MERGED
+
+commit 8006bc4093e7403e9e99864118a50b295e0fc099
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 10 12:43:02 2018 +0300
+
+    trial
+
+commit 70bb4491a567b862b2035a8ef39eec3b25d345ae
+Merge: e644895 9f189e2
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 12:21:21 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit e6448959c424e0a089aaa948fcd0f9e4ba8abfd6
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Thu May 10 12:21:12 2018 +0300
+
+    added settings MVVM, remove button working
+
+commit 9f189e238c0a5a251b773e1cdcea1d010bae4179
+Merge: f29a959 20a634e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu May 10 00:55:10 2018 +0300
+
+    logs xaml
+
+commit f29a9596bf07676196b2ff7ee6d659af0e005f75
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 9 17:23:16 2018 +0300
+
+    hi
+
+commit 20a634eba272b6888ae29466a2aee496eec9541f
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 17:14:52 2018 +0300
+
+    settings data binding
+
+commit 2fc34753c884eb384589540499efa267d1e7bb26
+Merge: d831ebe e27d83a
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 15:18:38 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit d831ebe7432c12ab5be74a93fa306e97ca74307c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 15:18:23 2018 +0300
+
+    to pull
+
+commit e27d83a6f217819cd54e9706ba4a4d83cbc2a622
+Merge: 2f663b5 546263c
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 9 15:15:01 2018 +0300
+
+    fix bugs
+
+commit 2f663b5e4bf01bc569b4c6fa33a715dcf874392a
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 9 15:04:55 2018 +0300
+
+    fix bugs
+
+commit 546263cfa904c3c6e015c62150700cb67d09393e
+Merge: 1c5bac8 f12d7f1
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 14:42:18 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 1c5bac8c3ca8622c6e7d2dc386c4a6db7f3efa33
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 14:42:05 2018 +0300
+
+    commit to pull
+
+commit f12d7f1d348ce732277dcf5226df6d357a1a6290
+Merge: e4e976c 9a833b3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 9 14:08:00 2018 +0300
+
+    fix bugs in xaml
+
+commit e4e976ca873dd0243de528b305d37ee8012e0562
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Wed May 9 12:02:55 2018 +0300
+
+    add server directoris
+
+commit 9a833b30957fa782eb0dab90790dbcbd203a43de
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Wed May 9 10:46:21 2018 +0300
+
+    open folders and files
+
+commit c74d74b3e74c085aeeb36f0c8d3e2c434d2eb034
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun May 6 14:09:45 2018 +0300
+
+    commit to pull
+
+commit f1755cbf45438d4aef6b63c5ed849a748143a058
+Merge: e97667b 1467930
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun May 6 14:09:17 2018 +0300
+
+    commit to pull
+
+commit e97667b45dc02f7e46bb2948c933fadbdd45e202
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun Apr 15 16:31:19 2018 +0300
+
+    commit to pull
+
+commit 1467930cba54892dc2eaac1e84d8f0c1a25c060d
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Apr 15 16:07:49 2018 +0300
+
+    coding style, commands, finish!
+
+commit 68b425f8614baf1a41b93dc6a173804d2e81c341
+Merge: c6251c8 320c0dd
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Apr 15 00:03:46 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit c6251c81984d61b5de3936e07e072b6bc8e25455
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Apr 15 00:03:33 2018 +0300
+
+    fix bugs.
+
+commit 320c0dd805e0802a075aab322aae4621bb2c40fc
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 22:45:59 2018 +0300
+
+    added some logger msg
+
+commit 3bec94ddfa2c58f7e2197c250ab34d38e1efe249
+Merge: 8a7ce0c f24023a
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 19:29:43 2018 +0300
+
+    merged
+
+commit 8a7ce0c8605f2fdd9fcacdab4c745d76a3eeeb3c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 19:22:05 2018 +0300
+
+    Close Command working. Logger writimg msg to the correct place
+
+commit f24023ae8f0ab790336a2507808e412fb2da19a7
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Apr 14 14:26:37 2018 +0300
+
+    fixed bugs
+
+commit 13204f6f498c423420d3074646f396a55c5dfef8
+Merge: ac01e1a 89694ef
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:07:37 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit ac01e1ad29cd21c423d715a5a09d1bec84223d4d
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:07:33 2018 +0300
+
+    commiting in order to pull
+
+commit c7653230fbf581ffc61a01a3e81791529c2568e7
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 14 13:06:43 2018 +0300
+
+    commitinig in order to pull
+
+commit 89694efb407cec238dbc059c86a5b32f96e9db5d
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Apr 14 03:39:22 2018 +0300
+
+    fix bugs, add more message to logger
+
+commit 00b4c54fe63ced087a3bc503da110b1b9a3dc987
+Merge: e8b1aa3 ddb8284
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 13 21:40:37 2018 +0300
+
+    merged
+
+commit ddb8284c79208fd6ba0fea7eb94f2b1a0c5df1ce
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Apr 13 21:25:19 2018 +0300
+
+    fix bugs
+
+commit e8b1aa3beae78b70fece08697d0faac667f6c8f8
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 13 21:16:46 2018 +0300
+
+    adding numbers to double named pictures
+
+commit c1ad14f6c1aae633f6e1395a246baa820214685c
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Apr 13 20:46:22 2018 +0300
+
+    add loger, there are bugs - no pic in thumbnail!
+
+commit bb5958e456c0212f0790403f0afcd105bd8725a9
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 15:05:31 2018 +0300
+
+    commit in order to pull
+
+commit 1a2b0540022eca762e139382ac151bba1c2048c8
+Merge: dd0def6 798d991
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 15:03:16 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 798d991987fe57437edc2752e392e3029b62f383
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Mon Apr 9 15:03:01 2018 +0300
+
+    bug fixed - pics & thumbnails are created in the directories
+
+commit dd0def64b454cd843d3c33cec4c357ac8efd0547
+Merge: 3959b3d bc21ff3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 12:45:48 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 3959b3dff256199b91ce3df1d914e846f45474d8
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Apr 9 12:45:36 2018 +0300
+
+    start the logger
+
+commit bc21ff3cb5ae649e7f6ea7602b95d1bf22ff0fb1
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 7 17:35:32 2018 +0300
+
+    BUG FIXED - all directory opens, exception when trying to move the pic - see comment in ImageServiceModal line 61
+
+commit f6700868d5a51526033cbfd02dc2768ff1b7e430
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Apr 7 03:47:09 2018 +0300
+
+    added: addFileCommand, Handlers. not yet working.
+
+commit 13260c623d0541e91a4b2e01401b768d471711d5
+Merge: cedc1f8 e6f9223
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 6 00:48:14 2018 +0300
+
+    merged
+
+commit cedc1f81b29d1d6c181c4f035126f0b12e1cfa3e
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Fri Apr 6 00:46:25 2018 +0300
+
+    Server - partial, AppConfig added
+
+commit e6f9223b74543c2cb1d74f8a2d78999377fc987e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Apr 5 21:53:09 2018 +0300
+
+    logging model, image model (part 3)
+
+commit 8150a56e36127a5c142d39edeb9339e45f6c2cb3
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Mar 31 13:47:33 2018 +0300
+
+    start project
+
+commit ce505b1ad939e35b8a3b7c978c87024d51cdf94e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Mar 29 12:51:37 2018 +0300
+
+    Add project files.
+
+commit d964b5826e64df2c445d64ae108a1a1cc8f143f6
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Mar 29 12:51:26 2018 +0300
+
+    Add .gitignore and .gitattributes.
