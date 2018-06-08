@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using ImageService.Communication;
+using ImageService.Infrastructure.Enums;
+using ImageService.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +14,7 @@ namespace WebApplication2.Controllers
 {
     public class FirstController : Controller
     {
+        static Client client = null;
         //LogModel logModel = new LogModel();
         static List<Employee> employees = new List<Employee>()
         {
@@ -24,6 +29,13 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "Info" , Message = "testtttt"},
             new LogModel { Type = "Info" , Message = "hey hey"}
         };
+        static FirstController()
+        {
+            client = Client.getInstance();
+
+            client.DataRecieved += OnDataRecieved;
+
+        }
         // GET: First
         public ActionResult Index()
         {
@@ -149,6 +161,25 @@ namespace WebApplication2.Controllers
                 i++;
             }
             return RedirectToAction("Error");
+        }
+        //public void AddLog(Log log)
+        //{
+            
+        //}
+        public static void OnDataRecieved(object sender, EventArgs ee)
+        {
+            MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
+            if (e.id == MessagesToClientEnum.Logs)
+            {
+                Console.WriteLine("I know i got an Logs msg!");
+                List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
+                foreach (Log log in logsList)
+                {
+                    logs.Add(new LogModel { Type = log.Type.ToString(), Message = log.Message });
+
+                }
+                //Logs = logsList;
+            }
         }
     }
 }

@@ -37,19 +37,15 @@ namespace ImageService.Communication
             }
             return instance;
         }
-
-
-
+        
         /// <summary>
         /// private constructor - singelton Pattern
         /// </summary>
         private Client()
         {
-            
             Console.WriteLine("client: in constructor");
             client = new TcpClient();
             Start();
-       
         }
 
         /// <summary>

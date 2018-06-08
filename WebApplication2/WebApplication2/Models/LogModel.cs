@@ -1,4 +1,8 @@
-﻿using ImageService.Logging;
+﻿using ImageService.Communication;
+using ImageService.Infrastructure.Enums;
+using ImageService.Logging;
+using ImageService.Logging.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,8 +11,13 @@ using System.Web;
 
 namespace WebApplication2.Models
 {
-    public class LogModel: CommunicationModel
+    public class LogModel
     {
+        //[Required]
+        //[DataType(DataType.Text)]
+        //[Display(Name = "Logs")]
+        //public List<Log> Logs{ get; set; } 
+
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Type")]
@@ -19,6 +28,13 @@ namespace WebApplication2.Models
         [Display(Name = "Message")]
         public string Message { get;  set; }
 
+        public LogModel()
+        {
+            //maybe sleep?
+        }
+
+      
+       
 
     }
 
