@@ -29,6 +29,9 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "Info" , Message = "testtttt"},
             new LogModel { Type = "Info" , Message = "hey hey"}
         };
+
+        static ConfigModel configModel = new ConfigModel();
+      //  static List<string> fields = new List<string>();
         static FirstController()
         {
             client = Client.getInstance();
@@ -74,10 +77,18 @@ namespace WebApplication2.Controllers
             return null;
         }
 
+    
+
         // GET: First/Details
         public ActionResult Details()
         {
             return View(employees);
+        }
+
+        // GET: First/RemoveHandler
+        public ActionResult RemoveHandler()
+        {
+            return View();
         }
 
         // GET: First/Create
@@ -97,6 +108,28 @@ namespace WebApplication2.Controllers
         {
             return View(logs);
         }
+
+        //get configurations!! -- ??
+        [HttpGet]
+        public ActionResult Configuration()
+        {
+            ViewBag.outputDir = configModel.outputDir;
+            ViewBag.logName = configModel.logName;
+            ViewBag.sourceName = configModel.sourceName;
+            ViewBag.thumbSize = configModel.thumbSize;
+            ViewBag.dirs = configModel.dirs;
+            return View();
+        }
+
+        //post configuration!! --???
+        [HttpPost]
+        public ActionResult Configuration(ConfigModel conf)
+        {
+            return View(conf);
+        }
+
+
+
         // POST: First/Create
         [HttpPost]
         public ActionResult Create(Employee emp)
@@ -179,6 +212,19 @@ namespace WebApplication2.Controllers
 
                 }
                 //Logs = logsList;
+            }
+            if (e.id == MessagesToClientEnum.Settings)
+            {
+                Console.WriteLine("I know i got an settings msg!");
+               configModel.AddSettingsFromJson(e.msg);
+            }
+
+            if (e.id == MessagesToClientEnum.HandlerRemoved)
+            {
+                //App.Current.Dispatcher.Invoke((Action)delegate // <--- here
+                //{
+                //    this.dirs.Remove(e.msg);
+                //});
             }
         }
     }
