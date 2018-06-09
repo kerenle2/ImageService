@@ -188,6 +188,7 @@
     <Content Include="Views\First\Logs.cshtml" />
     <Content Include="Views\First\Configuration.cshtml" />
     <Content Include="Views\First\RemoveHandler.cshtml" />
+    <Content Include="Views\First\ImageWeb.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

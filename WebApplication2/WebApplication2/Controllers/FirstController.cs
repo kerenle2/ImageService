@@ -27,7 +27,9 @@ namespace WebApplication2.Controllers
         static List<LogModel> logs = new List<LogModel>()
         {
             new LogModel { Type = "Info" , Message = "testtttt"},
-            new LogModel { Type = "Info" , Message = "hey hey"}
+            new LogModel { Type = "Info" , Message = "hey hey"},
+            new LogModel { Type = "WARNING" , Message = "warning"}
+
         };
 
         static ConfigModel configModel = new ConfigModel();
@@ -77,7 +79,11 @@ namespace WebApplication2.Controllers
             return null;
         }
 
-    
+        // GET: First/ImageWeb
+        public ActionResult ImageWeb()
+        {
+            return View();
+        }
 
         // GET: First/Details
         public ActionResult Details()
