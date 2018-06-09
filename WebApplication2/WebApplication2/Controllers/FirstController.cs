@@ -203,6 +203,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Remove(string dir)
         {
             string[] args = { dir };
