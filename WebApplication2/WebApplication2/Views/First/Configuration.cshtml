@@ -39,16 +39,31 @@
     @{
         foreach (var dir in dirs)
         {
-            @*<button type="button" a href="#" class="btn btn-primary btn-lg btn-block" aria-disabled="true">@dir</button>*@
             // aria-disabled="true" attr to disable' add later with condition
 
-            <a href="http://localhost:33438/First/RemoveHandler" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">@dir</a>
-
-
-
+            <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1"
+               onclick="UpdateDirToRemove(@dir)"
+               role="button" aria-disabled="true" @Html.ActionLink((string)@dir, "UpdateDirToRemove", new { arg1 = dir })>
+</a>
         }
     }
  
 </div>
+<script>
+    function UpdateDirToRemove(dir)
+    {
+            configModel.dirToRemove = dir;
+    }
+</script>
 
+<script>
+    $("#dir").click(function () {
 
+        $.UpdateDirToRemove("jkjkj");
+
+        });
+</script>
+
+@*@Html.Action(@dir, "UpdateDirToRemove", "FirstController", new { arg1 = dir }, null)*@
+
+@*onclick="UpdateDirToRemove(@dir)"*@

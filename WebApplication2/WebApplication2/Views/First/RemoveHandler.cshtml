@@ -8,12 +8,12 @@
 <h2>Remove Handler</h2>
 
 <div class="alert alert-danger" role="alert">
-    Are you 100% sure you want to remove handler: ADD HERE HANDLER NAME ??? 
+    Are you sure you want to remove handler: @ViewBag.dirToRemove ??? 
 </div>
 
 <form>
     <div class="form-group form-check">
-        <button type="submit" class="btn btn-primary">Yes! Remove this god damn handler</button>
+        <button type="submit" class="btn btn-primary" >@Html.ActionLink("Yes! Remove this god damn handler", "Remove", "FirstController", new { arg1 = "fff"}, null) </button>
         <button type="submit" class="btn btn-primary">No, I dont want to remove</button>
     </div>
 </form>

@@ -195,9 +195,25 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Error");
         }
+
+        public ActionResult UpdateDirToRemove(string dir)
+        {
+            configModel.dirToRemove = dir;
+            ViewBag.dirToRemove = dir;
+            return View();
+        }
+
+        public ActionResult Remove(string dir)
+        {
+            string[] args = { dir };
+            client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+            
+            return RedirectToAction("Configuration");
+
+        }
         //public void AddLog(Log log)
         //{
-            
+
         //}
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
@@ -221,11 +237,9 @@ namespace WebApplication2.Controllers
 
             if (e.id == MessagesToClientEnum.HandlerRemoved)
             {
-                //App.Current.Dispatcher.Invoke((Action)delegate // <--- here
-                //{
-                //    this.dirs.Remove(e.msg);
-                //});
+                configModel.dirs.Remove(e.msg);
             }
         }
+
     }
 }
