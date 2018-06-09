@@ -94,6 +94,8 @@ namespace ImageService.Modal
 
                 //if all success, return the new path of the image
                 return "the transfer was successful, the image from " + path + " is moved to " + yearMonthPath;
+
+                
             }
             catch (Exception e)
             {

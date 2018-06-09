@@ -5,10 +5,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
+using ImageService.Modal;
+using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
@@ -31,9 +34,12 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
-
         static ConfigModel configModel = new ConfigModel();
-      //  static List<string> fields = new List<string>();
+        static ThumbnailsModel thumbsModel;
+
+
+
+        //  static List<string> fields = new List<string>();
         static FirstController()
         {
             client = Client.getInstance();
@@ -96,6 +102,14 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
+
+        // GET: First/Photos
+        public ActionResult Photos()
+        {
+            thumbsModel = new ThumbnailsModel(configModel.outputDir);
+            return View(thumbsModel);
+        }
+
 
         // GET: First/Create
         public ActionResult Create()
@@ -217,6 +231,53 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Configuration");
 
         }
+
+
+        //public void getThumbsFromDir(string outputDir)
+        //{
+          
+        //    if (outputDir == configModel.outputDir)
+        //    {
+        //        if (Directory.Exists(outputDir + "\\Thumbnails"))
+        //        {
+        //            thumbsModel.thumbs.Clear(); //yes? im going this way?
+        //            string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
+        //            foreach(string path in paths)
+        //            {
+        //                DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
+        //                string year = date.Year.ToString();
+        //                string month = date.Month.ToString();
+        //                string imageName = path.Substring(path.LastIndexOf("\\"));
+
+        //                Thumbnail thumb = new Thumbnail(imageName, year, month, path);
+        //                thumbsModel.thumbs.Add(thumb);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //public void AddPhoto(string path, string outputDir)
+        //{
+           
+
+        //    //get the date from the image
+        //    DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
+
+        //    //create strings:
+        //    string year = date.Year.ToString();
+        //    string month = date.Month.ToString();
+        //    //string thumbnailsPath = Path.Combine(configModel.outputDir, "Thumbnails");
+        //    //string yearPath = Path.Combine(configModel.outputDir, year);
+        //    string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
+        //    //string yearMonthPath = Path.Combine(yearPath, month);
+        //    string yearMonthPathThumbnails = Path.Combine(yearPathThumbnails, month);
+        //    string imageName = path.Substring(path.LastIndexOf("\\"));
+
+        //    Thumbnail thumb = new Thumbnail(imageName, year, month, path);
+        //    thumbsModel.AddThumb(thumb);
+
+        //}
+
         //public void AddLog(Log log)
         //{
 
