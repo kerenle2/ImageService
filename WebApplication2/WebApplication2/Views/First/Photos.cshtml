@@ -10,35 +10,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-6 cil-md-3">
-            <a href="#" class="thumbnail">
-                @foreach(var thumb in Model.thumbs)
+                @foreach (var thumb in Model.thumbs)
                 {
-                    <img src="/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" />
-                    <h4>@thumb.name</h4>
-                    <p>Taken In @thumb.month/@thumb.year</p>
-                }
-                <h5></h5>
-            </a>
-        </div>
+                    <div class="col-xs-6 cil-md-3">
+                        <a href="#" class="img-thumbnail">
+                             @{
+                                 var path = "/OutputFromApp/Thumbnails/" + thumb.year + "/" + thumb.month + "/" + thumb.name;
+                             }
+
+                            @*<img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />*@
+                            @*<img src="@Url.Content(path)" />*@
+                            <img src="@path" />
+
+
+                            <h4>@thumb.name</h4>
+                            <p>Taken In @thumb.month/@thumb.year</p>
+                        </a>
+                    </div>
+                  }
     </div>
 </div>
 
-@*h2>Photos</h2>
-<div class="container">
-    <div class="row">
-        @foreach (var photo in Model.photos)
-        {
-            <div class="col-xs-6 col-md-3" style="stroke:blue">
-                <figure href="#" class="thumbnail">
-                    <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" class="img-circle" hight="242" width="200" />
-                    <p>image name: @photo.Name </p>
-                    <p>date: @photo.Month /@photo.Year</p>
-                    @Html.ActionLink("Delete", "askIfDelete", new { idOfPhoto = @photo.ID }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("View", "view", new { idOfPhoto = @photo.ID }, new { @class = "btn btn-danger" })
-                </figure>
-            </div>
-        }
-    </div>
-</div>*@
+
 

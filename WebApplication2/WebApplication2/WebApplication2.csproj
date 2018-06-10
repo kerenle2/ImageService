@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="OutputFromApp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ImageService.Communication\ImageService.Communication.csproj">

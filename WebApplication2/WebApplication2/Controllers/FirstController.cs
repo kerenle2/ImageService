@@ -38,7 +38,6 @@ namespace WebApplication2.Controllers
         static ThumbnailsModel thumbsModel;
 
 
-
         //  static List<string> fields = new List<string>();
         static FirstController()
         {
@@ -98,8 +97,10 @@ namespace WebApplication2.Controllers
         }
 
         // GET: First/RemoveHandler
-        public ActionResult RemoveHandler()
+        public ActionResult RemoveHandler(string dir)
         {
+            configModel.dirToRemove = dir;
+            ViewBag.dirToRemove = dir;
             return View();
         }
 
@@ -138,6 +139,7 @@ namespace WebApplication2.Controllers
             ViewBag.sourceName = configModel.sourceName;
             ViewBag.thumbSize = configModel.thumbSize;
             ViewBag.dirs = configModel.dirs;
+            ViewBag.dirToRemove = configModel.dirToRemove;
             return View();
         }
 
@@ -216,18 +218,31 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Error");
         }
 
+    //    [HttpGet]
         public ActionResult UpdateDirToRemove(string dir)
-        {
-            configModel.dirToRemove = dir;
-            ViewBag.dirToRemove = dir;
-            return View();
+        {   if(dir!=null)
+            {
+                configModel.dirToRemove = dir;
+                ViewBag.dirToRemove = dir;
+            }
+            try
+            {
+                return View(configModel);
+
+            }
+            catch
+            {
+                return View(configModel);
+
+            }
         }
 
         public ActionResult Remove(string dir)
-        {
-            string[] args = { dir };
-            client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
-            
+        {   if(dir!=null)
+            {
+                string[] args = { dir };
+                client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+            }
             return RedirectToAction("Configuration");
 
         }
