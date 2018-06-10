@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,12 @@ namespace WebApplication2.Controllers
     public class FirstController : Controller
     {
         static Client client = null;
+
+        static ConfigModel configModel = new ConfigModel();
+        static ImageWebModel imageWebModel = new ImageWebModel();
+
         //LogModel logModel = new LogModel();
+        
         static List<Employee> employees = new List<Employee>()
         {
           new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
@@ -32,8 +38,7 @@ namespace WebApplication2.Controllers
 
         };
 
-        static ConfigModel configModel = new ConfigModel();
-      //  static List<string> fields = new List<string>();
+        //  static List<string> fields = new List<string>();
         static FirstController()
         {
             client = Client.getInstance();
@@ -79,10 +84,22 @@ namespace WebApplication2.Controllers
             return null;
         }
 
+
         // GET: First/ImageWeb
+        [HttpGet]
         public ActionResult ImageWeb()
         {
-            return View();
+            if (client.Conected)
+            {
+                imageWebModel.IsConnect = "Server Is Connected";
+            }
+            else
+            {
+                imageWebModel.IsConnect = "Server Is Not Connected";
+            }
+            //divide by 2 for not include the thumbnails
+            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir)/2;
+            return View(imageWebModel);
         }
 
         // GET: First/Details
@@ -201,10 +218,31 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Error");
         }
-        //public void AddLog(Log log)
-        //{
+        public int getImagesNum(string path)
+        {
+            try
+            {              
+                //NEED- add all kind og images!!!!!!!!
+                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
+                //initialize counter
+                int counter = 0;
+                //loop on file paths
+
+                foreach (string filePath in directoryFiles)
+                {
+                    counter++;
+                }
+
+                return counter;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+
+            }
             
-        //}
+        }
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
@@ -212,6 +250,7 @@ namespace WebApplication2.Controllers
             {
                 Console.WriteLine("I know i got an Logs msg!");
                 List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
+
                 foreach (Log log in logsList)
                 {
                     logs.Add(new LogModel { Type = log.Type.ToString(), Message = log.Message });
