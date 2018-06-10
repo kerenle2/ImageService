@@ -39,7 +39,6 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
-        static ConfigModel configModel = new ConfigModel();
         static ThumbnailsModel thumbsModel;
 
 
@@ -107,6 +106,31 @@ namespace WebApplication2.Controllers
             return View(imageWebModel);
         }
 
+        public int getImagesNum(string path)
+        {
+            try
+            {
+                //NEED- add all kind og images!!!!!!!!
+                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
+                //initialize counter
+                int counter = 0;
+                //loop on file paths
+
+                foreach (string filePath in directoryFiles)
+                {
+                    counter++;
+                }
+
+                return counter;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+
+            }
+
+        }
         // GET: First/Details
         public ActionResult Details()
         {
