@@ -21,9 +21,10 @@ namespace WebApplication2.Controllers
 
         static ConfigModel configModel = new ConfigModel();
         static ImageWebModel imageWebModel = new ImageWebModel();
+        static ThumbnailsModel thumbsModel;
 
         //LogModel logModel = new LogModel();
-        
+
         static List<Employee> employees = new List<Employee>()
         {
           new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
@@ -39,8 +40,6 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
-        static ConfigModel configModel = new ConfigModel();
-        static ThumbnailsModel thumbsModel;
 
 
 
@@ -252,7 +251,7 @@ namespace WebApplication2.Controllers
 
         //public void getThumbsFromDir(string outputDir)
         //{
-          
+
         //    if (outputDir == configModel.outputDir)
         //    {
         //        if (Directory.Exists(outputDir + "\\Thumbnails"))
@@ -275,7 +274,7 @@ namespace WebApplication2.Controllers
 
         //public void AddPhoto(string path, string outputDir)
         //{
-           
+
 
         //    //get the date from the image
         //    DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
@@ -299,6 +298,31 @@ namespace WebApplication2.Controllers
         //{
 
         //}
+        public int getImagesNum(string path)
+        {
+            try
+            {
+                //NEED- add all kind og images!!!!!!!!
+                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
+                //initialize counter
+                int counter = 0;
+                //loop on file paths
+
+                foreach (string filePath in directoryFiles)
+                {
+                    counter++;
+                }
+
+                return counter;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+
+            }
+
+        }
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
