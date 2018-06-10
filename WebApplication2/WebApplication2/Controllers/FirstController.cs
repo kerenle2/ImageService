@@ -10,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
+using ImageService.Modal;
+using System.Threading.Tasks;
 
 namespace WebApplication2.Controllers
 {
@@ -37,6 +39,10 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
+        static ConfigModel configModel = new ConfigModel();
+        static ThumbnailsModel thumbsModel;
+
+
 
         //  static List<string> fields = new List<string>();
         static FirstController()
@@ -113,6 +119,14 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
+
+        // GET: First/Photos
+        public ActionResult Photos()
+        {
+            thumbsModel = new ThumbnailsModel(configModel.outputDir);
+            return View(thumbsModel);
+        }
+
 
         // GET: First/Create
         public ActionResult Create()
@@ -218,31 +232,73 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Error");
         }
-        public int getImagesNum(string path)
+
+        public ActionResult UpdateDirToRemove(string dir)
         {
-            try
-            {              
-                //NEED- add all kind og images!!!!!!!!
-                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
-                //initialize counter
-                int counter = 0;
-                //loop on file paths
-
-                foreach (string filePath in directoryFiles)
-                {
-                    counter++;
-                }
-
-                return counter;
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return 0;
-
-            }
-            
+            configModel.dirToRemove = dir;
+            ViewBag.dirToRemove = dir;
+            return View();
         }
+
+        public ActionResult Remove(string dir)
+        {
+            string[] args = { dir };
+            client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+            
+            return RedirectToAction("Configuration");
+
+        }
+
+
+        //public void getThumbsFromDir(string outputDir)
+        //{
+          
+        //    if (outputDir == configModel.outputDir)
+        //    {
+        //        if (Directory.Exists(outputDir + "\\Thumbnails"))
+        //        {
+        //            thumbsModel.thumbs.Clear(); //yes? im going this way?
+        //            string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
+        //            foreach(string path in paths)
+        //            {
+        //                DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
+        //                string year = date.Year.ToString();
+        //                string month = date.Month.ToString();
+        //                string imageName = path.Substring(path.LastIndexOf("\\"));
+
+        //                Thumbnail thumb = new Thumbnail(imageName, year, month, path);
+        //                thumbsModel.thumbs.Add(thumb);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //public void AddPhoto(string path, string outputDir)
+        //{
+           
+
+        //    //get the date from the image
+        //    DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
+
+        //    //create strings:
+        //    string year = date.Year.ToString();
+        //    string month = date.Month.ToString();
+        //    //string thumbnailsPath = Path.Combine(configModel.outputDir, "Thumbnails");
+        //    //string yearPath = Path.Combine(configModel.outputDir, year);
+        //    string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
+        //    //string yearMonthPath = Path.Combine(yearPath, month);
+        //    string yearMonthPathThumbnails = Path.Combine(yearPathThumbnails, month);
+        //    string imageName = path.Substring(path.LastIndexOf("\\"));
+
+        //    Thumbnail thumb = new Thumbnail(imageName, year, month, path);
+        //    thumbsModel.AddThumb(thumb);
+
+        //}
+
+        //public void AddLog(Log log)
+        //{
+
+        //}
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
@@ -266,11 +322,9 @@ namespace WebApplication2.Controllers
 
             if (e.id == MessagesToClientEnum.HandlerRemoved)
             {
-                //App.Current.Dispatcher.Invoke((Action)delegate // <--- here
-                //{
-                //    this.dirs.Remove(e.msg);
-                //});
+                configModel.dirs.Remove(e.msg);
             }
         }
+
     }
 }

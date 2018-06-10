@@ -36,6 +36,11 @@ namespace WebApplication2.Models
         public string thumbSize { get; set; }
 
 
+        [Required] // ?
+        [DataType(DataType.Text)]
+        public string dirToRemove { get; set; }
+
+
         public List<string> dirs { get; set; }
 
         /// <summary>
@@ -56,5 +61,6 @@ namespace WebApplication2.Models
             this.outputDir = (string)configJson["OutputDir"];
             this.thumbSize = ((int)configJson["ThumbnailSize"]).ToString();
         }
+
     }
 }
