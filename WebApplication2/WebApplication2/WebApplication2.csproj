@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Students.txt" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -162,9 +163,11 @@
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\CommunicationModel.cs" />
+    <Compile Include="Models\ImageWebModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\Thumbnail.cs" />
     <Compile Include="Models\ThumbnailsModel.cs" />
+    <Compile Include="Models\Students.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
