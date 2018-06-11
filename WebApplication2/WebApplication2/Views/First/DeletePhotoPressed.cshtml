@@ -1,0 +1,38 @@
+﻿@model WebApplication2.Models.Thumbnail
+
+@{
+    ViewBag.Title = "DeletePhotoPressed";
+}
+
+<h2>DeletePhoto</h2>
+
+<div class="alert alert-info" role="alert">
+                    Do you Want To Delete This Photo? 
+</div>
+
+@*@{
+    if (Model.picToDelete != -1)
+    {
+        var thumb = Model.thumbs[Model.picToDelete];
+
+    }
+
+}*@
+
+@{
+    var thumb = Model;
+}
+<img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />
+
+
+@Html.ActionLink("Delete", "DeletePhoto", new { picNumber = thumb.picNumber }, new { @class = "btn btn-info" })
+<button type="button" id="cancel" class="btn btn-outline-danger">Cancel</button>
+
+<script>
+    $("#cancel").click(function () {
+        window.location = "Photos";
+    });
+</script>
+
+
+

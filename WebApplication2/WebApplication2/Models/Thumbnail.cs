@@ -8,12 +8,13 @@ namespace WebApplication2.Models
 {
     public class Thumbnail
     {
-        public Thumbnail(string name, string year, string month, string path)
+        public Thumbnail(string name, string year, string month, string fullPath, int picNumber)
         {
             this.name = name;
             this.month = month;
             this.year = year;
-            this.path = path;
+            this.fullPath = fullPath;
+            this.picNumber = picNumber;
         }
 
         public void copy(Thumbnail thumb)
@@ -21,7 +22,7 @@ namespace WebApplication2.Models
             this.name = thumb.name;
             this.year = thumb.year;
             this.month = thumb.month;
-            this.path = thumb.path;
+            this.fullPath = thumb.fullPath;
         }
 
         [Required]
@@ -42,6 +43,12 @@ namespace WebApplication2.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "path")]
-        public string path { get; set; }
+        public string fullPath { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "picNumber")]
+        public int picNumber { get; set; }
+
     }
 }

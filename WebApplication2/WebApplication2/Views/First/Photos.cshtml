@@ -10,16 +10,19 @@
                 @foreach (var thumb in Model.thumbs)
                 {
                     <div class="col-xs-6 cil-md-3">
+                        
+                            <figure href="#" class="img-thumbnail">
+                                <img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />
+                                <h4>@thumb.name</h4>
+                                <p>Taken In @thumb.month/@thumb.year</p>
 
-                        <a href="#" class="img-thumbnail">
-                            <img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />
-                            <h4>@thumb.name</h4>
-                            <p>Taken In @thumb.month/@thumb.year</p>
-                        </a>
+
+                                @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = thumb.picNumber @*thumbToDelete = thumb*@ }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("View", "view", new { idOfPhoto = @thumb }, new { @class = "btn btn-danger" })
+                            </figure>
+                       
                     </div>
                   }
     </div>
 </div>
-
-
 

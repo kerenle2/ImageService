@@ -13,15 +13,18 @@ namespace WebApplication2.Models
     {
 
         [Required]
-      //[DataType(DataType.)] // ??
+        [DataType(DataType.Text)]
         [Display(Name = "thumbs")]
         public List<Thumbnail> thumbs { get; set; }
 
         private string outputDir;
 
-        //[Required]
-        //[DataType()] // ??
-        //[Display(Name = "Count")]
+        public int picToDelete { get; set; }
+        public Thumbnail thumbToDelete { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Count")]
         public int count { get; set; }
 
         public ThumbnailsModel(string outputDir)
@@ -49,7 +52,7 @@ namespace WebApplication2.Models
         public void getThumbsFromDir(string outputDir)
         {
 
-
+            count = 0;
             thumbs.Clear(); //yes? im going this way?
             string[] extensions = { ".jpg", ".png", ".gif", ".bmp" };
 
@@ -63,8 +66,7 @@ namespace WebApplication2.Models
                         string month = Path.GetFileName(Path.GetDirectoryName(path));
                         string year = Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(path)));
                         string imageName = Path.GetFileName(path);
-
-                        Thumbnail thumb = new Thumbnail(imageName, year, month, path);
+                        Thumbnail thumb = new Thumbnail(imageName, year, month, path, count+1);
                         AddThumb(thumb);
                     }
 
