@@ -137,6 +137,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="OutputFromApp\2013\1\b.jpg" />
+    <Content Include="OutputFromApp\Thumbnails\2013\1\b.jpg" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -150,6 +152,7 @@
     <Content Include="scripts\jquery-3.0.0.slim.js" />
     <Content Include="scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="images.jpg" />
     <Content Include="Web.config" />
     <Content Include="Views\First\Create.cshtml" />
     <Content Include="Views\First\Details.cshtml" />
@@ -202,10 +205,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="OutputFromApp\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\ImageService.Communication\ImageService.Communication.csproj">
       <Project>{6a5f8c6a-0cfa-445a-817b-8dc2390121ed}</Project>

@@ -22,6 +22,7 @@ namespace WebApplication2.Controllers
         static ConfigModel configModel = new ConfigModel();
         static ImageWebModel imageWebModel = new ImageWebModel();
         static ThumbnailsModel thumbsModel;
+        static bool waitForRemoveHandler = false;
 
         //LogModel logModel = new LogModel();
 
@@ -40,8 +41,7 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
-        static ConfigModel configModel = new ConfigModel();
-        static ThumbnailsModel thumbsModel;
+        
 
 
         //  static List<string> fields = new List<string>();
@@ -52,7 +52,23 @@ namespace WebApplication2.Controllers
             client.DataRecieved += OnDataRecieved;
 
         }
-        // GET: First
+        // GET: First/ImageWeb
+        [HttpGet]
+        public ActionResult ImageWeb()
+        {
+            if (client.Conected)
+            {
+                imageWebModel.IsConnect = "Server Is Connected";
+            }
+            else
+            {
+                imageWebModel.IsConnect = "Server Is Not Connected";
+            }
+            //divide by 2 for not include the thumbnails
+            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir) / 2;
+            return View(imageWebModel);
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -91,48 +107,8 @@ namespace WebApplication2.Controllers
         }
 
 
-        // GET: First/ImageWeb
-        [HttpGet]
-        public ActionResult ImageWeb()
-        {
-            if (client.Conected)
-            {
-                imageWebModel.IsConnect = "Server Is Connected";
-            }
-            else
-            {
-                imageWebModel.IsConnect = "Server Is Not Connected";
-            }
-            //divide by 2 for not include the thumbnails
-            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir)/2;
-            return View(imageWebModel);
-        }
-
-        public int getImagesNum(string path)
-        {
-            try
-            {
-                //NEED- add all kind og images!!!!!!!!
-                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
-                //initialize counter
-                int counter = 0;
-                //loop on file paths
-
-                foreach (string filePath in directoryFiles)
-                {
-                    counter++;
-                }
-
-                return counter;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return 0;
-
-            }
-
-        }
+        
+       
         // GET: First/Details
         public ActionResult Details()
         {
@@ -177,6 +153,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public ActionResult Configuration()
         {
+            while (waitForRemoveHandler) { }
             ViewBag.outputDir = configModel.outputDir;
             ViewBag.logName = configModel.logName;
             ViewBag.sourceName = configModel.sourceName;
@@ -279,12 +256,17 @@ namespace WebApplication2.Controllers
 
             }
         }
-
+        
         public ActionResult Remove(string dir)
-        {   if(dir!=null)
+        {
+
+            if (dir!=null)
             {
+                waitForRemoveHandler = true;
                 string[] args = { dir };
                 client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+                while (configModel.dirs.Contains(dir)) { }
+                waitForRemoveHandler = false;
             }
             return RedirectToAction("Configuration");
 
@@ -389,6 +371,7 @@ namespace WebApplication2.Controllers
             if (e.id == MessagesToClientEnum.HandlerRemoved)
             {
                 configModel.dirs.Remove(e.msg);
+                waitForRemoveHandler = false;
             }
         }
 

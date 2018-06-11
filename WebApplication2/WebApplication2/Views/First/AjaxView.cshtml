@@ -31,7 +31,7 @@
 
 </div>
 
-<script>
+<script src="~/scripts/jquery-3.0.0.intellisense.js">
     $("#btnStart").click(function () {
         $.getJSON("@Url.Action("GetEmployee")", function (empl) {
             $("#prodId").text(empl.FirstName);

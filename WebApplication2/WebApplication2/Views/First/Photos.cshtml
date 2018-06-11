@@ -13,7 +13,7 @@
                 @foreach (var thumb in Model.thumbs)
                 {
                     <div class="col-xs-6 cil-md-3">
-                        <a href="#" class="img-thumbnail">
+                        <figure href="#" class="img-thumbnail">
                              @{
                                  var path = "/OutputFromApp/Thumbnails/" + thumb.year + "/" + thumb.month + "/" + thumb.name;
                              }
@@ -25,7 +25,7 @@
 
                             <h4>@thumb.name</h4>
                             <p>Taken In @thumb.month/@thumb.year</p>
-                        </a>
+                        </figure>
                     </div>
                   }
     </div>

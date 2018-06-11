@@ -16,25 +16,25 @@
 <div class="container body-content">
     <h2>Configuration</h2><hr />
 
-        <div>
-            <label class="row-sm-8">Output Directory: @outputDir</label>
-        </div>
-        <div>
-            <label class="row-sm-4">Source Name: @sourceName</label>
-        </div>
-        <div>
+    <div>
+        <label class="row-sm-8">Output Directory: @outputDir</label>
+    </div>
+    <div>
+        <label class="row-sm-4">Source Name: @sourceName</label>
+    </div>
+    <div>
         <label class="row-sm-4">Log Name: @logName</label>
-        </div>
-         <div>
+    </div>
+    <div>
         <label class="row-sm-4">Thumbnail Size: @thumbSize</label>
-         </div>
+    </div>
 
 </div>
 
 
 
 
-<div class="list-group"> 
+<div class="list-group">
 
     @{
         foreach (var dir in dirs)
@@ -42,34 +42,34 @@
             // aria-disabled="true" attr to disable' add later with condition
 
             <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
-             @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
+                @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
             </a>
 
 
 
         }
     }
- 
-    @*</div>,
-        <script>
-            function UpdateDirToRemove(dir)
-            {
-                    configModel.dirToRemove = dir;
-                    ViewBag.dirToRemove = dir;
-            }
-        </script>*@
+</div>
+@*
+    <script>
+        function UpdateDirToRemove(dir)
+        {
+                configModel.dirToRemove = dir;
+                ViewBag.dirToRemove = dir;
+        }
+    </script>*@
 
-        @*<script>
-            $("#dir").click(function () {
+@*<script>
+        $("#dir").click(function () {
 
-                $.UpdateDirToRemove("jkjkj");
+            $.UpdateDirToRemove("jkjkj");
 
-                });
-        </script>*@
+            });
+    </script>*@
 
 
 
-    @*@Html.Action("RemoveHandler", "First", new { dir = (string)dir }) >*@
+@*@Html.Action("RemoveHandler", "First", new { dir = (string)dir }) >*@
 
 
 
