@@ -1,6 +1,6 @@
 ﻿
 
-@model IEnumerable<WebApplication2.Models.ConfigModel>
+@model WebApplication2.Models.ConfigModel
 @{
     ViewBag.Title = "Configuration";
 }
@@ -41,27 +41,37 @@
         {
             // aria-disabled="true" attr to disable' add later with condition
 
-            <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1"
-               role="button" aria-disabled="true" @Html.ActionLink((string)@dir, "UpdateDirToRemove","First", new { arg1 = dir }, null) >
-</a>
+            <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
+             @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
+            </a>
+
+
+
         }
     }
  
-</div>
-<script>
-    function UpdateDirToRemove(dir)
-    {
-            configModel.dirToRemove = dir;
-    }
-</script>
+    @*</div>,
+        <script>
+            function UpdateDirToRemove(dir)
+            {
+                    configModel.dirToRemove = dir;
+                    ViewBag.dirToRemove = dir;
+            }
+        </script>*@
 
-<script>
-    $("#dir").click(function () {
+        @*<script>
+            $("#dir").click(function () {
 
-        $.UpdateDirToRemove("jkjkj");
+                $.UpdateDirToRemove("jkjkj");
 
-        });
-</script>
+                });
+        </script>*@
+
+
+
+    @*@Html.Action("RemoveHandler", "First", new { dir = (string)dir }) >*@
+
+
 
 @*@Html.Action(@dir, "UpdateDirToRemove", "First", new { arg1 = dir }, null)*@
 

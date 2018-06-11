@@ -40,7 +40,8 @@ namespace WebApplication2.Controllers
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
-
+        static ConfigModel configModel = new ConfigModel();
+        static ThumbnailsModel thumbsModel;
 
 
         //  static List<string> fields = new List<string>();
@@ -107,6 +108,31 @@ namespace WebApplication2.Controllers
             return View(imageWebModel);
         }
 
+        public int getImagesNum(string path)
+        {
+            try
+            {
+                //NEED- add all kind og images!!!!!!!!
+                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
+                //initialize counter
+                int counter = 0;
+                //loop on file paths
+
+                foreach (string filePath in directoryFiles)
+                {
+                    counter++;
+                }
+
+                return counter;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+
+            }
+
+        }
         // GET: First/Details
         public ActionResult Details()
         {
@@ -114,8 +140,10 @@ namespace WebApplication2.Controllers
         }
 
         // GET: First/RemoveHandler
-        public ActionResult RemoveHandler()
+        public ActionResult RemoveHandler(string dir)
         {
+            configModel.dirToRemove = dir;
+            ViewBag.dirToRemove = dir;
             return View();
         }
 
@@ -154,6 +182,7 @@ namespace WebApplication2.Controllers
             ViewBag.sourceName = configModel.sourceName;
             ViewBag.thumbSize = configModel.thumbSize;
             ViewBag.dirs = configModel.dirs;
+            ViewBag.dirToRemove = configModel.dirToRemove;
             return View();
         }
 
@@ -232,18 +261,31 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Error");
         }
 
+    //    [HttpGet]
         public ActionResult UpdateDirToRemove(string dir)
-        {
-            configModel.dirToRemove = dir;
-            ViewBag.dirToRemove = dir;
-            return View();
+        {   if(dir!=null)
+            {
+                configModel.dirToRemove = dir;
+                ViewBag.dirToRemove = dir;
+            }
+            try
+            {
+                return View(configModel);
+
+            }
+            catch
+            {
+                return View(configModel);
+
+            }
         }
 
         public ActionResult Remove(string dir)
-        {
-            string[] args = { dir };
-            client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
-            
+        {   if(dir!=null)
+            {
+                string[] args = { dir };
+                client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+            }
             return RedirectToAction("Configuration");
 
         }

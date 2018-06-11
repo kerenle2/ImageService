@@ -96,6 +96,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -201,7 +202,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="OutputFromApp\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ImageService.Communication\ImageService.Communication.csproj">
       <Project>{6a5f8c6a-0cfa-445a-817b-8dc2390121ed}</Project>
