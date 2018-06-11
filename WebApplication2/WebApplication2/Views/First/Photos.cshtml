@@ -5,24 +5,14 @@
 }
 
 <h2>Photos</h2>
-
-
-
 <div class="container">
     <div class="row">
                 @foreach (var thumb in Model.thumbs)
                 {
                     <div class="col-xs-6 cil-md-3">
+
                         <a href="#" class="img-thumbnail">
-                             @{
-                                 var path = "/OutputFromApp/Thumbnails/" + thumb.year + "/" + thumb.month + "/" + thumb.name;
-                             }
-
-                            @*<img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />*@
-                            @*<img src="@Url.Content(path)" />*@
-                            <img src="@path" />
-
-
+                            <img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />
                             <h4>@thumb.name</h4>
                             <p>Taken In @thumb.month/@thumb.year</p>
                         </a>

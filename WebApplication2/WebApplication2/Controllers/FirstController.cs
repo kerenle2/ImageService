@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using WebApplication2.Models;
 using ImageService.Modal;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 
 namespace WebApplication2.Controllers
 {
@@ -181,11 +182,25 @@ namespace WebApplication2.Controllers
             ViewBag.thumbSize = configModel.thumbSize;
             ViewBag.dirs = configModel.dirs;
             ViewBag.dirToRemove = configModel.dirToRemove;
+
+          //  thumbs.Clear(); //yes? im going this way?
+
+            //string root = @HostingEnvironment.MapPath("~/OutputFromApp");
+            //var files = Directory.EnumerateFiles(root, "*.*", SearchOption.AllDirectories);
+            //string relativeThumb = "";
+            //foreach (string fullThumb in files)
+            //{
+            //    relativeThumb = fullThumb.Replace(root, "");
+            //    relativeThumb = relativeThumb.TrimStart('\\');
+
+            //}
+            //ViewBag.path = relativeThumb;
+
             return View();
         }
 
         //post configuration!! --???
-        [HttpPost]
+        [HttpPost] 
         public ActionResult Configuration(ConfigModel conf)
         {
             return View(conf);

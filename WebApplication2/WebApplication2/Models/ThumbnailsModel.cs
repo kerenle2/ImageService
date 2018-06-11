@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 
 namespace WebApplication2.Models
 {
@@ -47,16 +48,18 @@ namespace WebApplication2.Models
 
         public void getThumbsFromDir(string outputDir)
         {
+
+
             thumbs.Clear(); //yes? im going this way?
             string[] extensions = { ".jpg", ".png", ".gif", ".bmp" };
 
             if (Directory.Exists(outputDir + "\\Thumbnails"))
+            {
+                string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
+                foreach (string path in paths)
                 {
-                    string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
-                    foreach (string path in paths)
-                {
-                    if(extensions.Contains(Path.GetExtension(path)))
-                    {                        
+                    if (extensions.Contains(Path.GetExtension(path)))
+                    {
                         string month = Path.GetFileName(Path.GetDirectoryName(path));
                         string year = Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(path)));
                         string imageName = Path.GetFileName(path);
@@ -68,7 +71,7 @@ namespace WebApplication2.Models
                 }
             }
 
-         }
+        }
 
 
 

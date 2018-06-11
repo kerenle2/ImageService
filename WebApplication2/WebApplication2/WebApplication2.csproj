@@ -137,6 +137,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="OutputFromApp\f.jpg" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -202,10 +203,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="OutputFromApp\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\ImageService.Communication\ImageService.Communication.csproj">
       <Project>{6a5f8c6a-0cfa-445a-817b-8dc2390121ed}</Project>

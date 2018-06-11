@@ -26,22 +26,22 @@ namespace WebApplication2.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Name")]
+        [Display(Name = "name")]
         public string name{ get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Year")]
+        [Display(Name = "year")]
         public string year { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Month")]
+        [Display(Name = "month")]
         public string month { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Path")]
+        [Display(Name = "path")]
         public string path { get; set; }
     }
 }
