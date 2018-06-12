@@ -25,6 +25,7 @@ namespace WebApplication2.Controllers
         static ImageWebModel imageWebModel = new ImageWebModel();
         static List<LogModel> logs = new List<LogModel>();
         static ThumbnailsModel thumbsModel;
+        static bool waitForRemoveHandler = false;
 
 
         //LogModel logModel = new LogModel();
@@ -47,7 +48,23 @@ namespace WebApplication2.Controllers
             client.DataRecieved += OnDataRecieved;
 
         }
-        // GET: First
+        // GET: First/ImageWeb
+        [HttpGet]
+        public ActionResult ImageWeb()
+        {
+            if (client.Conected)
+            {
+                imageWebModel.IsConnect = "Server Is Connected";
+            }
+            else
+            {
+                imageWebModel.IsConnect = "Server Is Not Connected";
+            }
+            //divide by 2 for not include the thumbnails
+            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir) / 2;
+            return View(imageWebModel);
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -272,6 +289,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public ActionResult Configuration()
         {
+            while (waitForRemoveHandler) { }
             ViewBag.outputDir = configModel.outputDir;
             ViewBag.logName = configModel.logName;
             ViewBag.sourceName = configModel.sourceName;
@@ -388,12 +406,17 @@ namespace WebApplication2.Controllers
 
             }
         }
-
+        
         public ActionResult Remove(string dir)
-        {   if(dir!=null)
+        {
+
+            if (dir!=null)
             {
+                waitForRemoveHandler = true;
                 string[] args = { dir };
                 client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+                while (configModel.dirs.Contains(dir)) { }
+                waitForRemoveHandler = false;
             }
             return RedirectToAction("Configuration");
 
@@ -423,6 +446,7 @@ namespace WebApplication2.Controllers
             if (e.id == MessagesToClientEnum.HandlerRemoved)
             {
                 configModel.dirs.Remove(e.msg);
+                waitForRemoveHandler = false;
             }
         }
 
