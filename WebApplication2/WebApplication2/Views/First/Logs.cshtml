@@ -30,7 +30,7 @@
 </table>
 
     <h2>Filter by Type</h2>
-    <input type="text" id="typeFilterID" size="5" style='text-transform:uppercase'/>
+    <input type="text" id="typeFilterID" size="5"/>
     <input type="button" id="btnSearch" value="Filter" />
 
 
@@ -47,8 +47,8 @@
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-                if (td.innerHTML.localeCompare(filter) == 0 || !input) {
-                    //  tr[i].style.display = "";
+                if (td.innerText.localeCompare(filter.type) == 0 || !input) {
+                      tr[i].style.display = "";
 
                     @*$.post("@Url.Action("GetFilteredLog")", input, function () {
                         $("#td").append("<li>" + data.FirstName + " " + data.LastName + " : $" + data.Salary + "</li>");

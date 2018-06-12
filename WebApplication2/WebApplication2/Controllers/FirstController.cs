@@ -37,8 +37,8 @@ namespace WebApplication2.Controllers
         };
         static List<LogModel> logs = new List<LogModel>()
         {
-            new LogModel { Type = "Info" , Message = "testtttt"},
-            new LogModel { Type = "Info" , Message = "hey hey"},
+            new LogModel { Type = "info" , Message = "testtttt"},
+            new LogModel { Type = "info" , Message = "hey hey"},
             new LogModel { Type = "WARNING" , Message = "warning"}
 
         };
