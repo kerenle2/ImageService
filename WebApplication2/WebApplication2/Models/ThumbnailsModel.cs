@@ -35,7 +35,7 @@ namespace WebApplication2.Models
             this.outputDir = outputDir;
 
             thumbs = new List<Thumbnail>();
-            getThumbsFromDir(outputDir);
+            getThumbsFromDir();
             
         }
 
@@ -51,7 +51,7 @@ namespace WebApplication2.Models
             this.count--;
         }
 
-        public void getThumbsFromDir(string outputDir)
+        public int getThumbsFromDir()
         {
 
             count = 0;
@@ -74,7 +74,7 @@ namespace WebApplication2.Models
 
                 }
             }
-
+            return count;
         }
 
 
