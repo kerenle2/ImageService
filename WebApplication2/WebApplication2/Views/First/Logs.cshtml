@@ -42,13 +42,15 @@
         };
         var filter = input;
         var logs = document.getElementById("logsTable");        // i think here there is a problemmmmmmmm
-        var tr = logsTable.getElementsByTagName("tr");              
+        var tr = logs.getElementsByTagName("tr");              
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-                if (td.innerText.localeCompare(filter.type) == 0 || !input) {
-                      tr[i].style.display = "";
+               // if (td.innerText.localeCompare(filter.type) == 0 || filter.type == "") {
+                if (td.innerHTML.indexOf(filter.type) > -1 || filter.type == "") {
+
+                  tr[i].style.display = "";
 
                     @*$.post("@Url.Action("GetFilteredLog")", input, function () {
                         $("#td").append("<li>" + data.FirstName + " " + data.LastName + " : $" + data.Salary + "</li>");

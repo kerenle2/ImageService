@@ -9,17 +9,20 @@
 <p>picture to show full path is: @Model.fullPath</p>
 
 @{ 
-    var relativePath = "/OutputFromApp/" + Model.year + "/" + Model.month + "/" + Model.name; 
+    var relativePath = "/OutputFromApp/" + Model.year + "/" + Model.month + "/" + Model.name; @*change here after we know how!!*@
 }
 <p>relative path is: @relativePath</p>
 
 <div>
     <h4>@Model.name</h4>
     <p>Taken In @Model.month/@Model.year</p>
-    @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = Model.picNumber }, new { @class = "btn btn-primary btn-lg" })
+
+    <img src="@relativePath"
 
 
 </div>
 
+<div>
+    @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = Model.picNumber }, new { @class = "btn btn-primary btn-lg" })
 
-<img src="@relativePath" />
+</div>

@@ -13,6 +13,8 @@ namespace WebApplication2.Models
         {
             this.dirs = new List<string>();
             //maybe sleep?
+            //System.Threading.Thread.Sleep(200);
+
         }
 
         [Required]

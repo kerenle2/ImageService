@@ -28,10 +28,9 @@ namespace WebApplication2.Controllers
         static bool waitForRemoveHandler = false;
 
 
-        //LogModel logModel = new LogModel();
-
         static List<Employee> employees = new List<Employee>()
         {
+
           new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
           new Employee  { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 2000, Phone = "08-8888888" },
           new Employee   { FirstName = "Mor", LastName = "Sinai", Email = "Stam@stam", Salary = 500, Phone = "08-8888888" },
