@@ -13,6 +13,7 @@
 
 <form>
     <div class="form-group form-check">
+        @* add buttons - ok & cancel.  *@
         <button type="button" id="ok" class="btn btn-success">@Html.ActionLink("Yes! Remove this God Damn Handler", "Remove", "First", new { dir = ViewBag.dirToRemove }, null) </button>
         <button type="button" id="cancel" onclick='window.location="Configuration";' class="btn btn-info">Cancel</button>
 
@@ -20,6 +21,7 @@
 </form>
 
 <script>
+    //if ok is clicked - disable the buttons until the handler is delete
     $("#ok").click(function () {
         $("#ok").attr("disabled", "disabled");
         $("#cancel").attr("disabled", "disabled");

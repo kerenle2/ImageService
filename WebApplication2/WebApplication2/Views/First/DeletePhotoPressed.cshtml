@@ -10,25 +10,17 @@
                     Do you Want To Delete This Photo? 
 </div>
 
-@*@{
-    if (Model.picToDelete != -1)
-    {
-        var thumb = Model.thumbs[Model.picToDelete];
-
-    }
-
-}*@
-
 @{
     var thumb = Model;
 }
 <img src="data:image/jpg;base64,@Model.SingleBase64(@thumb.fullPath)" class="img-circle" hight="200" width="242" />
 
-
+@* delete the photo  *@
 @Html.ActionLink("Delete", "DeletePhoto", new { picNumber = thumb.picNumber }, new { @class = "btn btn-info" })
 <button type="button" id="cancel" class="btn btn-outline-danger">Cancel</button>
 
 <script>
+    //click on cancel - go back to the photo's page.
     $("#cancel").click(function () {
         window.location = "Photos";
     });
