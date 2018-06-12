@@ -15,6 +15,10 @@ namespace WebApplication2.Models
             this.year = year;
             this.fullPath = fullPath;
             this.picNumber = picNumber;
+
+            string string1 = fullPath;
+            string string2 = "Thumbnails\\";
+            fullPathToPic = string1.Replace(string2, "");
         }
 
         public void copy(Thumbnail thumb)
@@ -23,6 +27,7 @@ namespace WebApplication2.Models
             this.year = thumb.year;
             this.month = thumb.month;
             this.fullPath = thumb.fullPath;
+
         }
 
         [Required]
@@ -49,6 +54,11 @@ namespace WebApplication2.Models
         [DataType(DataType.Text)]
         [Display(Name = "picNumber")]
         public int picNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "fullPathToPic")]
+        public string fullPathToPic { get; set; }
 
     }
 }

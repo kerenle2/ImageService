@@ -58,9 +58,31 @@ namespace WebApplication2.Controllers
             return View();
         }
 
+        
+        public ActionResult ViewPhoto( int picNumber = -1)
+        {
+           // thumbsModel.picToDelete = picNumber;
+            foreach (Thumbnail thumb in thumbsModel.thumbs)
+            {
+                if (thumb.picNumber == picNumber)
+                {
+                    string pathToPic = GetOriginPhotoFullPathFromThumb(thumb);
+                    if (System.IO.File.Exists(pathToPic))
+                    {
+                        return View(thumb);//chngeeeeeeeeeeeeee
+
+                    }
+
+                }
+            }
+            return View(); //error??
+        }
+
         public ActionResult DeletePhotoPressed(/*Thumbnail thumbToDelete*/ int picNumber = -1)
         {
-           thumbsModel.picToDelete = picNumber;
+         
+
+            thumbsModel.picToDelete = picNumber;
             foreach(Thumbnail thumb in thumbsModel.thumbs)
             {
                 if (thumb.picNumber == picNumber)
@@ -72,6 +94,8 @@ namespace WebApplication2.Controllers
           //  thumbsModel.thumbToDelete = thumbToDelete;
             return View(); //error??
         }
+
+
 
         public ActionResult DeletePhoto(int picNumber = -1)
         {
@@ -93,12 +117,11 @@ namespace WebApplication2.Controllers
         
             try
             {
-                //add deldete photo from folder
-                ///   string pathTtoPic = thumbToDelete.fullPath.tr
-                ///   
-                string string1 = thumbToDelete.fullPath;
-                string string2 = "Thumbnails\\";
-                string pathToPic = string1.Replace(string2, "");
+                //deldete photo from folder
+                string pathToPic = GetOriginPhotoFullPathFromThumb(thumbToDelete);
+                //string string1 = thumbToDelete.fullPath;
+                //string string2 = "Thumbnails\\";
+                //string pathToPic = string1.Replace(string2, "");
 
                 if (System.IO.File.Exists(pathToPic))
                 {
@@ -121,6 +144,14 @@ namespace WebApplication2.Controllers
 
             return RedirectToAction("Photos");
 
+        }
+
+        private string GetOriginPhotoFullPathFromThumb(Thumbnail thumb)
+        {
+            string string1 = thumb.fullPath;
+            string string2 = "Thumbnails\\";
+            string pathToPic = string1.Replace(string2, "");
+            return pathToPic;
         }
 
 
@@ -154,6 +185,15 @@ namespace WebApplication2.Controllers
                 }
             }
             return null;
+        }
+
+        [HttpPost]
+        public JObject GetFilteredLog(string type, string msg)
+        {
+            JObject data = new JObject();
+            data["Type"] = type;
+            data["Message"] = msg;
+            return data;
         }
 
 

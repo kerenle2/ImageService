@@ -21,6 +21,8 @@ namespace WebApplication2.Models
 
         public int picToDelete { get; set; }
         public Thumbnail thumbToDelete { get; set; }
+        public string picToShow { get; set; }
+
 
         [Required]
         [DataType(DataType.Text)]
