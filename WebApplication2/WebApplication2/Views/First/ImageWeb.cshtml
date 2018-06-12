@@ -1,10 +1,11 @@
 ﻿@model WebApplication2.Models.ImageWebModel
     @{
     ViewBag.Title = "ImageWeb";
-}
+    }
 
 
     <h2>ImageWeb</h2>
+    @* display- if server is connected and number of images *@
     <p> @Model.IsConnect</p>
     <p> number of images is @Model.ImagesNum </p>
     <table id="studentsTable" class="table">
@@ -19,8 +20,9 @@
                 Last Name
             </th>
         </tr>
+        @* display the details of the students *@
         @foreach (var item in Model.StudentsData)
-    {
+       {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ID)
@@ -32,6 +34,6 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
         </tr>
-}
+        }
     </table>
     

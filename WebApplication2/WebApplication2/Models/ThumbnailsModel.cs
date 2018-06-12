@@ -27,6 +27,7 @@ namespace WebApplication2.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Count")]
+        //count number of thumbs
         public int count { get; set; }
 
         public ThumbnailsModel(string outputDir)
@@ -38,19 +39,29 @@ namespace WebApplication2.Models
             getThumbsFromDir();
             
         }
-
+        /// <summary>
+        /// add a thumbnail to the list
+        /// </summary>
+        /// <param name="thumb"></param>
         public void AddThumb(Thumbnail thumb)
         {
             this.thumbs.Add(thumb);
             count++;
         }
-
+        /// <summary>
+        /// delete thumbnail from list
+        /// </summary>
+        /// <param name="thumb"></param>
         public void deleteThumb(Thumbnail thumb)
         {
             this.thumbs.Remove(thumb);
             this.count--;
         }
 
+        /// <summary>
+        /// get all yhumbs from the output directory
+        /// </summary>
+        /// <param name="outputDir"></param>
         public int getThumbsFromDir()
         {
 

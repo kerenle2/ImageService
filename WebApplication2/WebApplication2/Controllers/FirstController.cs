@@ -20,26 +20,16 @@ namespace WebApplication2.Controllers
     public class FirstController : Controller
     {
         static Client client = null;
-
         static ConfigModel configModel = new ConfigModel();
         static ImageWebModel imageWebModel = new ImageWebModel();
         static List<LogModel> logs = new List<LogModel>();
         static ThumbnailsModel thumbsModel;
         static bool waitForRemoveHandler = false;
-
-
-        static List<Employee> employees = new List<Employee>()
-        {
-
-          new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
-          new Employee  { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 2000, Phone = "08-8888888" },
-          new Employee   { FirstName = "Mor", LastName = "Sinai", Email = "Stam@stam", Salary = 500, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 20, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
-        };
-
-
-        //  static List<string> fields = new List<string>();
+       
+        
+        /// <summary>
+        /// coonstructor
+        /// </summary>
         static FirstController()
         {
             client = Client.getInstance();
@@ -164,23 +154,7 @@ namespace WebApplication2.Controllers
             return data;
         }
 
-        [HttpPost]
-        public JObject GetEmployee(string name, int salary)
-        {
-            foreach (var empl in employees)
-            {
-                if (empl.Salary > salary || name.Equals(name))
-                {
-                    JObject data = new JObject();
-                    data["FirstName"] = empl.FirstName;
-                    data["LastName"] = empl.LastName;
-                    data["Salary"] = empl.Salary;
-                    return data;
-                }
-            }
-            return null;
-        }
-
+        
         [HttpPost]
         public JObject GetFilteredLog(string type, string msg)
         {
@@ -229,12 +203,7 @@ namespace WebApplication2.Controllers
         }
 
 
-        // GET: First/Details
-        public ActionResult Details()
-        {
-            return View(employees);
-        }
-
+       
         // GET: First/RemoveHandler
         public ActionResult RemoveHandler(string dir)
         {
@@ -256,20 +225,21 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
-        //get logs!!!!!
+        //get First/Logs
         [HttpGet]
         public ActionResult Logs()
         {
             return View(logs);
         }
-        //post logs!!
-        [HttpPost]
-        public ActionResult Logs(LogModel log_m)
-        {
-            return View(logs);
-        }
 
-        //get configurations!! -- ??
+        ////post logs!!
+        //[HttpPost]
+        //public ActionResult Logs(LogModel log_m)
+        //{
+        //    return View(logs);
+        //}
+
+        //get configurations
         [HttpGet]
         public ActionResult Configuration()
         {
@@ -297,82 +267,13 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        //post configuration!! --???
-        [HttpPost] 
+        //post configuration
+        [HttpPost]
         public ActionResult Configuration(ConfigModel conf)
         {
             return View(conf);
         }
-
-
-
-        // POST: First/Create
-        [HttpPost]
-        public ActionResult Create(Employee emp)
-        {
-            try
-            {
-                employees.Add(emp);
-
-                return RedirectToAction("Details");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: First/Edit/5
-        public ActionResult Edit(int id)
-        {
-            foreach (Employee emp in employees) {
-                if (emp.ID.Equals(id)) { 
-                    return View(emp);
-                }
-            }
-            return View("Error");
-        }
-
-        // POST: First/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Employee empT)
-        {
-            try
-            {
-                foreach (Employee emp in employees)
-                {
-                    if (emp.ID.Equals(id))
-                    {
-                        emp.copy(empT);
-                        return RedirectToAction("Index");
-                    }
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
-        // GET: First/Delete/5
-        public ActionResult Delete(int id)
-        {
-            int i = 0;
-            foreach (Employee emp in employees)
-            {
-                if (emp.ID.Equals(id))
-                {
-                    employees.RemoveAt(i);
-                    return RedirectToAction("Details");
-                }
-                i++;
-            }
-            return RedirectToAction("Error");
-        }
-
-    //    [HttpGet]
+        
         public ActionResult UpdateDirToRemove(string dir)
         {   if(dir!=null)
             {
@@ -387,23 +288,28 @@ namespace WebApplication2.Controllers
             catch
             {
                 return View(configModel);
+//                return View("ERROR"); MAYBE THAT????????
+
 
             }
         }
-        
+        /// <summary>
+        /// remove a handler
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         public ActionResult Remove(string dir)
         {
-
             if (dir!=null)
             {
                 waitForRemoveHandler = true;
                 string[] args = { dir };
                 client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+                //wait until the dir will be removed
                 while (configModel.dirs.Contains(dir)) { }
                 waitForRemoveHandler = false;
             }
             return RedirectToAction("Configuration");
-
         }
 
         public static void OnDataRecieved(object sender, EventArgs ee)
@@ -413,13 +319,11 @@ namespace WebApplication2.Controllers
             {
                 Console.WriteLine("I know i got an Logs msg!");
                 List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
-
+                //for each log in the list, add it to view.
                 foreach (Log log in logsList)
                 {
                     logs.Add(new LogModel { Type = log.Type.ToString(), Message = log.Message });
-
                 }
-                //Logs = logsList;
             }
             if (e.id == MessagesToClientEnum.Settings)
             {

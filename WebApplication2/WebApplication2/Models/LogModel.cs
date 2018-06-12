@@ -13,7 +13,6 @@ namespace WebApplication2.Models
 {
     public class LogModel
     {
-        
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Type")]
@@ -28,10 +27,7 @@ namespace WebApplication2.Models
         {
             
         }
-
-      
-       
-
+        
     }
 
 

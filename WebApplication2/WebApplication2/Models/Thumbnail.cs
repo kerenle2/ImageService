@@ -20,7 +20,10 @@ namespace WebApplication2.Models
             string string2 = "Thumbnails\\";
             fullPathToPic = string1.Replace(string2, "");
         }
-
+        /// <summary>
+        /// copt the details of thumbnail to property
+        /// </summary>
+        /// <param name="thumb"></param>
         public void copy(Thumbnail thumb)
         {
             this.name = thumb.name;

@@ -38,7 +38,7 @@ namespace WebApplication2.Models
         public string thumbSize { get; set; }
 
 
-        [Required] // ?
+        [Required] 
         [DataType(DataType.Text)]
         public string dirToRemove { get; set; }
 
