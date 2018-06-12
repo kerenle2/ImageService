@@ -48,22 +48,7 @@ namespace WebApplication2.Controllers
             client.DataRecieved += OnDataRecieved;
 
         }
-        // GET: First/ImageWeb
-        [HttpGet]
-        public ActionResult ImageWeb()
-        {
-            if (client.Conected)
-            {
-                imageWebModel.IsConnect = "Server Is Connected";
-            }
-            else
-            {
-                imageWebModel.IsConnect = "Server Is Not Connected";
-            }
-            //divide by 2 for not include the thumbnails
-            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir) / 2;
-            return View(imageWebModel);
-        }
+
 
         public ActionResult Index()
         {
@@ -219,7 +204,7 @@ namespace WebApplication2.Controllers
             {
                 imageWebModel.IsConnect = "Server Is Not Connected";
             }
-            //divide by 2 for not include the thumbnails
+
             imageWebModel.ImagesNum = getImagesNum(configModel.outputDir);
             return View(imageWebModel);
         }
