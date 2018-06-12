@@ -37,42 +37,14 @@
 <div class="list-group">
 
     @{
+        //make a link from each handler.if clicked -  ask if you want to delete
         foreach (var dir in dirs)
         {
-            // aria-disabled="true" attr to disable' add later with condition
-
             <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
                 @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
             </a>
-
-
-
         }
     }
 </div>
-@*
-    <script>
-        function UpdateDirToRemove(dir)
-        {
-                configModel.dirToRemove = dir;
-                ViewBag.dirToRemove = dir;
-        }
-    </script>*@
 
-@*<script>
-        $("#dir").click(function () {
-
-            $.UpdateDirToRemove("jkjkj");
-
-            });
-    </script>*@
-
-
-
-@*@Html.Action("RemoveHandler", "First", new { dir = (string)dir }) >*@
-
-
-
-@*@Html.Action(@dir, "UpdateDirToRemove", "First", new { arg1 = dir }, null)*@
-
-@*onclick="UpdateDirToRemove(@dir)"*@
+    

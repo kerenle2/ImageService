@@ -15,12 +15,13 @@
                     <div class="col-xs-6 cil-md-3">
                         <figure href="#" class="img-thumbnail">
                              @{
-                                 var path = "/OutputFromApp/Thumbnails/" + thumb.year + "/" + thumb.month + "/" + thumb.name;
+                                 var path = "OutputFromApp\\Thumbnails\\"+ thumb.year + '\\' + thumb.month + '\\' + thumb.name;
                              }
-
+                            
                             @*<img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />*@
-                            @*<img src="@Url.Content(path)" />*@
+                            <img src="@Url.Content(path)" />
                             <img src="@path" />
+                            <p>full path: @thumb.path</p>
 
 
                             <h4>@thumb.name</h4>

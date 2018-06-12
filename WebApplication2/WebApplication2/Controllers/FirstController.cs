@@ -18,33 +18,15 @@ namespace WebApplication2.Controllers
     public class FirstController : Controller
     {
         static Client client = null;
-
         static ConfigModel configModel = new ConfigModel();
         static ImageWebModel imageWebModel = new ImageWebModel();
         static ThumbnailsModel thumbsModel;
         static bool waitForRemoveHandler = false;
-
-        //LogModel logModel = new LogModel();
-
-        static List<Employee> employees = new List<Employee>()
-        {
-          new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
-          new Employee  { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 2000, Phone = "08-8888888" },
-          new Employee   { FirstName = "Mor", LastName = "Sinai", Email = "Stam@stam", Salary = 500, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 20, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
-        };
-        static List<LogModel> logs = new List<LogModel>()
-        {
-            new LogModel { Type = "Info" , Message = "testtttt"},
-            new LogModel { Type = "Info" , Message = "hey hey"},
-            new LogModel { Type = "WARNING" , Message = "warning"}
-
-        };
+        static List<LogModel> logs = new List<LogModel>();
         
-
-
-        //  static List<string> fields = new List<string>();
+        /// <summary>
+        /// coonstructor
+        /// </summary>
         static FirstController()
         {
             client = Client.getInstance();
@@ -69,52 +51,7 @@ namespace WebApplication2.Controllers
             return View(imageWebModel);
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult AjaxView()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public JObject GetEmployee()
-        {
-            JObject data = new JObject();
-            data["FirstName"] = "Kuky";
-            data["LastName"] = "Mopy";
-            return data;
-        }
-
-        [HttpPost]
-        public JObject GetEmployee(string name, int salary)
-        {
-            foreach (var empl in employees)
-            {
-                if (empl.Salary > salary || name.Equals(name))
-                {
-                    JObject data = new JObject();
-                    data["FirstName"] = empl.FirstName;
-                    data["LastName"] = empl.LastName;
-                    data["Salary"] = empl.Salary;
-                    return data;
-                }
-            }
-            return null;
-        }
-
-
         
-       
-        // GET: First/Details
-        public ActionResult Details()
-        {
-            return View(employees);
-        }
-
         // GET: First/RemoveHandler
         public ActionResult RemoveHandler(string dir)
         {
@@ -136,20 +73,21 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
-        //get logs!!!!!
+        //get First/Logs
         [HttpGet]
         public ActionResult Logs()
         {
             return View(logs);
         }
-        //post logs!!
-        [HttpPost]
-        public ActionResult Logs(LogModel log_m)
-        {
-            return View(logs);
-        }
 
-        //get configurations!! -- ??
+        ////post logs!!
+        //[HttpPost]
+        //public ActionResult Logs(LogModel log_m)
+        //{
+        //    return View(logs);
+        //}
+
+        //get configurations
         [HttpGet]
         public ActionResult Configuration()
         {
@@ -163,82 +101,13 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        //post configuration!! --???
+        //post configuration
         [HttpPost]
         public ActionResult Configuration(ConfigModel conf)
         {
             return View(conf);
         }
-
-
-
-        // POST: First/Create
-        [HttpPost]
-        public ActionResult Create(Employee emp)
-        {
-            try
-            {
-                employees.Add(emp);
-
-                return RedirectToAction("Details");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: First/Edit/5
-        public ActionResult Edit(int id)
-        {
-            foreach (Employee emp in employees) {
-                if (emp.ID.Equals(id)) { 
-                    return View(emp);
-                }
-            }
-            return View("Error");
-        }
-
-        // POST: First/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Employee empT)
-        {
-            try
-            {
-                foreach (Employee emp in employees)
-                {
-                    if (emp.ID.Equals(id))
-                    {
-                        emp.copy(empT);
-                        return RedirectToAction("Index");
-                    }
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
-        // GET: First/Delete/5
-        public ActionResult Delete(int id)
-        {
-            int i = 0;
-            foreach (Employee emp in employees)
-            {
-                if (emp.ID.Equals(id))
-                {
-                    employees.RemoveAt(i);
-                    return RedirectToAction("Details");
-                }
-                i++;
-            }
-            return RedirectToAction("Error");
-        }
-
-    //    [HttpGet]
+        
         public ActionResult UpdateDirToRemove(string dir)
         {   if(dir!=null)
             {
@@ -256,72 +125,30 @@ namespace WebApplication2.Controllers
 
             }
         }
-        
+        /// <summary>
+        /// remove a handler
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         public ActionResult Remove(string dir)
         {
-
             if (dir!=null)
             {
                 waitForRemoveHandler = true;
                 string[] args = { dir };
                 client.sendCommandRequest((int)CommandEnum.CloseCommand, args);
+                //wait until the dir will be removed
                 while (configModel.dirs.Contains(dir)) { }
                 waitForRemoveHandler = false;
             }
             return RedirectToAction("Configuration");
-
         }
 
-
-        //public void getThumbsFromDir(string outputDir)
-        //{
-
-        //    if (outputDir == configModel.outputDir)
-        //    {
-        //        if (Directory.Exists(outputDir + "\\Thumbnails"))
-        //        {
-        //            thumbsModel.thumbs.Clear(); //yes? im going this way?
-        //            string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
-        //            foreach(string path in paths)
-        //            {
-        //                DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
-        //                string year = date.Year.ToString();
-        //                string month = date.Month.ToString();
-        //                string imageName = path.Substring(path.LastIndexOf("\\"));
-
-        //                Thumbnail thumb = new Thumbnail(imageName, year, month, path);
-        //                thumbsModel.thumbs.Add(thumb);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //public void AddPhoto(string path, string outputDir)
-        //{
-
-
-        //    //get the date from the image
-        //    DateTime date = ImageService.Modal.ImageServiceModal.GetDateTakenFromImage(path);
-
-        //    //create strings:
-        //    string year = date.Year.ToString();
-        //    string month = date.Month.ToString();
-        //    //string thumbnailsPath = Path.Combine(configModel.outputDir, "Thumbnails");
-        //    //string yearPath = Path.Combine(configModel.outputDir, year);
-        //    string yearPathThumbnails = Path.Combine(thumbnailsPath, year);
-        //    //string yearMonthPath = Path.Combine(yearPath, month);
-        //    string yearMonthPathThumbnails = Path.Combine(yearPathThumbnails, month);
-        //    string imageName = path.Substring(path.LastIndexOf("\\"));
-
-        //    Thumbnail thumb = new Thumbnail(imageName, year, month, path);
-        //    thumbsModel.AddThumb(thumb);
-
-        //}
-
-        //public void AddLog(Log log)
-        //{
-
-        //}
+        /// <summary>
+        /// get the number of images in the output dir
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public int getImagesNum(string path)
         {
             try
@@ -347,6 +174,11 @@ namespace WebApplication2.Controllers
             }
 
         }
+        /// <summary>
+        /// get the data from server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ee"></param>
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
@@ -354,13 +186,11 @@ namespace WebApplication2.Controllers
             {
                 Console.WriteLine("I know i got an Logs msg!");
                 List<Log> logsList = JsonConvert.DeserializeObject<List<Log>>(e.msg);
-
+                //for each log in the list, add it to view.
                 foreach (Log log in logsList)
                 {
                     logs.Add(new LogModel { Type = log.Type.ToString(), Message = log.Message });
-
                 }
-                //Logs = logsList;
             }
             if (e.id == MessagesToClientEnum.Settings)
             {

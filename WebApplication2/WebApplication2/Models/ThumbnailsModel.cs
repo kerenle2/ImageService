@@ -12,15 +12,12 @@ namespace WebApplication2.Models
     {
 
         [Required]
-      //[DataType(DataType.)] // ??
         [Display(Name = "thumbs")]
         public List<Thumbnail> thumbs { get; set; }
 
         private string outputDir;
 
-        //[Required]
-        //[DataType()] // ??
-        //[Display(Name = "Count")]
+        //count number ot thumbs       
         public int count { get; set; }
 
         public ThumbnailsModel(string outputDir)
@@ -30,21 +27,30 @@ namespace WebApplication2.Models
 
             thumbs = new List<Thumbnail>();
             getThumbsFromDir(outputDir);
-            
         }
-
+        /// <summary>
+        /// add a thumbnail to the list
+        /// </summary>
+        /// <param name="thumb"></param>
         public void AddThumb(Thumbnail thumb)
         {
             this.thumbs.Add(thumb);
             count++;
         }
-
+        /// <summary>
+        /// delete thumbnail from list
+        /// </summary>
+        /// <param name="thumb"></param>
         public void deleteThumb(Thumbnail thumb)
         {
             this.thumbs.Remove(thumb);
             this.count--;
         }
 
+        /// <summary>
+        /// get all yhumbs from the output directory
+        /// </summary>
+        /// <param name="outputDir"></param>
         public void getThumbsFromDir(string outputDir)
         {
             thumbs.Clear(); //yes? im going this way?

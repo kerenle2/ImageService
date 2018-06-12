@@ -15,7 +15,10 @@ namespace WebApplication2.Models
             this.year = year;
             this.path = path;
         }
-
+        /// <summary>
+        /// copt the details of thumbnail to property
+        /// </summary>
+        /// <param name="thumb"></param>
         public void copy(Thumbnail thumb)
         {
             this.name = thumb.name;

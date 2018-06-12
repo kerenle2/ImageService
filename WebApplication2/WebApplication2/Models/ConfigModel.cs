@@ -12,7 +12,6 @@ namespace WebApplication2.Models
         public ConfigModel()
         {
             this.dirs = new List<string>();
-            //maybe sleep?
         }
 
         [Required]
@@ -36,7 +35,7 @@ namespace WebApplication2.Models
         public string thumbSize { get; set; }
 
 
-        [Required] // ?
+        [Required] 
         [DataType(DataType.Text)]
         public string dirToRemove { get; set; }
 
