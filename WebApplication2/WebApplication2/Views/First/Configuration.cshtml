@@ -41,10 +41,14 @@
         foreach (var dir in dirs)
         {
             // aria-disabled="true" attr to disable' add later with condition
+            <div>
+                @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, new { @class = "btn btn-primary btn-lg" })
+            </div>
 
-            <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
+
+            @*<a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
              @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
-            </a>
+            </a>*@
 
 
 

@@ -204,39 +204,12 @@ namespace WebApplication2.Controllers
             }
             //divide by 2 for not include the thumbnails
             imageWebModel.ImagesNum = getImagesNum(configModel.outputDir);
-            //imageWebModel.ImagesNum = getImagesNum(configModel.outputDir)/2;
             return View(imageWebModel);
         }
 
-        //public int getImagesNum(string path)
-        //{
-        //    try
-        //    {
-        //        //NEED- add all kind og images!!!!!!!!
-        //        var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
-        //        //initialize counter
-        //        int counter = 0;
-        //        //loop on file paths
-
-        //        foreach (string filePath in directoryFiles)
-        //        {
-        //            counter++;
-        //        }
-
-        //        return counter;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        return 0;
-
-        //    }
-
-        //}
-
+     
             public int getImagesNum(string outputDir)
         {
-
             int count = 0;
             string[] extensions = { ".jpg", ".png", ".gif", ".bmp" };
 
@@ -249,7 +222,6 @@ namespace WebApplication2.Controllers
                     {
                         count++;
                     }
-
                 }
             }
             return count;
