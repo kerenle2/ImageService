@@ -14,8 +14,8 @@
 <form>
     <div class="form-group form-check">
         <button type="button" id="ok" class="btn btn-success">@Html.ActionLink("Yes! Remove this God Damn Handler", "Remove", "First", new { dir = ViewBag.dirToRemove }, null) </button>
-        <input type="button" id="cancel" value="Cancel" onclick='window.location="Configuration";'/>
-       @* <a href="http://localhost:33438/First/Configuration"id="cancel "class="btn btn-primary">Cancel</a>*@
+        <button type="button" id="cancel" onclick='window.location="Configuration";' class="btn btn-info">Cancel</button>
+
     </div>
 </form>
 
@@ -24,11 +24,6 @@
         $("#ok").attr("disabled", "disabled");
         $("#cancel").attr("disabled", "disabled");
         
-        @*$.post("@url.action("remove")", @viewbag.dirtoremove, function () { }, "json");*@
-        //window.location = "Configuration";
-        //ADD HERE:
-        //disable both buttons
-        //enable buttons back return to confiuration page only after recieved msg from server (its hapning throw onDataRecieved)
     });
 
 </script>

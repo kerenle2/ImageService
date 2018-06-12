@@ -33,6 +33,22 @@ namespace WebApplication2.Models
 
         }
 
+        /// <summary>
+        /// convert image to Base64
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string SingleBase64(string fullPath)
+        {
+            if (System.IO.File.Exists(fullPath))
+            {
+                byte[] bytes = System.IO.File.ReadAllBytes(fullPath);
+                string base64 = System.Convert.ToBase64String(bytes);
+                return base64;
+            }
+            return null;
+        }
+
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "name")]

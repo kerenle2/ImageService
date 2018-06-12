@@ -14,6 +14,7 @@ using WebApplication2.Models;
 using ImageService.Modal;
 using System.Threading.Tasks;
 using System.Web.Hosting;
+using System.Threading;
 
 namespace WebApplication2.Controllers
 {
@@ -21,9 +22,10 @@ namespace WebApplication2.Controllers
     {
         static Client client = null;
         static ConfigModel configModel = new ConfigModel();
+        static ThumbnailsModel thumbsModel;
+
         static ImageWebModel imageWebModel = new ImageWebModel();
         static List<LogModel> logs = new List<LogModel>();
-        static ThumbnailsModel thumbsModel;
         static bool waitForRemoveHandler = false;
        
         
@@ -172,12 +174,12 @@ namespace WebApplication2.Controllers
             if (client.Conected)
             {
                 imageWebModel.IsConnect = "Server Is Connected";
+                SpinWait.SpinUntil(() => configModel.outputDir != null, 4000);
             }
             else
             {
                 imageWebModel.IsConnect = "Server Is Not Connected";
             }
-
             imageWebModel.ImagesNum = getImagesNum(configModel.outputDir);
             return View(imageWebModel);
         }

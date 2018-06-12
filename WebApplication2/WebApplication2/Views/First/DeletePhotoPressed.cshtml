@@ -22,7 +22,7 @@
 @{
     var thumb = Model;
 }
-<img src="~/OutputFromApp/Thumbnails/@thumb.year/@thumb.month/@thumb.name" class="img-circle" hight="242" width="200" />
+<img src="data:image/jpg;base64,@Model.SingleBase64(@thumb.fullPath)" class="img-circle" hight="200" width="242" />
 
 
 @Html.ActionLink("Delete", "DeletePhoto", new { picNumber = thumb.picNumber }, new { @class = "btn btn-info" })

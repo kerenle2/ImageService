@@ -87,8 +87,21 @@ namespace WebApplication2.Models
             }
             return count;
         }
-
-
+        /// <summary>
+        /// convert image to Base64
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string SingleBase64(string fullPath)
+        {
+            if (File.Exists(fullPath))
+            {
+                byte[] bytes = File.ReadAllBytes(fullPath);
+                string base64 = System.Convert.ToBase64String(bytes);
+                return base64;
+            }
+            return null;
+        }
 
 
     }

@@ -5,9 +5,15 @@
 
 
     <h2>ImageWeb</h2>
-    @* display- if server is connected and number of images *@
-    <p> @Model.IsConnect</p>
-    <p> number of images is @Model.ImagesNum </p>
+
+
+    @* display- if server is connected and number of images *@  
+<div class="alert alert-info" role="alert">
+   @Model.IsConnect
+</div>
+<div class="alert alert-warning" role="alert">
+    number of images is @Model.ImagesNum
+</div>
     <table id="studentsTable" class="table">
         <tr>
             <th>

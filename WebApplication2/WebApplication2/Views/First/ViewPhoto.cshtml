@@ -6,18 +6,12 @@
 
 <h2>ViewPhoto</h2>
 
-<p>picture to show full path is: @Model.fullPath</p>
-
-@{ 
-    var relativePath = "/OutputFromApp/" + Model.year + "/" + Model.month + "/" + Model.name; @*change here after we know how!!*@
-}
-<p>relative path is: @relativePath</p>
-
 <div>
     <h4>@Model.name</h4>
     <p>Taken In @Model.month/@Model.year</p>
+    <img src="data:image/jpg;base64,@Model.SingleBase64(@Model.fullPathToPic)" />
+    <button type="button" id="cancel" class="btn btn-outline-danger">Back</button>
 
-    <img src="@relativePath"
 
 
 </div>
@@ -26,3 +20,10 @@
     @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = Model.picNumber }, new { @class = "btn btn-primary btn-lg" })
 
 </div>
+
+
+<script>
+    $("#cancel").click(function () {
+        window.location = "Photos";
+    });
+</script>
