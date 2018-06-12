@@ -190,6 +190,7 @@
     <Content Include="Views\First\Photos.cshtml" />
     <Content Include="Views\First\DeletePhotoPressed.cshtml" />
     <Content Include="Views\First\ViewPhoto.cshtml" />
+    <Content Include="Views\First\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

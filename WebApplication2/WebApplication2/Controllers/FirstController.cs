@@ -25,7 +25,7 @@ namespace WebApplication2.Controllers
         static List<LogModel> logs = new List<LogModel>();
         static ThumbnailsModel thumbsModel;
         static bool waitForRemoveHandler = false;
-        static List<LogModel> logs = new List<LogModel>();
+       
         
         /// <summary>
         /// coonstructor
@@ -154,23 +154,7 @@ namespace WebApplication2.Controllers
             return data;
         }
 
-        [HttpPost]
-        public JObject GetEmployee(string name, int salary)
-        {
-            foreach (var empl in employees)
-            {
-                if (empl.Salary > salary || name.Equals(name))
-                {
-                    JObject data = new JObject();
-                    data["FirstName"] = empl.FirstName;
-                    data["LastName"] = empl.LastName;
-                    data["Salary"] = empl.Salary;
-                    return data;
-                }
-            }
-            return null;
-        }
-
+        
         [HttpPost]
         public JObject GetFilteredLog(string type, string msg)
         {
@@ -219,12 +203,7 @@ namespace WebApplication2.Controllers
         }
 
 
-        // GET: First/Details
-        public ActionResult Details()
-        {
-            return View(employees);
-        }
-
+       
         // GET: First/RemoveHandler
         public ActionResult RemoveHandler(string dir)
         {
@@ -309,6 +288,8 @@ namespace WebApplication2.Controllers
             catch
             {
                 return View(configModel);
+//                return View("ERROR"); MAYBE THAT????????
+
 
             }
         }

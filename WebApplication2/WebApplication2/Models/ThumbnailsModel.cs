@@ -62,7 +62,7 @@ namespace WebApplication2.Models
         /// get all yhumbs from the output directory
         /// </summary>
         /// <param name="outputDir"></param>
-        public void getThumbsFromDir()
+        public int getThumbsFromDir()
         {
 
             count = 0;
