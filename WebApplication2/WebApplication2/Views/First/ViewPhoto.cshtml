@@ -10,7 +10,6 @@
     <h4>@Model.name</h4>
     <p>Taken In @Model.month/@Model.year</p>
     <img src="data:image/jpg;base64,@Model.SingleBase64(@Model.fullPathToPic)" />
-    <button type="button" id="cancel" class="btn btn-outline-danger">Back</button>
 
 
 
@@ -18,6 +17,7 @@
 
 <div>
     @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = Model.picNumber }, new { @class = "btn btn-primary btn-lg" })
+    <button type="button" id="cancel" class="btn btn-outline-danger">Back</button>
 
 </div>
 
