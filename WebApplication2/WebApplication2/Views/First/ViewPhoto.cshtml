@@ -1,0 +1,25 @@
+﻿@model WebApplication2.Models.Thumbnail
+
+@{
+    ViewBag.Title = "ViewPhoto";
+}
+
+<h2>ViewPhoto</h2>
+
+<p>picture to show full path is: @Model.fullPath</p>
+
+@{ 
+    var relativePath = "/OutputFromApp/" + Model.year + "/" + Model.month + "/" + Model.name; 
+}
+<p>relative path is: @relativePath</p>
+
+<div>
+    <h4>@Model.name</h4>
+    <p>Taken In @Model.month/@Model.year</p>
+    @Html.ActionLink("Delete", "DeletePhotoPressed", new { picNumber = Model.picNumber }, new { @class = "btn btn-primary btn-lg" })
+
+
+</div>
+
+
+<img src="@relativePath" />

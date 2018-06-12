@@ -8,12 +8,17 @@ namespace WebApplication2.Models
 {
     public class Thumbnail
     {
-        public Thumbnail(string name, string year, string month, string path)
+        public Thumbnail(string name, string year, string month, string fullPath, int picNumber)
         {
             this.name = name;
             this.month = month;
             this.year = year;
-            this.path = path;
+            this.fullPath = fullPath;
+            this.picNumber = picNumber;
+
+            string string1 = fullPath;
+            string string2 = "Thumbnails\\";
+            fullPathToPic = string1.Replace(string2, "");
         }
         /// <summary>
         /// copt the details of thumbnail to property
@@ -24,27 +29,39 @@ namespace WebApplication2.Models
             this.name = thumb.name;
             this.year = thumb.year;
             this.month = thumb.month;
-            this.path = thumb.path;
+            this.fullPath = thumb.fullPath;
+
         }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Name")]
+        [Display(Name = "name")]
         public string name{ get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Year")]
+        [Display(Name = "year")]
         public string year { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Month")]
+        [Display(Name = "month")]
         public string month { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Path")]
-        public string path { get; set; }
+        [Display(Name = "path")]
+        public string fullPath { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "picNumber")]
+        public int picNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "fullPathToPic")]
+        public string fullPathToPic { get; set; }
+
     }
 }

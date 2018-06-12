@@ -13,38 +13,72 @@
     var dirs = ViewBag.dirs;
 }
 
+
 <div class="container body-content">
     <h2>Configuration</h2><hr />
 
-    <div>
-        <label class="row-sm-8">Output Directory: @outputDir</label>
-    </div>
-    <div>
-        <label class="row-sm-4">Source Name: @sourceName</label>
-    </div>
-    <div>
+        <div>
+            <label class="row-sm-8">Output Directory: @outputDir</label>
+        </div>
+        <div>
+            <label class="row-sm-4">Source Name: @sourceName</label>
+        </div>
+        <div>
         <label class="row-sm-4">Log Name: @logName</label>
-    </div>
-    <div>
+        </div>
+         <div>
         <label class="row-sm-4">Thumbnail Size: @thumbSize</label>
-    </div>
+         </div>
 
 </div>
 
 
 
 
-<div class="list-group">
+<div class="list-group"> 
 
     @{
         //make a link from each handler.if clicked -  ask if you want to delete
         foreach (var dir in dirs)
         {
-            <a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
-                @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
-            </a>
+            // aria-disabled="true" attr to disable' add later with condition
+            <div>
+                @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, new { @class = "btn btn-primary btn-lg" })
+            </div>
+
+
+            @*<a href="http://localhost:33438/First/RemoveHandler" id="dir" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">
+             @Html.ActionLink((string)@dir, "RemoveHandler", "First", new { dir = dir }, null)
+            </a>*@
+
+
+
         }
     }
-</div>
+ 
+    @*</div>,
+        <script>
+            function UpdateDirToRemove(dir)
+            {
+                    configModel.dirToRemove = dir;
+                    ViewBag.dirToRemove = dir;
+            }
+        </script>*@
 
-    
+        @*<script>
+            $("#dir").click(function () {
+
+                $.UpdateDirToRemove("jkjkj");
+
+                });
+        </script>*@
+
+
+
+    @*@Html.Action("RemoveHandler", "First", new { dir = (string)dir }) >*@
+
+
+
+@*@Html.Action(@dir, "UpdateDirToRemove", "First", new { arg1 = dir }, null)*@
+
+@*onclick="UpdateDirToRemove(@dir)"*@

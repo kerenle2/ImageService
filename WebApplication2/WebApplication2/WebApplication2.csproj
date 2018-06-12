@@ -137,8 +137,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="OutputFromApp\2013\1\b.jpg" />
-    <Content Include="OutputFromApp\Thumbnails\2013\1\b.jpg" />
+    <Content Include="OutputFromApp\f.jpg" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -189,6 +188,8 @@
     <Content Include="Views\First\RemoveHandler.cshtml" />
     <Content Include="Views\First\ImageWeb.cshtml" />
     <Content Include="Views\First\Photos.cshtml" />
+    <Content Include="Views\First\DeletePhotoPressed.cshtml" />
+    <Content Include="Views\First\ViewPhoto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

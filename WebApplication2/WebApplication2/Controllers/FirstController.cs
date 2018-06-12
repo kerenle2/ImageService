@@ -10,8 +10,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
+
 using ImageService.Modal;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 
 namespace WebApplication2.Controllers
 {
@@ -20,6 +22,7 @@ namespace WebApplication2.Controllers
         static Client client = null;
         static ConfigModel configModel = new ConfigModel();
         static ImageWebModel imageWebModel = new ImageWebModel();
+        static List<LogModel> logs = new List<LogModel>();
         static ThumbnailsModel thumbsModel;
         static bool waitForRemoveHandler = false;
         static List<LogModel> logs = new List<LogModel>();
@@ -34,6 +37,150 @@ namespace WebApplication2.Controllers
             client.DataRecieved += OnDataRecieved;
 
         }
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        
+        public ActionResult ViewPhoto( int picNumber = -1)
+        {
+           // thumbsModel.picToDelete = picNumber;
+            foreach (Thumbnail thumb in thumbsModel.thumbs)
+            {
+                if (thumb.picNumber == picNumber)
+                {
+                    string pathToPic = GetOriginPhotoFullPathFromThumb(thumb);
+                    if (System.IO.File.Exists(pathToPic))
+                    {
+                        return View(thumb);//chngeeeeeeeeeeeeee
+                    }
+
+                }
+            }
+            return View(); //error??
+        }
+
+        public ActionResult DeletePhotoPressed(int picNumber = -1)
+        {
+         
+
+            thumbsModel.picToDelete = picNumber;
+            foreach(Thumbnail thumb in thumbsModel.thumbs)
+            {
+                if (thumb.picNumber == picNumber)
+                {
+                    return View(thumb);
+                }
+            }
+
+            return View(); //error??
+        }
+
+
+
+        public ActionResult DeletePhoto(int picNumber = -1)
+        {
+
+            Thumbnail thumbToDelete = null;
+
+            foreach (Thumbnail thumb in thumbsModel.thumbs)
+            {
+                if (thumb.picNumber == picNumber)
+                {
+                    thumbToDelete = thumb;
+                    break;
+                }
+            }
+            if(thumbToDelete == null)
+            {
+                return View(thumbsModel); //return error here
+            }
+        
+            try
+            {
+                //deldete photo from folder
+                string pathToPic = GetOriginPhotoFullPathFromThumb(thumbToDelete);
+                //string string1 = thumbToDelete.fullPath;
+                //string string2 = "Thumbnails\\";
+                //string pathToPic = string1.Replace(string2, "");
+
+                if (System.IO.File.Exists(pathToPic))
+                {
+                    System.IO.File.Delete(pathToPic);
+                }
+
+                //deldete thumb from folder:
+                if (System.IO.File.Exists(thumbToDelete.fullPath))
+                {
+                    System.IO.File.Delete(thumbToDelete.fullPath);
+                }
+             
+            }
+            catch(Exception e)
+            {
+                return RedirectToAction("Photos"); //change here to error or add error msg and then back to photos.
+            }
+   
+            thumbsModel.deleteThumb(thumbToDelete);
+
+            return RedirectToAction("Photos");
+
+        }
+
+        private string GetOriginPhotoFullPathFromThumb(Thumbnail thumb)
+        {
+            string string1 = thumb.fullPath;
+            string string2 = "Thumbnails\\";
+            string pathToPic = string1.Replace(string2, "");
+            return pathToPic;
+        }
+
+
+        [HttpGet]
+        public ActionResult AjaxView()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JObject GetEmployee()
+        {
+            JObject data = new JObject();
+            data["FirstName"] = "Kuky";
+            data["LastName"] = "Mopy";
+            return data;
+        }
+
+        [HttpPost]
+        public JObject GetEmployee(string name, int salary)
+        {
+            foreach (var empl in employees)
+            {
+                if (empl.Salary > salary || name.Equals(name))
+                {
+                    JObject data = new JObject();
+                    data["FirstName"] = empl.FirstName;
+                    data["LastName"] = empl.LastName;
+                    data["Salary"] = empl.Salary;
+                    return data;
+                }
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public JObject GetFilteredLog(string type, string msg)
+        {
+            JObject data = new JObject();
+            data["Type"] = type;
+            data["Message"] = msg;
+            return data;
+        }
+
+
         // GET: First/ImageWeb
         [HttpGet]
         public ActionResult ImageWeb()
@@ -46,12 +193,38 @@ namespace WebApplication2.Controllers
             {
                 imageWebModel.IsConnect = "Server Is Not Connected";
             }
-            //divide by 2 for not include the thumbnails
-            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir) / 2;
+
+            imageWebModel.ImagesNum = getImagesNum(configModel.outputDir);
             return View(imageWebModel);
         }
 
-        
+     
+            public int getImagesNum(string outputDir)
+        {
+            int count = 0;
+            string[] extensions = { ".jpg", ".png", ".gif", ".bmp" };
+
+            if (Directory.Exists(outputDir + "\\Thumbnails"))
+            {
+                string[] paths = Directory.GetFiles(outputDir + "\\Thumbnails", "*.*", SearchOption.AllDirectories);
+                foreach (string path in paths)
+                {
+                    if (extensions.Contains(Path.GetExtension(path)))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+
+        // GET: First/Details
+        public ActionResult Details()
+        {
+            return View(employees);
+        }
+
         // GET: First/RemoveHandler
         public ActionResult RemoveHandler(string dir)
         {
@@ -98,6 +271,20 @@ namespace WebApplication2.Controllers
             ViewBag.thumbSize = configModel.thumbSize;
             ViewBag.dirs = configModel.dirs;
             ViewBag.dirToRemove = configModel.dirToRemove;
+
+          //  thumbs.Clear(); //yes? im going this way?
+
+            //string root = @HostingEnvironment.MapPath("~/OutputFromApp");
+            //var files = Directory.EnumerateFiles(root, "*.*", SearchOption.AllDirectories);
+            //string relativeThumb = "";
+            //foreach (string fullThumb in files)
+            //{
+            //    relativeThumb = fullThumb.Replace(root, "");
+            //    relativeThumb = relativeThumb.TrimStart('\\');
+
+            //}
+            //ViewBag.path = relativeThumb;
+
             return View();
         }
 
@@ -144,41 +331,6 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Configuration");
         }
 
-        /// <summary>
-        /// get the number of images in the output dir
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public int getImagesNum(string path)
-        {
-            try
-            {
-                //NEED- add all kind og images!!!!!!!!
-                var directoryFiles = Directory.EnumerateFiles(path, "*.jpg", SearchOption.AllDirectories);
-                //initialize counter
-                int counter = 0;
-                //loop on file paths
-
-                foreach (string filePath in directoryFiles)
-                {
-                    counter++;
-                }
-
-                return counter;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return 0;
-
-            }
-
-        }
-        /// <summary>
-        /// get the data from server
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="ee"></param>
         public static void OnDataRecieved(object sender, EventArgs ee)
         {
             MsgInfoEventArgs e = (MsgInfoEventArgs)ee;
