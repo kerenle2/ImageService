@@ -19,7 +19,10 @@ namespace ImageService.Communication
     {
         //members
         private int port;
+        private int androidPort;
+
         private TcpListener listener;
+        private TcpListener listenerAndroid;
         private List<TcpClient> clientsList;
         private static ServerTCP instance = null;
 
@@ -50,6 +53,7 @@ namespace ImageService.Communication
         {
             this.clientsList = new List<TcpClient>();
             this.port = 8000;
+            this.androidPort = 8100;
 
         }
 
@@ -105,16 +109,48 @@ namespace ImageService.Communication
         /// </summary>
         public void Start()
         {
+            //wait for connectioms
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
             listener = new TcpListener(ep);
             listener.Start();
+            //wait for android connections
+            IPEndPoint epAndroid = new IPEndPoint(IPAddress.Parse("127.0.0.1"), androidPort);
+            listenerAndroid = new TcpListener(epAndroid);
+            listenerAndroid.Start();
             Console.WriteLine("server: Waiting for connections...");
             //Thread.Sleep(1000);
 
             ListenToClients();
+            ListenToAndroidClients();
+
 
         }
+        public void ListenToAndroidClients()
+        {
+            Task waitForAndroidConnections = new Task(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
 
+                        TcpClient client = listenerAndroid.AcceptTcpClient();
+                        Console.WriteLine("Got new Android connection");
+                        //RequestDataEventArgs e = new RequestDataEventArgs(client);
+                        //NewClientConnected?.Invoke(this, e);
+                        this.clientsList.Add(client);
+                        HandleAndroidClient(client);
+
+                    }
+                    catch (SocketException)
+                    {
+                        break;
+                    }
+                }
+                Console.WriteLine("Server stopped");
+            });
+            waitForAndroidConnections.Start();
+        }
         /// <summary>
         /// listen to clients connection reuests in a new thread.
         /// when client connected - handle his requests.
@@ -181,6 +217,46 @@ namespace ImageService.Communication
                     Console.WriteLine("Server Error: " + e.StackTrace);
                 }
                  }
+            }); handleClientRequest.Start();
+        }
+
+        /// <summary>
+        /// gets the clients request and invokes the apropriate event.
+        /// </summary>
+        /// <param name="client"></param>
+        public void HandleAndroidClient(TcpClient client)
+        {
+            Task handleClientRequest = new Task(() =>
+            {
+                NetworkStream stream = client.GetStream();
+                //BinaryReader reader = new BinaryReader(stream);
+                while (client.Connected)
+                {
+                    try
+                    {
+                        byte[] bytes = new byte[4096];
+
+                        //gets the size of the picture.
+                        int bytesRead = stream.Read(bytes, 0, bytes.Length);
+                        string msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+
+                        //byte[] allData = reader.ReadBytes(int.MaxValue);
+                        //string commandLine = allData.ToString();
+                        Console.WriteLine("Got command: {0}", msg);
+                        if(msg == "done")
+                        {
+                            break;
+                        }                           
+                        //handle the command:
+                        //CommandRecievedEventArgs command = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Server Error: " + e.StackTrace);
+                    }
+                }
             }); handleClientRequest.Start();
         }
 

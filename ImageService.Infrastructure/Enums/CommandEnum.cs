@@ -10,6 +10,7 @@ namespace ImageService.Infrastructure.Enums
     {
         NewFileCommand,
         CloseCommand,
-        ClientConnected
+        ClientConnected,
+        AndroidCommand
     }
 }
