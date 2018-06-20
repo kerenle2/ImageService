@@ -39,22 +39,23 @@
             type: $("#typeFilterID").val()
         };
         var filter = input;
-        var logs = document.getElementById("logsTable");        
-        var tr = logsTable.getElementsByTagName("tr");              
-        // Loop through all table rows
+        var logs = document.getElementById("logsTable");        // i think here there is a problemmmmmmmm
+        var tr = logs.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-                //if filter is equal to the type in the row, or there is no filter - show the row
-                if (td.innerText.localeCompare(filter.type) == 0 || !input) {
-                      tr[i].style.display = "";
+              //if filter is equal to the type in the row, or there is no filter - show the row
+                if (td.innerHTML.indexOf(filter.type) > -1 || filter.type == "") {
+
+                  tr[i].style.display = "";
 
                    //else, hide the row
                 } else {
                     tr[i].style.display = "none";
                 }
             }
-            
+
 
 
             }

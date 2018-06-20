@@ -12,6 +12,9 @@ namespace WebApplication2.Models
         public ConfigModel()
         {
             this.dirs = new List<string>();
+            //maybe sleep?
+            //System.Threading.Thread.Sleep(200);
+
         }
 
         [Required]
