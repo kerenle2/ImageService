@@ -235,21 +235,51 @@ namespace ImageService.Communication
                     try
                     {
                         byte[] bytes = new byte[4096];
-
-                        //gets the size of the picture.
+                        //get the img name
                         int bytesRead = stream.Read(bytes, 0, bytes.Length);
-                        string msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-
-                        //byte[] allData = reader.ReadBytes(int.MaxValue);
-                        //string commandLine = allData.ToString();
-                        Console.WriteLine("Got command: {0}", msg);
-                        if(msg == "done")
+                        string name = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                        Console.WriteLine("Got command: {0}", name);
+                        if (name == "done")
                         {
                             break;
-                        }                           
-                        //handle the command:
-                        //CommandRecievedEventArgs command = JsonConvert.DeserializeObject<CommandRecievedEventArgs>(commandLine);
+                        }
+                        //bytesRead = stream.Read(bytes, 0, bytes.Length);
+                        //string msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                        //if (msg == "start")
+                        //{
+                        //bytesRead = stream.Read(bytes, 0, bytes.Length);
+                        //msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                        //Console.WriteLine("Got command: {0}", msg);
+                        //while (true)
+                        //{
+                        //    bytesRead = stream.Read(bytes, 0, bytes.Length);
+                        //    string image = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                        //    if (image == "end")
+                        //    {
+                        //        break;
+                        //    }
+                        //    File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, bytes);
+                        //}
 
+                        bytesRead = stream.Read(bytes, 0, bytes.Length);
+                        int size = int.Parse(Encoding.ASCII.GetString(bytes, 0, bytesRead));
+                        Console.WriteLine("SIZE: {0}", size);
+                        //get the img
+                        byte[] imgBytes = new byte[size];
+
+                            int byteCount = stream.Read(imgBytes, 0, imgBytes.Length);
+                            byte[] curr;
+                            int temp;
+                            while (byteCount < imgBytes.Length)
+                            {
+                                curr = new byte[size];
+                                temp = stream.Read(curr, 0, curr.Length);
+                                Transfer(imgBytes, curr, byteCount);
+                                byteCount += temp;
+                            }
+                        File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
+                        
+                        //}
 
                     }
                     catch (Exception e)
@@ -258,6 +288,13 @@ namespace ImageService.Communication
                     }
                 }
             }); handleClientRequest.Start();
+        }
+        public void Transfer(byte[] src, byte[] dst, int start)
+        {
+            for (int i = start; i < src.Length; i++)
+            {
+                src[i] = dst[i - start];
+            }
         }
 
         public void Stop()
