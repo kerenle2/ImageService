@@ -75,7 +75,14 @@ namespace ImageService.Modal
                 try
                 {
                     string absPath = yearMonthPath + imageName;
-                    absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
+                     //absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
+
+                    //instead of append number, delete  photo if allready exists:
+                    if (File.Exists(absPath))
+                    {
+                        File.Delete(absPath);
+                    }
+
                     System.IO.File.Move(path, absPath);
                     result = true;
                     Image image = Image.FromFile(absPath);
