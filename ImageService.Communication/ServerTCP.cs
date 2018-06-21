@@ -229,7 +229,6 @@ namespace ImageService.Communication
             Task handleClientRequest = new Task(() =>
             {
                 NetworkStream stream = client.GetStream();
-                //BinaryReader reader = new BinaryReader(stream);
                 while (client.Connected)
                 {
                     try
@@ -277,7 +276,10 @@ namespace ImageService.Communication
                                 Transfer(imgBytes, curr, byteCount);
                                 byteCount += temp;
                             }
-                        File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
+                        string handler = ConfigData.InstanceConfig.Handlers[0];
+                        // File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
+                        File.WriteAllBytes(handler + name, imgBytes);
+                        //File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
                         
                         //}
 
