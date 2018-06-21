@@ -88,7 +88,11 @@ namespace ImageService.Modal
                     Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
                     string thumbAbsPath = yearMonthPathThumbnails + imageName;
-                    thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
+                    //thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
+                    if (File.Exists(thumbAbsPath))
+                    {
+                        File.Delete(thumbAbsPath);
+                    }
                     thumb.Save(thumbAbsPath);
                     result = true;
 
