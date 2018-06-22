@@ -75,13 +75,24 @@ namespace ImageService.Modal
                 try
                 {
                     string absPath = yearMonthPath + imageName;
-                    absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
+                     //absPath = AppendFileNumberIfExists(absPath, Path.GetExtension(absPath));
+
+                    //instead of append number, delete  photo if allready exists:
+                    if (File.Exists(absPath))
+                    {
+                        File.Delete(absPath);
+                    }
+
                     System.IO.File.Move(path, absPath);
                     result = true;
                     Image image = Image.FromFile(absPath);
                     Image thumb = image.GetThumbnailImage(m_thumbnailSize, m_thumbnailSize, () => false, IntPtr.Zero);
                     string thumbAbsPath = yearMonthPathThumbnails + imageName;
-                    thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
+                    //thumbAbsPath = AppendFileNumberIfExists(thumbAbsPath, Path.GetExtension(thumbAbsPath));
+                    if (File.Exists(thumbAbsPath))
+                    {
+                        File.Delete(thumbAbsPath);
+                    }
                     thumb.Save(thumbAbsPath);
                     result = true;
 

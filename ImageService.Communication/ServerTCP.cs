@@ -277,10 +277,8 @@ namespace ImageService.Communication
                                 byteCount += temp;
                             }
                         string handler = ConfigData.InstanceConfig.Handlers[0];
-                        // File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
-                        File.WriteAllBytes(handler + name, imgBytes);
-                        //File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, imgBytes);
-                        
+                        File.WriteAllBytes(handler + '/' + name, imgBytes);
+
                         //}
 
                     }
@@ -298,6 +296,7 @@ namespace ImageService.Communication
                 src[i] = dst[i - start];
             }
         }
+
 
         public void Stop()
         {

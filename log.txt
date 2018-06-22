@@ -1,3 +1,262 @@
+commit 2127ba7ba708c2b56de2007517e0a669d81b8bf1
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 20:03:51 2018 +0300
+
+    FINISH!
+
+commit 9ce19b3a057b0ece5d3adc1f128c0d78dd6ff8fe
+Merge: 4cca6c4 303134c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 20:02:12 2018 +0300
+
+    merged
+
+commit 4cca6c4ef20b720377fdeb826ac9368e82c5c508
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 19:57:18 2018 +0300
+
+    finish
+
+commit 303134c08d776c2274c85a850dbe5f9f65927788
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Tue Jun 12 19:07:41 2018 +0300
+
+    .
+
+commit 3741bb40cba688047aa89234e55be4a95f8c2901
+Merge: adc274c 0bab122
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 18:46:30 2018 +0300
+
+    merged
+
+commit adc274c0c7aab73c6ca8eabc0d034586d46e193c
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 18:32:57 2018 +0300
+
+    fixed filter even better
+
+commit 0bab12234907bbbdf0b74b485efcb297b57304dc
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Tue Jun 12 17:08:28 2018 +0300
+
+    .
+
+commit e2a9685b259f408fe1e4f4e53dc3d7b8a74b6ee8
+Merge: 99bb2fb 962fa98
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Tue Jun 12 16:49:03 2018 +0300
+
+    add comments
+
+commit 99bb2fb826403a674c9840cf770042a6c60fb5b1
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Tue Jun 12 15:58:56 2018 +0300
+
+    add comments
+
+commit 962fa98278cac4b29bc918e44f41f618c88acc55
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 15:34:44 2018 +0300
+
+    merged
+
+commit d1040279b6c279d1f5b426aaa684dc5730343713
+Merge: 692c754 1788f93
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 15:34:36 2018 +0300
+
+    merged
+
+commit 692c754a002af9cdc646872c3261dd052bd46546
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 15:16:14 2018 +0300
+
+    fixed Handlers buttons view
+
+commit c4185ecc38c46f15963536d9054f4ff66537e279
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 15:06:56 2018 +0300
+
+    fixed photos count - imageWeb
+
+commit 78924bbf78ba4bd57d4f979d73c70db07f582640
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 13:34:51 2018 +0300
+
+    filter working
+
+commit 207336c323c3b8f3bb97adb488ddecd5900ebf00
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Tue Jun 12 04:38:06 2018 +0300
+
+    added View button functionality
+
+commit 1016ed48e80b0f4794f22a98b90019a81de86d6f
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Mon Jun 11 17:34:15 2018 +0300
+
+    deletes thumbnail and photo when pressed
+
+commit 1788f936cbeeaf9126b71175e6377cd735797ef8
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Jun 11 15:49:06 2018 +0300
+
+    fix bugs
+
+commit 8980e0cd42af56b48585c9f6d31a24d28c042c7b
+Merge: 9d44587 f31637e
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Mon Jun 11 12:56:15 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit 9d4458741a4408893447866102e515d561fe5192
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Mon Jun 11 12:56:07 2018 +0300
+
+    commit to pull
+
+commit f31637ef12b3fd2d10d98fd0868ab079f4e9cb91
+Merge: 47f5b08 664cdca
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Mon Jun 11 11:56:35 2018 +0300
+
+    .
+
+commit 47f5b08cbe4ccb52061d416aad476275a85229e9
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Jun 10 19:15:19 2018 +0300
+
+    .
+
+commit 664cdca41c7b0669e6e9829414ec6c28bb317745
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun Jun 10 19:00:30 2018 +0300
+
+    merged
+
+commit 1e6893cc2e11e9d5eec5503f0497b8eafa4d306c
+Merge: aa6a35f 0b69317
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun Jun 10 19:00:10 2018 +0300
+
+    MERGED
+
+commit aa6a35f584a809b3557e9e2fb417f7dd3195fb2a
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun Jun 10 18:45:22 2018 +0300
+
+    cancel button working, remove button working - need to add wait for server msg, not yet displaying photos. dont forget to change your appConfig to new outputDir...
+
+commit 0b69317214dcd9a16963bc1131bff870a82f54a9
+Merge: 9d43468 2a9d55b
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Jun 10 14:15:34 2018 +0300
+
+    add imageweb page
+
+commit 9d434680397b2d2031a95878ced5878aa865745f
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun Jun 10 13:57:36 2018 +0300
+
+    add imageWeb page
+
+commit 2a9d55b76c08808969c89bbfb3fb349294b2bf39
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sun Jun 10 01:52:06 2018 +0300
+
+    showing all photos from outputDirectory. (display not working yet)
+    IMPORTANT-ouputDir should be INSIDE WebAppliction2
+
+commit b0844ebeb37c27b574cb9916d03f6fd14d3bdefe
+Merge: b4070eb 9ae1889
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 17:37:04 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit b4070eb3773fdf0d3fe90e871fee598537acec42
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 17:36:58 2018 +0300
+
+    ff
+
+commit 7b93837863bc505c6aefa8fc95a56ea141086ce3
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 17:36:40 2018 +0300
+
+    commit to pull
+
+commit 9ae18899080ad7d98d26460663fe4a84724b95be
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Jun 9 17:31:54 2018 +0300
+
+    ??
+
+commit c53f5a73fd9ac4885aec1bff96dbcc2c07ceb3e3
+Merge: d18281e 0c77477
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 16:55:36 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit d18281edd9e9718e6842154b9d46f0c835b17ca8
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 16:55:24 2018 +0300
+
+    commit in order to pull
+
+commit 0c774779e74545a3160b479b1e4fd09884ceae76
+Merge: db13576 0fd2286
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Jun 9 16:43:57 2018 +0300
+
+    check
+
+commit db135765e4379021321fc626e31a5018eefc1890
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sat Jun 9 14:29:44 2018 +0300
+
+    nothing
+
+commit 0fd2286b3a40342e3b116afe5d645efc2d0f7ddc
+Author: EfratMeir <efratoosh44@gmail.com>
+Date:   Sat Jun 9 01:48:20 2018 +0300
+
+    added Configuration, remove handler not finished yet
+
+commit f450f2f7b12ee494caf994e7067534127185dc0d
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Jun 8 15:05:07 2018 +0300
+
+    get log history from server
+
+commit b6246c59f40445c38ebe1bfd06db16a7262ed687
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Fri Jun 8 04:42:53 2018 +0300
+
+    start the log
+
+commit 0fd4de7eb679c7023d0a1d690b157a5fe4c5a5c6
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Thu Jun 7 14:58:02 2018 +0300
+
+    add dor's project
+
+commit 1665b62ac76cd4c36d4a97229d0bc0e5af229aed
+Merge: b342bb6 bb59f8e
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun May 27 20:47:20 2018 +0300
+
+    Merge branch 'master' of https://github.com/kerenle2/ImageService
+
+commit b342bb6015682c4f2ea34fa40bbaa2cdbdc37956
+Author: kerenle2 <33980896+kerenle2@users.noreply.github.com>
+Date:   Sun May 27 20:46:40 2018 +0300
+
+    -
+
 commit bb59f8e51ba579875e1d74bdf1567a7fbf636e81
 Author: EfratMeir <efratoosh44@gmail.com>
 Date:   Sun May 27 14:27:55 2018 +0300
