@@ -84,7 +84,6 @@ namespace ImageService.Communication
             }).Start();
         }
 
-
         /// <summary>
         /// sends msg to all the clients connected.
         /// </summary>
@@ -92,16 +91,11 @@ namespace ImageService.Communication
         /// <param name="msgI"></param>
         public void SendMsgToAll(object sender, MsgInfoEventArgs msgI)
         {
-       
             foreach (TcpClient client in this.clientsList)
             {
-                SendMsgToOneClient(sender, msgI, client);   
+                SendMsgToOneClient(sender, msgI, client);
             }
-               
-  
-           
         }
-
         
         /// <summary>
         /// starts the server activity - initialize components and
@@ -118,13 +112,14 @@ namespace ImageService.Communication
             listenerAndroid = new TcpListener(epAndroid);
             listenerAndroid.Start();
             Console.WriteLine("server: Waiting for connections...");
-            //Thread.Sleep(1000);
-
             ListenToClients();
             ListenToAndroidClients();
 
 
         }
+       /// <summary>
+       /// listen to android clients
+       /// </summary>
         public void ListenToAndroidClients()
         {
             Task waitForAndroidConnections = new Task(() =>
@@ -136,11 +131,8 @@ namespace ImageService.Communication
 
                         TcpClient client = listenerAndroid.AcceptTcpClient();
                         Console.WriteLine("Got new Android connection");
-                        //RequestDataEventArgs e = new RequestDataEventArgs(client);
-                        //NewClientConnected?.Invoke(this, e);
                         this.clientsList.Add(client);
                         HandleAndroidClient(client);
-
                     }
                     catch (SocketException)
                     {
@@ -221,7 +213,7 @@ namespace ImageService.Communication
         }
 
         /// <summary>
-        /// gets the clients request and invokes the apropriate event.
+        /// gets the clients request and transfer the image to the handler
         /// </summary>
         /// <param name="client"></param>
         public void HandleAndroidClient(TcpClient client)
@@ -237,50 +229,32 @@ namespace ImageService.Communication
                         //get the img name
                         int bytesRead = stream.Read(bytes, 0, bytes.Length);
                         string name = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        Console.WriteLine("Got command: {0}", name);
+                        Console.WriteLine("image Name: {0}", name);
+                        //if there are no more images to transfer, break
                         if (name == "done")
                         {
                             break;
                         }
-                        //bytesRead = stream.Read(bytes, 0, bytes.Length);
-                        //string msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        //if (msg == "start")
-                        //{
-                        //bytesRead = stream.Read(bytes, 0, bytes.Length);
-                        //msg = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        //Console.WriteLine("Got command: {0}", msg);
-                        //while (true)
-                        //{
-                        //    bytesRead = stream.Read(bytes, 0, bytes.Length);
-                        //    string image = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        //    if (image == "end")
-                        //    {
-                        //        break;
-                        //    }
-                        //    File.WriteAllBytes("C:/Users/Keren/Desktop/pics/" + name, bytes);
-                        //}
-
+                        //get the image size
                         bytesRead = stream.Read(bytes, 0, bytes.Length);
                         int size = int.Parse(Encoding.ASCII.GetString(bytes, 0, bytesRead));
                         Console.WriteLine("SIZE: {0}", size);
                         //get the img
                         byte[] imgBytes = new byte[size];
-
-                            int byteCount = stream.Read(imgBytes, 0, imgBytes.Length);
-                            byte[] curr;
-                            int temp;
-                            while (byteCount < imgBytes.Length)
-                            {
-                                curr = new byte[size];
-                                temp = stream.Read(curr, 0, curr.Length);
-                                Transfer(imgBytes, curr, byteCount);
-                                byteCount += temp;
-                            }
+                        int byteCount = stream.Read(imgBytes, 0, imgBytes.Length);
+                        byte[] tmpArr;
+                        int numBytes;
+                        //read all the bytes of the image
+                        while (byteCount < imgBytes.Length)
+                        {
+                            tmpArr = new byte[size];
+                            numBytes = stream.Read(tmpArr, 0, tmpArr.Length);
+                            Transfer(imgBytes, tmpArr, byteCount);
+                            byteCount += numBytes;
+                        }
+                        //transfer the image to handler
                         string handler = ConfigData.InstanceConfig.Handlers[0];
                         File.WriteAllBytes(handler + '/' + name, imgBytes);
-
-                        //}
-
                     }
                     catch (Exception e)
                     {
@@ -289,11 +263,18 @@ namespace ImageService.Communication
                 }
             }); handleClientRequest.Start();
         }
-        public void Transfer(byte[] src, byte[] dst, int start)
+        
+        /// <summary>
+        /// transfer the bytes that now read to the imageBytes array.
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="start"></param>
+        public void Transfer(byte[] read, byte[] imgBytes, int allreadyExist)
         {
-            for (int i = start; i < src.Length; i++)
+            for (int i = allreadyExist; i < read.Length; i++)
             {
-                src[i] = dst[i - start];
+                read[i] = imgBytes[i - allreadyExist];
             }
         }
 
